@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from sqlalchemy import text
-from schemas.mutantSchema import MutantSchema
+from schemas.mutantSchema import MutantRead, MutantCreate
 from dependencies import get_session
 from database import engine
 
@@ -15,7 +15,7 @@ async def home():
 
 @mutant_router.post("/register_mutant")
 async def criar(
-    mutant_schema: MutantSchema
+    mutant_schema: MutantCreate
 ):
     return {"msg": mutant_schema}
 
