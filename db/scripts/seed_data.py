@@ -1,3 +1,4 @@
+from asyncio import tasks
 import os
 import random
 from faker import Faker
@@ -32,7 +33,7 @@ def seed_poderes(n: int=10):
 
 # Mutantes
 
-def seed_mutantes(n: int):
+def seed_mutantes(n: int = 0):
     ids_poderes = [id[0] for id in session.query(Poder.id).all()]
     
     if not ids_poderes:
@@ -58,13 +59,13 @@ def seed_mutantes(n: int):
 
 
 # Professores
-def seed_professores():
+def seed_professores(n: int = 0):
     professores_fixos = [
-        ("Ana Souza", "ana.mat", hash_password(SENHA_PROFESSORES)),
-        ("Carlos Lima", "carlos.port", hash_password(SENHA_PROFESSORES)),
-        ("Juliana Rocha", "juliana.hist", hash_password(SENHA_PROFESSORES)),
-        ("Marcos Pereira", "marcos.cien", hash_password(SENHA_PROFESSORES)),
-        ("Diogo Nascimento", "diogo.info", hash_password(SENHA_PROFESSORES)),
+        ("Ana Souza", "ana.mat", SENHA_PROFESSORES),
+        ("Carlos Lima", "carlos.port", SENHA_PROFESSORES),
+        ("Juliana Rocha", "juliana.hist", SENHA_PROFESSORES),
+        ("Marcos Pereira", "marcos.cien", SENHA_PROFESSORES),
+        ("Diogo Nascimento", "diogo.info", SENHA_PROFESSORES),
     ]
 
     professores = []
@@ -85,7 +86,7 @@ def seed_professores():
 
 
 # Materias
-def seed_materias():
+def seed_materias(n: int = 0):
     materias_fixas = [
         ("Matemática", "ana.mat"),
         ("Português", "carlos.port"),
@@ -160,19 +161,24 @@ def seed_mutantes_materias(n: int = 50):
 
 def run():
     tasks = [
-        (seed_poderes, 20),
-        (seed_professores, None),
-        (seed_mutantes, 20),
-        (seed_materias, None),
+        (seed_poderes, 10),
+        (seed_professores, 0),
+        (seed_mutantes, N_ROWS),
+        (seed_materias, 0),
         (seed_mutantes_materias, 50)
     ]
-
-    for func, qtd in tasks:
-        try:
-            func(qtd)
-        except Exception as e:
-            print(f"Erro ao executar {func.__name__}: {e}")
-            session.rollback()   
+    
+    try:
+        for func, qtd in tasks:
+        
+            try:
+                func(qtd)
+                session.commit()
+            except Exception as e:
+                logger.exception(f"Erro ao executar {func.__name__}:")
+                session.rollback()      
+    finally:
+        session.close()
 
  
 if __name__ == "__main__":
