@@ -5,6 +5,7 @@ from schemas.mutantesSchema import MutantRead, MutantCreate
 from dependencies import get_session
 from database import engine
 from dependencies import get_session
+from models import Mutante
 
 mutant_router = APIRouter(prefix="/student", tags=["student"])
 
@@ -43,6 +44,6 @@ async def see_mutants(
     session: Session = Depends(get_session)
 ):
     
-    mutants = session.query(Professor).filter(Professor.id==id).first()
+    mutants = session.query(Mutante).filter(Mutante.id==id).first()
 
     return {"msg": mutants}
