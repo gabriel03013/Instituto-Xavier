@@ -7,7 +7,7 @@ from db.helpers.logger import logger
 from db.helpers.security import hash_password
 from db.helpers.wrappers import debug
 
-from db.database import Session, engine, Base
+from db.connection.database import Session, engine, Base
 from db.models import Observacoes, Poder, Professor, Mutant, Materias, MutantesMaterias, Turmas
 
 

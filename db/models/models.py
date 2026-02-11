@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, Date, Text, SmallInteger
-from db.database import Base
+from db.connection.database import Base
 
 
 class Mutant(Base):
