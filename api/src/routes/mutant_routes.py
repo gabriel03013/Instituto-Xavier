@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from sqlalchemy import text
-from schemas.mutantSchema import MutantCreate, MutantSchema
+from schemas.mutantesSchema import MutantRead, MutantCreate
 from dependencies import get_session
 from database import engine
-from models import Professor
+from dependencies import get_session
 
 mutant_router = APIRouter(prefix="/student", tags=["student"])
 
@@ -20,6 +20,13 @@ async def criar(
 ):
     return {"msg": mutant_schema}
 
+@mutant_router.get("/see_mutants")
+async def seeAll(
+    cursor = Depends(get_session)
+):
+    cursor.execute("select * from mutantes")
+    resultado = cursor.fetchall()
+    return {"msg": resultado}
 
 @mutant_router.get("/try_connection")
 async def get_connection_test(session: Session = Depends(get_session)):
