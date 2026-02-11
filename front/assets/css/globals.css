@@ -1,0 +1,19 @@
+@font-face {
+    font-family: 'IBS';
+    src: url(../fonts/IBS\ Cartooning.ttf);
+}
+
+:root {
+    font-size: 62.5%;
+    --amarelo: #FAE180;
+    --preto: #000;
+    --branco: #FFF9E2;
+    --vermelho: #DD0127;
+    --azul: #5C80BE;
+    --azul-escuro: #052542;
+}
+body {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
