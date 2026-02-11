@@ -9,6 +9,8 @@
     --preto: #000;
     --branco: #FFF9E2;
     --vermelho: #DD0127;
+    --azul: #5C80BE;
+    --azul-escuro: #052542;
 }
 body {
     padding: 0;
