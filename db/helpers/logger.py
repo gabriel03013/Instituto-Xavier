@@ -3,11 +3,11 @@ import logging
 def get_logger(name: str = __name__):
     
     COLORS = {
-        "DEBUG": "\033[36m",
-        "INFO": "\033[32m",
-        "WARNING": "\033[33m",
-        "ERROR": "\033[31m",
-        "CRITICAL": "\033[41m",
+        "DEBUG": "\033[36m",    # ciano
+        "INFO": "\033[32m",     # verde
+        "WARNING": "\033[33m",  # amarelo
+        "ERROR": "\033[31m",    # vermelho
+        "CRITICAL": "\033[41m", # fundo vermelho
     }
     RESET = "\033[0m"
 

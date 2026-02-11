@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Integer, String, ForeignKey, Date, Text, SmallInteger
 from db.database import Base
 
 
@@ -11,7 +11,7 @@ class Mutant(Base):
     email = Column(String(100), nullable=False, unique=True)
     senha = Column(String(100), nullable=False)
     poder_id = Column(Integer, ForeignKey("poderes.id"))
-
+    turma_id = Column(Integer, ForeignKey("turmas.id"))
 
 class Poder(Base):
     __tablename__ = "poderes"
@@ -44,4 +44,17 @@ class MutantesMaterias(Base):
     materia_id = Column(Integer, ForeignKey("materias.id"))
     nota1 = Column(Integer)
     nota2 = Column(Integer)
-    observacao = Column(String(255))
+class Turmas(Base):
+    __tablename__ = "turmas"
+
+    id = Column(Integer, primary_key=True)
+    serie = Column(SmallInteger, nullable=False)
+    turma = Column(String(1), nullable=False)
+    
+class Observacoes(Base):
+    __tablename__ = "observacoes"
+
+    id = Column(Integer, primary_key=True)
+    mutantesmaterias_id = Column(Integer, ForeignKey("mutantesmaterias.id"))
+    observacao = Column(Text, nullable=False)
+    data = Column(Date, nullable=False)

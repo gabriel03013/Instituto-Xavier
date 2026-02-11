@@ -5,9 +5,10 @@ from faker import Faker
 
 from db.helpers.logger import logger
 from db.helpers.security import hash_password
+from db.helpers.wrappers import debug
 
 from db.database import Session, engine, Base
-from db.models import Poder, Professor, Mutant, Materias, MutantesMaterias
+from db.models import Observacoes, Poder, Professor, Mutant, Materias, MutantesMaterias, Turmas
 
 
 fake = Faker('pt_BR') 
@@ -15,8 +16,6 @@ session = Session()
 
 N_ROWS = 20
 SENHA_PROFESSORES = os.getenv("SENHA_PROFESSORES")
-
-
 
 # Poderes
 
@@ -29,12 +28,22 @@ def seed_poderes(n: int=10):
     session.add_all(poderes)
     session.commit()
     logger.info("Poderes criados!")
+    
+def seed_turmas(n: int = 0):
+    turmas = []
+    for serie in range(1, 9):  
+        for turma in ['A', 'B', 'C', 'D', 'E']:  
+            turmas.append(Turmas(serie=serie, turma=turma))
+
+    session.add_all(turmas)
+    session.commit()
+    logger.info("Turmas criadas!")
 
 
 # Mutantes
-
 def seed_mutantes(n: int = 0):
     ids_poderes = [id[0] for id in session.query(Poder.id).all()]
+    ids_turmas = [id[0] for id in session.query(Turmas.id).all()]
     
     if not ids_poderes:
         logger.error("Erro: Não há poderes cadastrados. Rode create_poderes primeiro.")
@@ -49,7 +58,8 @@ def seed_mutantes(n: int = 0):
             nome=fake.name(),
             email=fake.unique.email(),
             senha=hash_password(fake.password()), 
-            poder_id=random.choice(ids_poderes) 
+            poder_id=random.choice(ids_poderes),
+            turma_id=random.choice(ids_turmas)
         )
         mutantes.append(mutante)
 
@@ -149,7 +159,6 @@ def seed_mutantes_materias(n: int = 50):
                 materia_id=mat_id,
                 nota1=random.randint(0, 10),
                 nota2=random.randint(0, 10),
-                observacao=fake.sentence(nb_words=5)
             )
             notas.append(nova_nota)
         tentativas += 1
@@ -157,15 +166,39 @@ def seed_mutantes_materias(n: int = 50):
     session.add_all(notas)
     session.commit()
     logger.info(f"{len(notas)} registros de notas criados!")
+    
+def seed_observacoes(n: int = 50):
+    mutantesmaterias_ids = [id[0] for id in session.query(MutantesMaterias.id).all()]
+
+    if not mutantesmaterias_ids:
+        logger.error("Erro: Não há registros de MutantesMaterias para adicionar observações.")
+        return
+
+    observacoes = []
+    
+    for _ in range(n):
+        observacao = Observacoes(
+            mutantesmaterias_id=random.choice(mutantesmaterias_ids),
+            observacao=fake.sentence(nb_words=10),
+            data=fake.date_this_year()
+        )
+        observacoes.append(observacao)
+
+    session.add_all(observacoes)
+    session.commit()
+    logger.info(f"{n} observações criadas!")
+    
 
 
 def run():
     tasks = [
-        (seed_poderes, 10),
         (seed_professores, 0),
+        (seed_turmas, 0),
+        (seed_poderes, 10),
         (seed_mutantes, N_ROWS),
         (seed_materias, 0),
-        (seed_mutantes_materias, 50)
+        (seed_mutantes_materias, 50),
+        (seed_observacoes, 50),
     ]
     
     try:
