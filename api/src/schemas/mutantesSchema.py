@@ -8,7 +8,7 @@ class MutantCreate(BaseModel):
     senha: str
     poder_id: int
 
-class MutantRead(BaseModel):
+class MutantSchema(BaseModel):
     id: int
     nome: str
     matricula: int
@@ -18,4 +18,3 @@ class MutantRead(BaseModel):
 
     class config:
         from_attributes = True
-        
