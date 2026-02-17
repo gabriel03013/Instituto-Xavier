@@ -1,50 +1,61 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login - Instituto Xavier</title>
-    <link rel="stylesheet" href="assets/css/index.css" />
-    <link rel="stylesheet" href="assets/css/globals.css" />
-  </head>
-  <body>
-    <main>
-      <section id="login-form">
-        <h1>- Login -</h1>
 
-        <div>
-          <form>
-            <label for="usuario">
-              Email ou Usuário
-              <input id="user" type="text" />
-            </label>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login - Instituto Xavier</title>
+  <link rel="stylesheet" href="assets/css/index.css" />
+  <link rel="stylesheet" href="assets/css/globals.css" />
+</head>
 
-            <label for="senha">
-              Senha
-              <input id="senha" type="password" />
-            </label>
+<body>
+  <main>
+    <section id="login-form">
+      <h1>- Login -</h1>
 
-            <button type="submit">Entrar</button>
+      <div>
+        <form>
+          <label for="usuario">
+            Email ou Usuário
+            <input id="user" type="text" />
+          </label>
 
-            <p>É um aluno novo? <a href="pages/cadastro.html">Cadastre-se</a></p>
-          </form>
-        </div>
-      </section>
+          <label for="senha">
+            Senha
+            <input id="senha" type="password" />
+          </label>
 
-      <section id="visual">
-        <img  id="logo-instituto" src="assets/images/Group 14.svg" alt="logo instituto xavier">
+          <div id="erro">
+            <i class="fa-solid fa-exclamation"></i>
 
-        <img id="efeito-esquerda" src="assets/images/Group 21.svg" alt="efeito esquerda">
+            <p>Email/Usuário ou senha incorretos!</p>
+          </div>
 
-        <img id="efeito-direita-topo" src="assets/images/Group 22.svg" alt="efeito direita topo">
+          <button type="submit">Entrar</button>
 
-        <img id="xavier" src="assets/images/image 9(1).svg" alt="efeito direita bottom">
+          <p>É um aluno novo? <a href="pages/cadastro.html">Cadastre-se</a></p>
+        </form>
+      </div>
+    </section>
 
-        <img id="efeito-direita-bottom" src="assets/images/Design_sem_nome-removebg-preview 3.svg" alt="efeito direita bottom">
+    <section id="visual">
+      <img id="logo-instituto" src="assets/images/Group 14.svg" alt="logo instituto xavier">
 
-      </section>
-    </main>
+      <img id="efeito-esquerda" src="assets/images/Group 21.svg" alt="efeito esquerda">
 
-    <script src="assets/js/index.js"></script>
-  </body>
+      <img id="efeito-direita-topo" src="assets/images/Group 22.svg" alt="efeito direita topo">
+
+      <img id="xavier" src="assets/images/image 9(1).svg" alt="efeito direita bottom">
+
+      <img id="efeito-direita-bottom" src="assets/images/Design_sem_nome-removebg-preview 3.svg"
+        alt="efeito direita bottom">
+
+    </section>
+  </main>
+
+  <script src="https://kit.fontawesome.com/02db64e304.js" crossorigin="anonymous"></script>
+  <script type="module" src="assets/js/index.js"></script>
+</body>
+
 </html>
