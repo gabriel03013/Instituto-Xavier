@@ -1,0 +1,110 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  font-size: 62.5%;
+  --amarelo: #fae180;
+  --preto: #000;
+  --branco: #fff9e2;
+  --vermelho: #dd0127;
+  font-family: IBS;
+}
+
+body {
+  background-color: #fffefc;
+}
+
+.navbar {
+  background-color: #5c80be;
+  height: 86px;
+  display: flex;
+  align-items: center;
+  padding: 0 40px;
+}
+
+.logo {
+  width: 56px;
+}
+
+.nav-menu {
+  display: flex;
+  gap: 40px;
+  margin-left: 40px;
+}
+
+.nav-item {
+  font-size: 22px;
+  cursor: pointer;
+  color: black;
+  position: relative;
+  padding: 10px 20px;
+}
+
+.nav-item.active {
+  background-color: #628dd8;
+  padding: 10px 20px;
+  border-radius: 2px;
+  box-shadow: 4px 4px 0px black;
+}
+
+.container {
+  width: 80%;
+  margin: 80px auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 60px 80px;
+}
+
+.card {
+  background-color: #f6f9ff;
+  height: 15rem;
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  padding: 0 3rem;
+  position: relative;
+}
+
+.card-accent {
+  position: absolute;
+  left: 0;
+  width: 30px;
+  height: 100%;
+  border-radius: 10px 0 0 10px;
+}
+
+.card-accent.dark {
+  background-color: #0e2f4f;
+}
+
+.card-accent.light {
+  background-color: #5c80be;
+}
+
+.avatar {
+  width: 7.6rem;
+  height: 7.6rem;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.card-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.card-text h2 {
+  font-size: 2.8rem;
+  font-weight: 500;
+}
+
+.card-text span {
+  font-size: 1.8rem;
+  color: #959595;
+}
