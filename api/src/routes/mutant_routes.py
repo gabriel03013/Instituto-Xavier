@@ -7,7 +7,7 @@ from database import engine
 from dependencies import get_session
 from models import Mutante
 
-mutant_router = APIRouter(prefix="/student", tags=["student"])
+mutant_router = APIRouter(prefix="/mutant", tags=["mutant"])
 
 
 @mutant_router.get("/")
@@ -21,6 +21,7 @@ async def criar(
 ):
     return {"msg": mutant_schema}
 
+
 @mutant_router.get("/see_mutants")
 async def seeAll(
     cursor = Depends(get_session)
@@ -28,6 +29,7 @@ async def seeAll(
     cursor.execute("select * from mutantes")
     resultado = cursor.fetchall()
     return {"msg": resultado}
+
 
 @mutant_router.get("/try_connection")
 async def get_connection_test(session: Session = Depends(get_session)):

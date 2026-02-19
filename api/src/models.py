@@ -74,20 +74,11 @@ class MutantesMaterias(Base):
     nota1 = Column("nota1", Integer, default=0)
     nota2 = Column("nota2", Integer, default=0)
     mutante_id = Column("mutante", Integer, ForeignKey("mutantes.id"))
-    materia_id = Column("materia_id", Integer, ForeignKey("materias.id"))
-
-    def __init__(self, nota1, nota2, mutante_id, materia_id):
-        self.nota1 = nota1,
-        self.nota2 = nota2,
-        self.mutante_id = mutante_id,
-        self.materia_id = materia_id
+    materia_id = Column(Integer, ForeignKey("materias.id"))
 
 
 class Observacao(Base):
     __tablename__ = "observacoes"
 
-    id = Column("id", Integer, primary_key=True)
-    observacao = Column("observacao", String)
-
-    def __init__(self, observacao):
-        self.observacao = observacao
+    id = Column(Integer, primary_key=True)
+    observacao = Column(String)
