@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from sqlalchemy import text
-from schemas.mutantesSchema import MutantRead, MutantCreate
+from api.src.schemas.mutantes_schema import MutantRead, MutantCreate
 from dependencies import get_session
 from database import engine
 from dependencies import get_session
