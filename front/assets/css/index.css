@@ -157,3 +157,14 @@ main {
   }
   
 }
+
+#esqueceu-senha {
+  color: var(--azul);
+  font-size: 1.6rem;
+  margin-top: .5rem;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

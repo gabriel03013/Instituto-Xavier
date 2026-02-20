@@ -1,4 +1,5 @@
 from pydantic import BaseModel, EmailStr
+from typing import Optional
 
 
 class MutantCreate(BaseModel):
@@ -8,6 +9,15 @@ class MutantCreate(BaseModel):
     senha: str
     poder_id: int
 
+
+class MutantUpdate(BaseModel):
+    nome: Optional[str] = None
+    email: Optional[EmailStr] = None
+    senha: Optional[str] = None
+    poder_id: Optional[int] = None
+    turma_id: Optional[int] = None
+
+
 class MutantSchema(BaseModel):
     id: int
     nome: str
@@ -16,5 +26,5 @@ class MutantSchema(BaseModel):
     senha: str
     poder_id: int
 
-    class config:
+    class Config:
         from_attributes = True
