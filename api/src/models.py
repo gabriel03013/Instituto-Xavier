@@ -23,13 +23,6 @@ class Mutante(Base):
     poder_id = Column("poder_id", ForeignKey("poderes.id"))
     turma_id = Column("turma_id", ForeignKey("turmas.id"))
 
-    def __init__(self, nome, matricula, email, senha, poder_id):
-        self.nome = nome
-        self.matricula = matricula
-        self.email = email
-        self.senha = senha
-        self.poder_id = poder_id
-
 
 class Poder(Base):
     __tablename__ = "poderes"
