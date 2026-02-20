@@ -1,14 +1,9 @@
 from pydantic import BaseModel
 
-class MateriasCreate(BaseModel):
+
+class MateriasSchema(BaseModel):
     nome: str
     professor_id: int
 
-
-class MateriasRead(BaseModel):
-    id: int
-    nome: str
-    professor_id: int
-
-    class config:
+    class Config:
         from_attributes = True

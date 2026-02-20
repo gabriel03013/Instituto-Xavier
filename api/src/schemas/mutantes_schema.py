@@ -1,20 +1,13 @@
 from pydantic import BaseModel, EmailStr
 
 
-class MutantCreate(BaseModel):
+class MutanteSchema(BaseModel):
     nome: str
     matricula: int
     email: EmailStr
     senha: str
     poder_id: int
+    turma_id: int
 
-class MutantSchema(BaseModel):
-    id: int
-    nome: str
-    matricula: int
-    email: EmailStr
-    senha: str
-    poder_id: int
-
-    class config:
+    class Config:
         from_attributes = True

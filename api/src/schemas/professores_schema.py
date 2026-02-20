@@ -1,16 +1,10 @@
 from pydantic import BaseModel
 
-class ProfessorCreate(BaseModel):
+class ProfessoresSchemas(BaseModel):
     nome: str
     usuario: str
     senha: str
 
-class ProfessorRead(BaseModel):
-    id: int
-    nome: str
-    usuario: str
-    senha: str
-
-    class config:
+    class Config:
         from_attributes = True
         
