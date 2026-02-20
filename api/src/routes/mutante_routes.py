@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import text
-from schemas.mutantesSchema import MutantRead, MutanteCreate
+from schemas.mutantesSchema import MutanteSchema
 from dependencies import get_session
 from database import engine
 from dependencies import get_session
@@ -35,9 +35,16 @@ async def health_db(session: Session = Depends(get_session)):
 # -- CREATE --
 @mutante_router.post("/register_mutante")
 async def register_mutante(
-    mutante_schema: MutanteCreate
+    mutante_schema: MutanteSchema,
+    session: Session = Depends(get_session)
 ):
-    return {"msg": mutante_schema}
+    new_mutante = Mutante(**mutante_schema.model_dump())
+    
+    session.add(new_mutante)
+    session.commit()
+    session.refresh(new_mutante)
+
+    return {"msg": f"New Mutante inserted successfuly! ID: {new_mutante.id}"}
 
 
 # -- READ --

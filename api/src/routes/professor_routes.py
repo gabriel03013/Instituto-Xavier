@@ -1,8 +1,7 @@
 from fastapi import APIRouter
-# from 
 
-teacher_router = APIRouter(prefix="/teacher", tags=["teacher"])
+professor_router = APIRouter(prefix="/professor", tags=["professor"])
 
-@teacher_router.get("/")
+@professor_router.get("/")
 async def home():
-    return {"msg": "Welcome, teacher"}
+    return {"msg": "Welcome, professor"}

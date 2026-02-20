@@ -7,8 +7,8 @@ from db.helpers.logger import logger
 from db.helpers.security import hash_password
 from db.helpers.wrappers import debug
 
-from db.connection.database import Session, engine, Base
-from db.models import Observacoes, Poder, Professor, Mutant, Materias, MutantesMaterias, Turmas
+from api.src.database import Session, engine, Base
+from api.src.models import Observacoes, Poder, Professor, Mutant, Materias, MutantesMaterias, Turmas
 
 
 fake = Faker('pt_BR') 
