@@ -1,0 +1,70 @@
+DROP TABLE IF EXISTS Observacoes CASCADE;
+DROP TABLE IF EXISTS MutantesMaterias CASCADE;
+DROP TABLE IF EXISTS Mutantes CASCADE;
+DROP TABLE IF EXISTS Materias CASCADE;
+DROP TABLE IF EXISTS Professores CASCADE;
+DROP TABLE IF EXISTS Poderes CASCADE;
+DROP TABLE IF EXISTS Turmas CASCADE;
+
+CREATE TABLE Professores (
+	id SERIAL PRIMARY KEY,
+	nome VARCHAR(100) NOT NULL,
+	usuario VARCHAR(100) NOT NULL,
+	senha VARCHAR(200) NOT NULL
+);
+
+CREATE TABLE Turmas (
+	id SERIAL PRIMARY KEY,
+	serie SMALLINT NOT NULL,
+ 	turma CHAR(1) NOT NULL
+);
+
+CREATE TABLE Poderes (
+	id SERIAL PRIMARY KEY,
+	nome VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE Materias (
+	id SERIAL PRIMARY KEY,
+	nome VARCHAR(100) NOT NULL,
+	professor_id INTEGER NOT NULL,
+	CONSTRAINT fk_professor FOREIGN KEY (professor_id)
+		REFERENCES Professores(id)
+);
+
+CREATE TABLE Mutantes (
+	id SERIAL PRIMARY KEY,
+	nome VARCHAR(100) NOT NULL,
+	matricula VARCHAR(50) NOT NULL,
+	email VARCHAR(150) NOT NULL,
+	senha VARCHAR(200) NOT NULL,
+	poder_id INTEGER NOT NULL,
+	turma_id INTEGER NOT NULL,
+	CONSTRAINT fk_poder FOREIGN KEY (poder_id)
+		REFERENCES Poderes(id),
+	CONSTRAINT fk_turma FOREIGN KEY (turma_id)
+		REFERENCES Turmas(id)
+);
+
+CREATE TABLE MutantesMaterias (
+	id SERIAL PRIMARY KEY,
+	nota1 NUMERIC(4,2),
+	nota2 NUMERIC(4,2),
+	materia_id INTEGER NOT NULL,
+	mutante_id INTEGER NOT NULL,
+	CONSTRAINT fk_materia FOREIGN KEY (materia_id)
+		REFERENCES Materias(id),
+	CONSTRAINT fk_aluno FOREIGN KEY (mutante_id)
+		REFERENCES Mutantes(id),
+	CONSTRAINT check_nota1 CHECK (nota1 BETWEEN 0 AND 10),
+	CONSTRAINT check_nota2 CHECK (nota2 BETWEEN 0 AND 10)
+);
+
+CREATE TABLE Observacoes (
+	id SERIAL PRIMARY KEY,
+	mutantesmaterias_id INTEGER NOT NULL,
+	observacao TEXT NOT NULL,
+	data DATE NOT NULL,
+	CONSTRAINT fk_mutantemateria FOREIGN KEY (mutantesmaterias_id)
+		REFERENCES MutantesMaterias(id)
+);

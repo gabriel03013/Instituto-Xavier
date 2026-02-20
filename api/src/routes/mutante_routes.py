@@ -2,11 +2,12 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import text
-from schemas.mutantesSchema import MutanteSchema
+from schemas.mutantes_schema import MutantesSchema, MutantesCreate
 from dependencies import get_session
 from database import engine
 from dependencies import get_session
-from models import Mutante
+from models import Mutantes
+from db.helpers.security import hash_password 
 
 
 mutante_router = APIRouter(prefix="/mutant", tags=["mutant"])
@@ -35,10 +36,19 @@ async def health_db(session: Session = Depends(get_session)):
 # -- CREATE --
 @mutante_router.post("/register_mutante")
 async def register_mutante(
-    mutante_schema: MutanteSchema,
+    mutante_schema: MutantesCreate,
     session: Session = Depends(get_session)
 ):
-    new_mutante = Mutante(**mutante_schema.model_dump())
+    """
+    Mutante recebe numero da matricula por fora e backend valida se existe ou nao. admin ja inseriu a matricula no banco
+    """
+    mutante_schema.senha = hash_password(mutante_schema.senha)
+    
+    new_mutante = Mutantes(
+        mutante_schema.nome,
+        mutante_schema.email,
+        mutante_schema.senha
+    )
     
     session.add(new_mutante)
     session.commit()
@@ -52,10 +62,10 @@ async def register_mutante(
 async def list_mutantes(
     session: Session = Depends(get_session)
 ):
-    session.query(Mutante).all()
+    mutantes = session.query(Mutantes).all()
 
     return {
-        "mutantes": Mutante
+        "mutantes": mutantes
     }
 
 
@@ -65,9 +75,9 @@ async def find_mutante(
     session: Session = Depends(get_session)
 ):
     
-    mutante = session.query(Mutante).filter(Mutante.id==id).first()
+    mutante = session.query(Mutantes).filter(Mutantes.id==id).first()
 
     if not mutante:
-        raise HTTPException(statuscode=401, detail="Couldn't find any Mutante by that ID.")
+        raise HTTPException(status_code=401, detail="Couldn't find any Mutante by that ID.")
 
     return {"mutante": mutante}
