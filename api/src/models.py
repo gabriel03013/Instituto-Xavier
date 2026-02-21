@@ -1,28 +1,35 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, Date, Text, SmallInteger, Boolean
-from src.database import Base
+from sqlalchemy.orm import relationship
+from database import Base
 
 
-class Mutantes(Base):
+class Mutante(Base):
     __tablename__ = "mutantes"
 
     id = Column(Integer, primary_key=True)
-    nome = Column(String(100), nullable=True)
+    nome = Column(String(100))
     matricula = Column(String(50), nullable=False, unique=True)
-    email = Column(String(100), nullable=True, unique=True)
-    senha = Column(String(100), nullable=True)
-    esta_ativo = Column(Boolean, default=False)
+    email = Column(String(100), unique=True)
+    senha = Column(String(100))
+    esta_ativo = Column(Boolean, nullable=False, default=False)
+    
     poder_id = Column(Integer, ForeignKey("poderes.id"))
+    poder = relationship("Poder", back_populates="mutantes")
+
     turma_id = Column(Integer, ForeignKey("turmas.id"))
+    turma = relationship("Turmas", back_populates="mutantes")
 
 
-class Poderes(Base):
+class Poder(Base):
     __tablename__ = "poderes"
 
     id = Column(Integer, primary_key=True)
     nome = Column(String(100), nullable=False, unique=True)
 
+    mutantes = relationship("Mutante", back_populates="poder")
 
-class Professores(Base):
+
+class Professor(Base):
     __tablename__ = "professores"
 
     id = Column(Integer, primary_key=True)
@@ -55,6 +62,8 @@ class Turmas(Base):
     id = Column(Integer, primary_key=True)
     serie = Column(SmallInteger, nullable=False)
     turma = Column(String(1), nullable=False)
+
+    mutantes = relationship("Mutante", back_populates="turma")
     
     
 class Observacoes(Base):
