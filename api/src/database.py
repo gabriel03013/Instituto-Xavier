@@ -15,4 +15,4 @@ engine = create_engine(
 Session = sessionmaker(bind=engine)
 
 
-Base = declarative_base() #Create base of database
+Base = declarative_base() # Create base of database

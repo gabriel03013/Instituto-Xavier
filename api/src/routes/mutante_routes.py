@@ -2,57 +2,47 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import text
-from schemas.mutantes_schema import MutantesSchema, MutantesCreate
+from dao.mutante_dao import MutanteDAO
+from dao.mutantes_materias_dao import MutantesMateriasDAO
+from dao.poder_dao import PoderDAO
+from dao.turmas_dao import TurmasDAO
+from schemas.mutantes_schema import MutanteBase, MutanteCreate
 from dependencies import get_session
 from database import engine
 from dependencies import get_session
-from models import Mutantes
-from db.helpers.security import hash_password 
+from models import Mutante
+from db.helpers.security import hash_password
+from services.mutante_service import MutanteService
+from dao.boletim_dao import BoletimDAO
 
 
 mutante_router = APIRouter(prefix="/mutant", tags=["mutant"])
 
+
+def get_mutante_service(session: Session = Depends(get_session)) -> MutanteService:
+    return MutanteService(
+        mutante_dao=MutanteDAO(session),
+        poder_dao=PoderDAO(session),
+        turmas_dao=TurmasDAO(session),
+        mutantes_materias_dao=MutantesMateriasDAO(session)
+    )
 
 @mutante_router.get("/")
 async def home():
     return {"msg": "Welcome, mutant!"}
 
 
-@mutante_router.get("/health_db")
-async def health_db(session: Session = Depends(get_session)):
-    """"
-    Try connection with database just executing a simple select then returns successful or failure.
-    """
-    try:
-        session.execute(text("SELECT 1"))
-        return {"status": "Database connection successful"}
-    except SQLAlchemyError as e:
-        raise HTTPException(
-            status_code=500,
-            detail=f"Database connection failed: {str(e)}"
-        )
-
-
 # -- CREATE --
 @mutante_router.post("/register_mutante")
 async def register_mutante(
-    mutante_schema: MutantesCreate,
-    session: Session = Depends(get_session)
+    mutante_schema: MutanteCreate,
+    session: Session = Depends(get_session),
+    service: MutanteService = Depends(get_mutante_service)
 ):
     """
     Mutante recebe numero da matricula por fora e backend valida se existe ou nao. admin ja inseriu a matricula no banco
     """
-    mutante_schema.senha = hash_password(mutante_schema.senha)
-    
-    new_mutante = Mutantes(
-        mutante_schema.nome,
-        mutante_schema.email,
-        mutante_schema.senha
-    )
-    
-    session.add(new_mutante)
-    session.commit()
-    session.refresh(new_mutante)
+    new_mutante = service.registrar_novo_mutante(mutante_schema)
 
     return {"msg": f"New Mutante inserted successfuly! ID: {new_mutante.id}"}
 
@@ -60,24 +50,50 @@ async def register_mutante(
 # -- READ --
 @mutante_router.get("/list")
 async def list_mutantes(
-    session: Session = Depends(get_session)
+    service: MutanteService = Depends(get_mutante_service)
 ):
-    mutantes = session.query(Mutantes).all()
+    mutantes = service.listar_mutantes()
 
-    return {
-        "mutantes": mutantes
-    }
+    if not mutantes:
+        raise HTTPException(status_code=404, detail="Couldn't find any mutante")
+
+    return {"mutantes": mutantes}
 
 
 @mutante_router.get("/find_mutante")
 async def find_mutante(
     id: int,
-    session: Session = Depends(get_session)
+    service: MutanteService = Depends(get_mutante_service)
 ):
     
-    mutante = session.query(Mutantes).filter(Mutantes.id==id).first()
+    return {"mutante": "mutante"}
 
-    if not mutante:
-        raise HTTPException(status_code=401, detail="Couldn't find any Mutante by that ID.")
 
-    return {"mutante": mutante}
+@mutante_router.put("/complete_registration")
+async def complete_registration(
+    mutante_schema: MutanteCreate,
+    service: MutanteService = Depends(get_mutante_service)
+):
+    """
+    Mutante recebe número da matrícula por fora e back-end verifica se a matrícula existe e pode ser usada, atualizando o registro com os dados enviados nessa requisição.
+    """
+    try:
+        service.completar_cadastro(mutante_schema)
+
+        return {"msg": "Registration completed successfully."}
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    
+
+@mutante_router.get("/my_grades")
+async def see_my_grades(
+    id_mutante: int,
+    session: Session = Depends(get_session)
+):
+    boletim_dao = BoletimDAO(session)
+    boletim = boletim_dao.obter_minhas_notas(id_mutante)
+
+    if not boletim:
+        raise HTTPException(status_code=404, detail="Grades are not avaiable.")
+    
+    return {"grades": boletim}

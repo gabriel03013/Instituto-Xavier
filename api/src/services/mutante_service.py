@@ -1,9 +1,10 @@
-from src.dao.mutante_dao import MutanteDAO
-from src.dao.poder_dao import PoderDAO
-from src.dao.turmas_dao import TurmasDAO
-from src.dao.mutantes_materias_dao import MutantesMateriasDAO
-from src.schemas.mutante_schema import MutanteSchema
+from dao.mutante_dao import MutanteDAO
+from dao.poder_dao import PoderDAO
+from dao.turmas_dao import TurmasDAO
+from dao.mutantes_materias_dao import MutantesMateriasDAO
+from schemas.mutantes_schema import MutanteBase, MutanteCreate
 from typing import List, Dict
+from db.helpers.security import hash_password
 
 class MutanteService:
     def __init__(
@@ -18,42 +19,47 @@ class MutanteService:
         self.turmas_dao = turmas_dao
         self.mutantes_materias_dao = mutantes_materias_dao
 
-    def registrar_novo_mutante(self, dados: MutanteSchema) -> MutanteSchema:
-        if self.mutante_dao.obter_por_matricula(dados.matricula):
+
+    def registrar_novo_mutante(self, dados: MutanteCreate) -> MutanteBase:
+        if self.mutante_dao.obter_matricula_vazia(dados.matricula):
             raise ValueError(f"Matrícula {dados.matricula} já existe")
 
         if self.mutante_dao.obter_por_email(dados.email):
             raise ValueError(f"Email {dados.email} já existe")
 
-        if dados.poder_id and not self.poder_dao.obter_por_id(dados.poder_id):
-            raise ValueError(f"Poder {dados.poder_id} não existe")
+        # if dados.poder_id and not self.poder_dao.obter_por_id(dados.poder_id):
+        #     raise ValueError(f"Poder {dados.poder_id} não existe")
 
-        if dados.turma_id and not self.turmas_dao.obter_por_id(dados.turma_id):
-            raise ValueError(f"Turma {dados.turma_id} não existe")
+        # if dados.turma_id and not self.turmas_dao.obter_por_id(dados.turma_id):
+        #     raise ValueError(f"Turma {dados.turma_id} não existe")
+        
 
         mutante = self.mutante_dao.criar(
             matricula=dados.matricula,
             nome=dados.nome,
             email=dados.email,
-            senha=dados.senha,
-            poder_id=dados.poder_id,
-            turma_id=dados.turma_id
+            senha=hash_password(dados.senha)
+            # poder_id=dados.poder_id,
+            # turma_id=dados.turma_id
         )
 
-        return MutanteSchema.model_validate(mutante)
+        return MutanteBase.model_validate(mutante)
 
-    def listar_mutantes(self) -> List[MutanteSchema]:
+
+    def listar_mutantes(self) -> List[MutanteBase]:
         mutantes = self.mutante_dao.listar_todos()
-        return [MutanteSchema.model_validate(m) for m in mutantes]
+        return [MutanteBase.model_validate(m) for m in mutantes]
 
-    def obter_mutante_por_id(self, mutante_id: int) -> MutanteSchema:
+
+    def obter_mutante_por_id(self, mutante_id: int) -> MutanteBase:
         mutante = self.mutante_dao.obter_por_id(mutante_id)
         if not mutante:
             raise ValueError(f"Mutante {mutante_id} não encontrado")
 
-        return MutanteSchema.model_validate(mutante)
+        return MutanteBase.model_validate(mutante)
 
-    def atualizar_mutante(self, mutante_id: int, dados: MutanteSchema) -> MutanteSchema:
+
+    def atualizar_mutante(self, mutante_id: int, dados: MutanteBase) -> MutanteBase:
         mutante = self.mutante_dao.obter_por_id(mutante_id)
         if not mutante:
             raise ValueError(f"Mutante {mutante_id} não encontrado")
@@ -75,7 +81,29 @@ class MutanteService:
 
         mutante_atualizado = self.mutante_dao.atualizar(mutante_id, **dados_dict)
 
-        return MutanteSchema.model_validate(mutante_atualizado)
+        return MutanteBase.model_validate(mutante_atualizado)
+    
+
+    def completar_cadastro(self, dados: MutanteBase) -> MutanteBase:
+        
+        mutante = self.mutante_dao.obter_matricula_vazia(dados.matricula)
+
+        if not mutante:
+            raise ValueError(f"Matrícula não encontrada ou já completa.")
+
+        if self.mutante_dao.obter_por_email(dados.email):
+            raise ValueError("E-mail já está em uso.")
+
+        mutante_atualizado = self.mutante_dao.atualizar(
+            mutante.id,
+            nome=dados.nome,
+            email=dados.email,
+            senha=hash_password(dados.senha),
+            esta_ativo=True
+        )
+
+        return MutanteBase.model_validate(mutante_atualizado)
+
 
     def deletar_mutante(self, mutante_id: int) -> Dict:
         mutante = self.mutante_dao.obter_por_id(mutante_id)
