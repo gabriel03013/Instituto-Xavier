@@ -7,9 +7,9 @@ class BoletimDAO:
     def __init__(self, session: Session):
         self.session = session
 
-    def obter_minhas_notas(self, id_mutante: int) -> a:
+    def obter_minhas_notas(self, id_mutante: int) -> list:
         """Obtém o boletim do aluno"""
-        media_aritmetica = (((MutantesMaterias.nota1 + MutantesMaterias.nota2) / 2))
+        media_aritmetica = (MutantesMaterias.nota1 + MutantesMaterias.nota2) / 2
         
         status_case = case(
             (media_aritmetica < 7, "Reprovado"),

@@ -41,7 +41,7 @@ async def create_registration(
     mutante_dao = MutanteDAO(session=session)
 
     if mutante_dao.obter_matricula_vazia(matricula):
-        raise HTTPException(status_code=400, detail="Matrícula já pertence a alguém.")
+        raise HTTPException(status_code=400, detail="Matrícula já existe ou pertence a alguém.")
     
     mutante_matricula = Mutante()
     mutante_matricula.esta_ativo = False #

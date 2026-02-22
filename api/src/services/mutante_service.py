@@ -2,7 +2,7 @@ from dao.mutante_dao import MutanteDAO
 from dao.poder_dao import PoderDAO
 from dao.turmas_dao import TurmasDAO
 from dao.mutantes_materias_dao import MutantesMateriasDAO
-from schemas.mutantes_schema import MutanteBase, MutanteCreate
+from schemas.mutantes_schema import MutanteBase, MutanteCreate, MutanteUpdate, MutanteResponse
 from typing import List, Dict
 from db.helpers.security import hash_password
 
@@ -84,7 +84,7 @@ class MutanteService:
         return MutanteBase.model_validate(mutante_atualizado)
     
 
-    def completar_cadastro(self, dados: MutanteBase) -> MutanteBase:
+    def completar_cadastro(self, dados: MutanteUpdate) -> MutanteResponse:
         
         mutante = self.mutante_dao.obter_matricula_vazia(dados.matricula)
 
@@ -102,7 +102,7 @@ class MutanteService:
             esta_ativo=True
         )
 
-        return MutanteBase.model_validate(mutante_atualizado)
+        return MutanteResponse.model_validate(mutante_atualizado)
 
 
     def deletar_mutante(self, mutante_id: int) -> Dict:

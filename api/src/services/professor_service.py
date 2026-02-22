@@ -1,6 +1,6 @@
 from src.dao.professor_dao import ProfessorDAO
 from src.dao.materias_dao import MateriasDAO
-from src.schemas.professor_schema import ProfessoresSchemas
+from src.schemas.professores_schema import ProfessoresSchemas
 from typing import List, Dict
 
 class ProfessorService:

@@ -19,6 +19,8 @@ class Mutante(Base):
     turma_id = Column(Integer, ForeignKey("turmas.id"))
     turma = relationship("Turmas", back_populates="mutantes")
 
+    mutantesmaterias = relationship("MutantesMaterias", back_populates="mutante")
+
 
 class Poder(Base):
     __tablename__ = "poderes"
@@ -37,13 +39,19 @@ class Professor(Base):
     usuario = Column(String(50), nullable=False, unique=True)
     senha = Column(String(100), nullable=False)
 
+    materias = relationship("Materias", back_populates="professor")
+
 
 class Materias(Base):
     __tablename__ = "materias"
 
     id = Column(Integer, primary_key=True)
     nome = Column(String(100), nullable=False, unique=True)
+
     professor_id = Column(Integer, ForeignKey("professores.id"))
+    professor = relationship("Professor", back_populates="materias")
+
+    mutantesmaterias = relationship("MutantesMaterias", back_populates="materias")
 
 
 class MutantesMaterias(Base):
@@ -52,8 +60,14 @@ class MutantesMaterias(Base):
     id = Column(Integer, primary_key=True)
     nota1 = Column(Integer, default=0)
     nota2 = Column(Integer, default=0)
+
     mutante_id = Column(Integer, ForeignKey("mutantes.id"))
+    mutante = relationship("Mutante", back_populates="mutantesmaterias")
+    
     materia_id = Column(Integer, ForeignKey("materias.id"))
+    materias = relationship("Materias", back_populates="mutantesmaterias")
+
+    observacoes = relationship("Observacoes", back_populates="mutantesmaterias")
 
 
 class Turmas(Base):
@@ -72,4 +86,6 @@ class Observacoes(Base):
     id = Column(Integer, primary_key=True)
     observacao = Column(Text, nullable=False)
     data = Column(Date, nullable=False)
+
     mutantesmaterias_id = Column(Integer, ForeignKey("mutantesmaterias.id"))
+    mutantesmaterias = relationship("MutantesMaterias", back_populates="observacoes")
