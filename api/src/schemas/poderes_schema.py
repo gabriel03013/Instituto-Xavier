@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 
-class PoderesSchema(BaseModel):
+class PoderSchema(BaseModel):
     nome: str
 
     class Config:

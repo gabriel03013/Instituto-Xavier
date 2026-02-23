@@ -1,12 +1,13 @@
 from src.dao.professor_dao import ProfessorDAO
 from src.dao.materias_dao import MateriasDAO
-from src.schemas.professor_schema import ProfessoresSchemas
+from src.schemas.professores_schema import ProfessoresSchemas
 from typing import List, Dict
 
 class ProfessorService:
     def __init__(self, professor_dao: ProfessorDAO, materias_dao: MateriasDAO):
         self.professor_dao = professor_dao
         self.materias_dao = materias_dao
+
 
     def criar_novo_professor(self, dados: ProfessoresSchemas) -> ProfessoresSchemas:
         if self.professor_dao.obter_por_usuario(dados.usuario):
@@ -20,9 +21,11 @@ class ProfessorService:
 
         return ProfessoresSchemas.model_validate(professor)
 
+
     def listar_professores(self) -> List[ProfessoresSchemas]:
         professores = self.professor_dao.listar_todos()
         return [ProfessoresSchemas.model_validate(p) for p in professores]
+
 
     def obter_professor_por_id(self, professor_id: int) -> ProfessoresSchemas:
         professor = self.professor_dao.obter_por_id(professor_id)
@@ -30,6 +33,7 @@ class ProfessorService:
             raise ValueError(f"Professor {professor_id} não encontrado")
 
         return ProfessoresSchemas.model_validate(professor)
+
 
     def atualizar_professor(self, professor_id: int, dados: ProfessoresSchemas) -> ProfessoresSchemas:
         professor = self.professor_dao.obter_por_id(professor_id)
@@ -46,6 +50,7 @@ class ProfessorService:
         professor_atualizado = self.professor_dao.atualizar(professor_id, **dados_dict)
 
         return ProfessoresSchemas.model_validate(professor_atualizado)
+
 
     def deletar_professor(self, professor_id: int) -> Dict:
         professor = self.professor_dao.obter_por_id(professor_id)

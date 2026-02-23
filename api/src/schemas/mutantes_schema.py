@@ -1,14 +1,25 @@
 from pydantic import BaseModel, EmailStr
-from typing import Optional
 
 
 class MutanteSchema(BaseModel):
     nome: str
-    matricula: int
+    matricula: str
     email: EmailStr
     senha: str
-    poder_id: int
-    turma_id: int
+
+
+class MutanteUpdate(BaseModel):
+    nome: Optional[str] = None
+    matricula: str
+    email: Optional[EmailStr] = None
+    senha: Optional[str] = None
+    esta_ativo: Optional[bool] = False
+    poder_id: Optional[int]
+    turma_id: Optional[int]
+
+
+class MutanteResponse(MutanteBase):
+    id: Optional[int]
 
 <<<<<<< HEAD
 
