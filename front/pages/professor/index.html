@@ -64,7 +64,68 @@
         </div>
       </section>
 
-      <img id="img-direita-bottom" src="../../assets/images/Group 21.svg" alt="">
+      <img
+        id="img-direita-bottom"
+        src="../../assets/images/Group 21.svg"
+        alt=""
+      />
     </main>
+
+    <div id="editar-perfil-modal">
+      <div id="editar-perfil-modal-content">
+        <div>
+          <h3>Editar Perfil</h3>
+          <button><i class="fa-solid fa-xmark"></i></button>
+        </div>
+
+        <div>
+          <form>
+            <div id="form-imagem">
+              <img
+                src="../../assets/images/5fd8cb750eeb981e89a3d04a9c673fc0.jpg"
+                alt=""
+              />
+              <input type="file" accept="image/*" id="inputFile" hidden />
+
+              <label for="inputFile">
+                <i class="fa-solid fa-upload"></i>
+                <p>Alterar Foto</p>
+              </label>
+            </div>
+
+            <div id="form-inputs">
+              <div>
+                <h4>José Pereira</h4>
+                <p>Literatura</p>
+              </div>
+
+              <div>
+                <div>
+                  <label for="usuario">
+                    Usuário
+                    <input type="text" id="usuario" disabled />
+                  </label>
+                </div>
+
+                <div>
+                  <label for="senha">
+                    Senha
+                    <input type="password" id="senha" disabled />
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div id="editar-perfil-modal-footer">
+              <button id="salvar-alteracoes-btn">Salvar Alterações</button>
+              <button id="cancelar-alteracoes-btn">Cancelar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <script
+      src="https://kit.fontawesome.com/02db64e304.js"
+      crossorigin="anonymous"
+    ></script>
   </body>
 </html>
