@@ -91,3 +91,9 @@ class Observacao(Base):
 
     def __init__(self, observacao):
         self.observacao = observacao
+        
+class UserInDb(Professor):
+    hashed_password: str
+    
+class UserInDb(Mutante):
+    hashed_password: str

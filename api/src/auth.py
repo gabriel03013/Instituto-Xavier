@@ -1,52 +1,64 @@
-from datetime import datetime, timedelta
-from typing import Optional
-from passlib.context import CryptContext
+from typing import Annotated
+
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
-from jose import JWTError, jwt
-from models import User, UserInDB # type: ignore
-
-# Configuration
-SECRET_KEY = "your-secret-key-here"  # In production, use environment variables
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
-
-# Password hashing context
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
-# OAuth2 scheme
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+from pydantic import BaseModel
 
 fake_users_db = {
-    "aluno1": {
-        "usuario": "aluno1",
-        "nome": "John Doe",
-        "hashed_password": "$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW",  # secret
+    "johndoe": {
+        "username": "johndoe",
+        "full_name": "John Doe",
+        "hashed_password": "fakehashedsecret",
     },
-    "profesor1": {
-        "usuario": "profesor1",
-        "nome": "John Snow",
-        "hashed_password": "$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW",  # secret
-    }
+    "alice": {
+        "full_name": "Alice Wonderson",
+        "email": "alice@example.com",
+        "hashed_password": "fakehashedsecret2",
+    },
 }
 
-def verify_password(plain_password, hashed_password):
-    return pwd_context.verify(plain_password, hashed_password)
+def fake_users():
+    return fake_users_db
 
-def get_password_hash(password):
-    return pwd_context.hash(password)
 
-def get_user(db, username: str):
-    """Get a user from the database."""
-    if username in db:
-        user_dict = db[username]
+def fake_hash_password(password: str):
+    return "fakehashed" + password
+
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+
+
+class User(BaseModel):
+    username: str | None = None
+    email: str | None = None
+    full_name: str | None = None
+    disabled: bool | None = None
+
+
+class UserInDB(User):
+    hashed_password: str
+
+
+def get_user(db, user: str):
+    if user in db:
+        user_dict = db[user]
         return UserInDB(**user_dict)
+        
 
-def authenticate_user(fake_db, username: str, password: str):
-    """Check if username and password are correct."""
-    user = get_user(fake_db, username)
+
+def fake_decode_token(token):
+    # This doesn't provide any security at all
+    # Check the next version
+    user = get_user(fake_users_db, token)
+    return user
+
+
+async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
+    user = fake_decode_token(token)
     if not user:
-        return False
-    if not verify_password(password, user.hashed_password):
-        return False
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Not authenticated",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
     return user
