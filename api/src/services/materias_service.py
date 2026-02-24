@@ -1,3 +1,9 @@
+"""
+Essa é a camada de serviço para os materias. Ela é responsável por implementar a lógica de negócio relacionada aos materias, 
+como validações, regras de negócio e interações com os DAOs.
+"""
+__author__ = "Davi"
+
 from src.dao.materias_dao import MateriasDAO
 from src.dao.professor_dao import ProfessorDAO
 from src.dao.mutantes_materias_dao import MutantesMateriasDAO
