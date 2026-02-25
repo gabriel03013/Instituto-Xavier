@@ -6,7 +6,7 @@ from dao.mutante_dao import MutanteDAO
 from dao.mutantes_materias_dao import MutantesMateriasDAO
 from dao.poder_dao import PoderDAO
 from dao.turmas_dao import TurmasDAO
-from schemas.mutantes_schema import MutanteBase, MutanteCreate, MutanteUpdate
+from schemas.mutantes_schema import MutanteBase, MutanteUpdate
 from dependencies import get_session
 from database import engine
 from dependencies import get_session
@@ -35,7 +35,7 @@ async def home():
 # -- CREATE --
 @mutante_router.post("/register_mutante")
 async def register_mutante(
-    mutante_schema: MutanteCreate,
+    mutante_schema: MutanteBase,
     session: Session = Depends(get_session),
     service: MutanteService = Depends(get_mutante_service)
 ):
