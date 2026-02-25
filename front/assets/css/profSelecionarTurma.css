@@ -1,0 +1,47 @@
+body {
+  width: 100%;
+}
+
+main {
+  width: 100%;
+  min-height: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#turmas {
+  width: 120rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 6rem;
+  gap: 9rem;
+  flex-wrap: wrap;
+}
+
+.turma-div {
+  width: 31rem;
+  height: 17rem;
+  background-color: var(--amarelo);
+  border: 5px solid var(--preto);
+  border-radius: 1rem;
+  box-shadow: 0 4px 0 0 #000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+
+  h2 {
+    font-size: 3rem;
+    font-weight: 500;
+  }
+
+  p {
+    margin-top: -2rem;
+    font-size: 2rem;
+    color: #000000ad;
+  }
+}
