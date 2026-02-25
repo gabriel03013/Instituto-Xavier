@@ -1,6 +1,6 @@
 from src.dao.turmas_dao import TurmasDAO
 from src.dao.mutante_dao import MutanteDAO
-from src.schemas.turmas_schema import TurmasSchema
+from src.schemas.turmas_schema import TurmaCreate, TurmaUpdate, TurmaSchema
 from typing import List, Dict
 
 class TurmasService:
@@ -8,31 +8,31 @@ class TurmasService:
         self.turmas_dao = turmas_dao
         self.mutante_dao = mutante_dao
 
-    def criar_nova_turma(self, dados: TurmasSchema) -> TurmasSchema:
+    def criar_nova_turma(self, dados: TurmaCreate) -> TurmaSchema:
         turma_existe = self.turmas_dao.obter_por_serie_e_turma(dados.serie, dados.turma)
         if turma_existe:
             raise ValueError(f"Turma {dados.serie}{dados.turma} já existe")
 
         nova_turma = self.turmas_dao.criar(serie=dados.serie, turma=dados.turma)
 
-        return TurmasSchema.model_validate(nova_turma)
+        return TurmaSchema.model_validate(nova_turma)
 
-    def listar_turmas(self) -> List[TurmasSchema]:
+    def listar_turmas(self) -> List[TurmaSchema]:
         turmas = self.turmas_dao.listar_todas()
-        return [TurmasSchema.model_validate(t) for t in turmas]
+        return [TurmaSchema.model_validate(t) for t in turmas]
 
-    def obter_turma_por_id(self, turma_id: int) -> TurmasSchema:
+    def obter_turma_por_id(self, turma_id: int) -> TurmaSchema:
         turma = self.turmas_dao.obter_por_id(turma_id)
         if not turma:
             raise ValueError(f"Turma {turma_id} não encontrada")
 
-        return TurmasSchema.model_validate(turma)
+        return TurmaSchema.model_validate(turma)
 
-    def listar_turmas_por_serie(self, serie: int) -> List[TurmasSchema]:
+    def listar_turmas_por_serie(self, serie: int) -> List[TurmaSchema]:
         turmas = self.turmas_dao.listar_por_serie(serie)
-        return [TurmasSchema.model_validate(t) for t in turmas]
+        return [TurmaSchema.model_validate(t) for t in turmas]
 
-    def atualizar_turma(self, turma_id: int, dados: TurmasSchema) -> TurmasSchema:
+    def atualizar_turma(self, turma_id: int, dados: TurmaUpdate) -> TurmaSchema:
         turma = self.turmas_dao.obter_por_id(turma_id)
         if not turma:
             raise ValueError(f"Turma {turma_id} não encontrada")
@@ -49,7 +49,7 @@ class TurmasService:
 
         turma_atualizada = self.turmas_dao.atualizar(turma_id, **dados_dict)
 
-        return TurmasSchema.model_validate(turma_atualizada)
+        return TurmaSchema.model_validate(turma_atualizada)
 
     def deletar_turma(self, turma_id: int) -> Dict:
         turma = self.turmas_dao.obter_por_id(turma_id)

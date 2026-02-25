@@ -1,9 +1,33 @@
+from typing import Optional
 from pydantic import BaseModel
 
 
-class MateriasSchema(BaseModel):
+class MateriaBase(BaseModel):
+    nome: str
+    professor_id: int
+
+
+class MateriaCreate(MateriaBase):
+    pass
+
+
+class MateriaUpdate(BaseModel):
+    nome: Optional[str] = None
+    professor_id: Optional[int] = None
+
+
+class MateriaResponse(MateriaBase):
+    id: Optional[int] = None
+
+
+class MateriaSchema(BaseModel):
+    id: int
     nome: str
     professor_id: int
 
     class Config:
         from_attributes = True
+
+
+# backwards compatibility
+MateriasSchema = MateriaSchema

@@ -2,7 +2,7 @@ from dao.mutante_dao import MutanteDAO
 from dao.poder_dao import PoderDAO
 from dao.turmas_dao import TurmasDAO
 from dao.mutantes_materias_dao import MutantesMateriasDAO
-from schemas.mutantes_schema import MutanteBase, MutanteUpdate, MutanteResponse
+from schemas.mutantes_schema import MutanteBase, MutanteSchema, MutanteUpdate, MutanteResponse
 from typing import List, Dict
 from db.helpers.security import hash_password
 
@@ -43,23 +43,23 @@ class MutanteService:
             # turma_id=dados.turma_id
         )
 
-        return MutanteBase.model_validate(mutante)
+        return MutanteResponse.model_validate(mutante)
 
 
-    def listar_mutantes(self) -> List[MutanteBase]:
+    def listar_mutantes(self) -> List[MutanteSchema]:
         mutantes = self.mutante_dao.listar_todos()
-        return [MutanteBase.model_validate(m) for m in mutantes]
+        return [MutanteSchema.model_validate(m) for m in mutantes]
 
 
-    def obter_mutante_por_id(self, mutante_id: int) -> MutanteBase:
+    def obter_mutante_por_id(self, mutante_id: int) -> MutanteSchema:
         mutante = self.mutante_dao.obter_por_id(mutante_id)
         if not mutante:
             raise ValueError(f"Mutante {mutante_id} não encontrado")
 
-        return MutanteBase.model_validate(mutante)
+        return MutanteSchema.model_validate(mutante)
 
 
-    def atualizar_mutante(self, mutante_id: int, dados: MutanteBase) -> MutanteBase:
+    def atualizar_mutante(self, mutante_id: int, dados: MutanteUpdate) -> MutanteSchema:
         mutante = self.mutante_dao.obter_por_id(mutante_id)
         if not mutante:
             raise ValueError(f"Mutante {mutante_id} não encontrado")
@@ -81,7 +81,7 @@ class MutanteService:
 
         mutante_atualizado = self.mutante_dao.atualizar(mutante_id, **dados_dict)
 
-        return MutanteBase.model_validate(mutante_atualizado)
+        return MutanteSchema.model_validate(mutante_atualizado)
     
 
     def completar_cadastro(self, dados: MutanteUpdate) -> MutanteResponse:
