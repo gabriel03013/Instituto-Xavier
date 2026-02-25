@@ -2,7 +2,7 @@ from dao.mutante_dao import MutanteDAO
 from dao.poder_dao import PoderDAO
 from dao.turmas_dao import TurmasDAO
 from dao.mutantes_materias_dao import MutantesMateriasDAO
-from schemas.mutantes_schema import MutanteCreate, MutanteUpdate, MutanteResponse, MutanteSchema
+from schemas.mutantes_schema import MutanteBase, MutanteSchema, MutanteUpdate, MutanteResponse
 from typing import List, Dict
 from db.helpers.security import hash_password
 
@@ -20,7 +20,7 @@ class MutanteService:
         self.mutantes_materias_dao = mutantes_materias_dao
 
 
-    def registrar_novo_mutante(self, dados: MutanteCreate) -> MutanteResponse:
+    def registrar_novo_mutante(self, dados: MutanteBase) -> MutanteBase:
         if self.mutante_dao.obter_matricula_vazia(dados.matricula):
             raise ValueError(f"Matrícula {dados.matricula} já existe")
 
