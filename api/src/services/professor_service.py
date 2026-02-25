@@ -1,6 +1,6 @@
 from src.dao.professor_dao import ProfessorDAO
 from src.dao.materias_dao import MateriasDAO
-from src.schemas.professores_schema import ProfessoresSchemas
+from src.schemas.professores_schema import ProfessorCreate, ProfessorUpdate, ProfessorSchema
 from typing import List, Dict
 
 class ProfessorService:
@@ -9,7 +9,7 @@ class ProfessorService:
         self.materias_dao = materias_dao
 
 
-    def criar_novo_professor(self, dados: ProfessoresSchemas) -> ProfessoresSchemas:
+    def criar_novo_professor(self, dados: ProfessorCreate) -> ProfessorSchema:
         if self.professor_dao.obter_por_usuario(dados.usuario):
             raise ValueError(f"Usuário '{dados.usuario}' já existe")
 
@@ -19,23 +19,23 @@ class ProfessorService:
             senha=dados.senha
         )
 
-        return ProfessoresSchemas.model_validate(professor)
+        return ProfessorSchema.model_validate(professor)
 
 
-    def listar_professores(self) -> List[ProfessoresSchemas]:
+    def listar_professores(self) -> List[ProfessorSchema]:
         professores = self.professor_dao.listar_todos()
-        return [ProfessoresSchemas.model_validate(p) for p in professores]
+        return [ProfessorSchema.model_validate(p) for p in professores]
 
 
-    def obter_professor_por_id(self, professor_id: int) -> ProfessoresSchemas:
+    def obter_professor_por_id(self, professor_id: int) -> ProfessorSchema:
         professor = self.professor_dao.obter_por_id(professor_id)
         if not professor:
             raise ValueError(f"Professor {professor_id} não encontrado")
 
-        return ProfessoresSchemas.model_validate(professor)
+        return ProfessorSchema.model_validate(professor)
 
 
-    def atualizar_professor(self, professor_id: int, dados: ProfessoresSchemas) -> ProfessoresSchemas:
+    def atualizar_professor(self, professor_id: int, dados: ProfessorUpdate) -> ProfessorSchema:
         professor = self.professor_dao.obter_por_id(professor_id)
         if not professor:
             raise ValueError(f"Professor {professor_id} não encontrado")
@@ -49,7 +49,7 @@ class ProfessorService:
 
         professor_atualizado = self.professor_dao.atualizar(professor_id, **dados_dict)
 
-        return ProfessoresSchemas.model_validate(professor_atualizado)
+        return ProfessorSchema.model_validate(professor_atualizado)
 
 
     def deletar_professor(self, professor_id: int) -> Dict:

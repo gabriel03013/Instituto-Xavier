@@ -1,7 +1,13 @@
+"""
+Essa é a camada de serviço para os materias. Ela é responsável por implementar a lógica de negócio relacionada aos materias, 
+como validações, regras de negócio e interações com os DAOs.
+"""
+__author__ = "Davi"
+
 from src.dao.materias_dao import MateriasDAO
 from src.dao.professor_dao import ProfessorDAO
 from src.dao.mutantes_materias_dao import MutantesMateriasDAO
-from src.schemas.materia_schema import MateriasSchema
+from src.schemas.materias_schema import MateriaCreate, MateriaUpdate, MateriaSchema
 from typing import List, Dict
 
 class MateriasService:
@@ -15,7 +21,7 @@ class MateriasService:
         self.professor_dao = professor_dao
         self.mutantes_materias_dao = mutantes_materias_dao
 
-    def criar_nova_materia(self, dados: MateriasSchema) -> MateriasSchema:
+    def criar_nova_materia(self, dados: MateriaCreate) -> MateriaSchema:
         if self.materias_dao.obter_por_nome(dados.nome):
             raise ValueError(f"Matéria '{dados.nome}' já existe")
 
@@ -24,21 +30,21 @@ class MateriasService:
 
         materia = self.materias_dao.criar(nome=dados.nome, professor_id=dados.professor_id)
 
-        return MateriasSchema.model_validate(materia)
+        return MateriaSchema.model_validate(materia)
 
-    def listar_materias(self) -> List[MateriasSchema]:
+    def listar_materias(self) -> List[MateriaSchema]:
         materias = self.materias_dao.listar_todas()
-        return [MateriasSchema.model_validate(m) for m in materias]
+        return [MateriaSchema.model_validate(m) for m in materias]
 
-    def obter_materia_por_id(self, materia_id: int) -> MateriasSchema:
+    def obter_materia_por_id(self, materia_id: int) -> MateriaSchema:
         materia = self.materias_dao.obter_por_id(materia_id)
 
         if not materia:
             raise ValueError(f"Matéria {materia_id} não encontrada")
 
-        return MateriasSchema.model_validate(materia)
+        return MateriaSchema.model_validate(materia)
 
-    def atualizar_materia(self, materia_id: int, dados: MateriasSchema) -> MateriasSchema:
+    def atualizar_materia(self, materia_id: int, dados: MateriaUpdate) -> MateriaSchema:
         materia = self.materias_dao.obter_por_id(materia_id)
         if not materia:
             raise ValueError(f"Matéria {materia_id} não encontrada")
@@ -56,7 +62,7 @@ class MateriasService:
 
         materia_atualizada = self.materias_dao.atualizar(materia_id, **dados_dict)
 
-        return MateriasSchema.model_validate(materia_atualizada)
+        return MateriaSchema.model_validate(materia_atualizada)
 
     def deletar_materia(self, materia_id: int) -> Dict:
         materia = self.materias_dao.obter_por_id(materia_id)
@@ -75,13 +81,13 @@ class MateriasService:
             "alunos_removidos": len(alunos)
         }
 
-    def listar_materias_por_professor(self, professor_id: int) -> List[MateriasSchema]:
+    def listar_materias_por_professor(self, professor_id: int) -> List[MateriaSchema]:
         professor = self.professor_dao.obter_por_id(professor_id)
         if not professor:
             raise ValueError(f"Professor {professor_id} não encontrado")
 
         materias = self.materias_dao.listar_por_professor(professor_id)
-        return [MateriasSchema.model_validate(m) for m in materias]
+        return [MateriaSchema.model_validate(m) for m in materias]
 
     def desempenho_materia(self, materia_id: int) -> Dict:
         materia = self.materias_dao.obter_por_id(materia_id)
