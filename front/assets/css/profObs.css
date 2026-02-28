@@ -4,23 +4,23 @@ main {
 
 #turma-header-titulo-botao {
   display: flex;
-  gap: 2rem;
+  gap: 3rem;
   align-items: center;
 
   button {
     border-radius: 0.5rem;
     border: 3px solid #000;
-    background: #ffd947;
+    background-color: var(--amarelo);
     box-shadow: 0 4px 0 0 #000;
     font-family: inherit;
     height: 5rem;
+    cursor: pointer;
 
     &:hover {
-        
+      background-color: #ffd947;
     }
   }
 }
-
 .turma-table-wrapper {
   width: 100%;
   overflow-x: auto;
@@ -100,7 +100,7 @@ main {
   opacity: 0.8;
 }
 
-#editar-observacoes-modal {
+.observacoes-modal {
   position: absolute;
   top: 0;
   left: 0;
@@ -113,7 +113,7 @@ main {
   align-items: center;
 }
 
-#editar-observacoes-modal > div {
+.observacoes-modal > div {
   width: 55rem;
   height: 50rem;
   background-color: var(--amarelo);
@@ -123,7 +123,7 @@ main {
   align-items: center;
 }
 
-#editar-observacoes-modal-header {
+.observacoes-modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -141,7 +141,7 @@ main {
   }
 }
 
-#editar-observacoes-modal-content {
+.observacoes-modal-content {
   background-color: #fff;
   width: 96%;
   height: 98%;
@@ -172,35 +172,51 @@ main {
       font-size: 1.8rem;
     }
   }
-}
 
-#editar-observacoes-modal-botoes {
-  margin: 2rem 0 0 1rem;
-  display: flex;
-  gap: 2rem;
-
-  button {
-    width: 12rem;
-    height: 3.5rem;
-    border: 0.3rem solid var(--preto);
-    border-radius: 0.4rem;
+  textarea {
     font-family: inherit;
-    cursor: pointer;
+    width: 95%;
+    padding: 0.5rem 0 0 1rem;
+    border: 0.2rem solid var(--preto);
+    font-size: 1.6rem;
+  }
 
-    &:first-child {
-      background-color: var(--amarelo);
+  .observacoes-modal-botoes {
+    margin: 0 0 0 1rem;
+    display: flex;
+    gap: 2rem;
 
-      &:hover {
-        background-color: #ffd947;
+    button {
+      width: 12rem;
+      height: 3.5rem;
+      border: 0.3rem solid var(--preto);
+      border-radius: 0.4rem;
+      font-family: inherit;
+      cursor: pointer;
+
+      &:first-child {
+        background-color: var(--amarelo);
+
+        &:hover {
+          background-color: #ffd947;
+        }
       }
-    }
 
-    &:last-child {
-      background-color: transparent;
+      &:last-child {
+        background-color: transparent;
 
-      &:hover {
-        background-color: var(--branco);
+        &:hover {
+          background-color: var(--branco);
+        }
       }
     }
   }
+}
+.modal-adicionar select {
+    font-family: inherit;
+    width: 95%;
+    padding: 1rem 0 1rem 1rem;
+    border: .2rem solid var(--preto);
+
+
 }

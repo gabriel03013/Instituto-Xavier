@@ -32,7 +32,7 @@
           Adicionar Observação
         </button>
       </div>
-      
+
       <div class="turma-search">
         <i class="fa-solid fa-magnifying-glass search-icon"></i>
         <input type="search" placeholder="Digite a matrícula ou nome do aluno" />
@@ -59,7 +59,7 @@
               <button class="btn-excluir">
                 <i class="fa-solid fa-trash-can"></i>
               </button>
-              </td>
+            </td>
           </tr>
           <tr>
             <td>BILLIE EILISH</td>
@@ -70,7 +70,7 @@
               <button class="btn-excluir">
                 <i class="fa-solid fa-trash-can"></i>
               </button>
-              </td>
+            </td>
           </tr>
           <tr>
             <td>TAYLOR SWIFT</td>
@@ -81,7 +81,7 @@
               <button class="btn-excluir">
                 <i class="fa-solid fa-trash-can"></i>
               </button>
-              </td>
+            </td>
           </tr>
           <tr>
             <td>BILLY JOEL</td>
@@ -92,7 +92,7 @@
               <button class="btn-excluir">
                 <i class="fa-solid fa-trash-can"></i>
               </button>
-              </td>
+            </td>
           </tr>
           <tr>
             <td>SNUPI</td>
@@ -103,7 +103,7 @@
               <button class="btn-excluir">
                 <i class="fa-solid fa-trash-can"></i>
               </button>
-              </td>
+            </td>
           </tr>
           <tr>
             <td>THE POLICE</td>
@@ -114,47 +114,81 @@
               <button class="btn-excluir">
                 <i class="fa-solid fa-trash-can"></i>
               </button>
-              </td>
+            </td>
           </tr>
         </tbody>
       </table>
     </div>
   </main>
 
-  <div id="editar-observacoes-modal">
+  <div class="observacoes-modal">
     <div>
-      <div id="editar-observacoes-modal-header">
+      <div class="observacoes-modal-header">
         <h3>Editar Observações</h3>
-        <button id="fechar-modal">
+        <button class="fechar-modal">
           <i class="fa-solid fa-xmark"></i>
         </button>
       </div>
-  
-      <form id="editar-observacoes-modal-content">
-        <label for="selectAluno">Aluno
-          <input type="text" placeholder="Taylor Swift" disabled id="selectAluno">
+
+      <form class="observacoes-modal-content">
+        <label for="nomeAluno">Aluno
+          <input type="text" placeholder="Taylor Swift" disabled id="nomeAluno">
         </label>
-  
-        <label for="observacao1">Observação 1
-          <input type="text" placeholder="Digite a primeira observação" id="observacao1">
-        </label>
-  
-        <label for="observacao2">Observação 2
-          <input type="text" placeholder="Digite a segunda observação" id="observacao2">
-        </label>
-  
-        <p>Resumo das observações: <span id="observacoes-preview"></span></p>
-  
-        <div id="editar-observacoes-modal-botoes">
+
+        <label for="observacao-aluno">Observação<textarea name="area-obs" id="observacao-aluno" rows="10"
+            placeholder="Entrega de tarefa atrasada"></textarea></label>
+
+
+
+        <div class="observacoes-modal-botoes">
           <button type="submit" id="salvar-alteracoes">Salvar</button>
-          <button id="cancelar-alteracoes">Cancelar</button>
+          <button class="cancelar-alteracoes">Cancelar</button>
         </div>
       </form>
     </div>
   </div>
 
+  <div class="observacoes-modal modal-adicionar">
+    <div>
+      <div class="observacoes-modal-header">
+        <h3>Adicionar Observação</h3>
+        <button type="button" class="fechar-modal">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+  
+      <form class="observacoes-modal-content">
+        
+        <label for="selectAluno">
+          Aluno
+          <select id="selectAluno" required>
+            <option value="" disabled selected>Selecione um aluno</option>
+            <option value="1">Taylor Swift</option>
+            <option value="2">Bruno Mars</option>
+          </select>
+        </label>
+  
+        <label for="observacao-aluno">
+          Observação
+          <textarea 
+            id="observacao-aluno"
+            rows="10"
+            placeholder="Digite a observação"
+            required>
+          </textarea>
+        </label>
+  
+        <div class="observacoes-modal-botoes">
+          <button type="submit" id="salvar-observacao">Adicionar</button>
+          <button type="button" class="cancelar-alteracoes">Cancelar</button>
+        </div>
+  
+      </form>
+    </div>
+  </div>
 
   <script src="https://kit.fontawesome.com/02db64e304.js" crossorigin="anonymous"></script>
+  <script src="../../assets/js/profObs.js"></script>
 </body>
 
 </html>
