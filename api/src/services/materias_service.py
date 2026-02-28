@@ -1,8 +1,12 @@
 """
-Essa é a camada de serviço para os materias. Ela é responsável por implementar a lógica de negócio relacionada aos materias, 
-como validações, regras de negócio e interações com os DAOs.
+Service para gerenciar as matérias do Instituto. Este service é responsável por criar, listar, obter, atualizar e
+deletar matérias, além de lidar com a exclusão das associações entre mutantes e matérias. Também fornece funcionalidades
+para listar matérias por professor e gerar relatórios de desempenho. Ele utiliza os DAOs de matérias, professores e
+mutantes-matérias para realizar as operações necessárias no banco de dados e retorna os resultados como objetos de
+esquema apropriados.
 """
-__author__ = "Davi"
+
+__author__ = "Davi Franco"
 
 from src.dao.materias_dao import MateriasDAO
 from src.dao.professor_dao import ProfessorDAO
@@ -22,6 +26,21 @@ class MateriasService:
         self.mutantes_materias_dao = mutantes_materias_dao
 
     def criar_nova_materia(self, dados: MateriaCreate) -> MateriaSchema:
+        """
+        Verifica se já existe uma matéria com o mesmo nome, caso exista lança um ValueError. Em seguida, verifica se
+        o professor fornecido existe, caso não exista lança um ValueError. Caso contrário, cria uma nova matéria
+        utilizando o DAO e retorna a matéria criada como um objeto MateriaSchema.
+
+        Args:
+            dados (MateriaCreate): Dados necessários para criar uma nova matéria.
+
+        Raises:
+            ValueError: Se a matéria já existir.
+            ValueError: Se o professor_id fornecido não existir.
+
+        Returns:
+            MateriaSchema: A matéria criada como um objeto MateriaSchema.
+        """
         if self.materias_dao.obter_por_nome(dados.nome):
             raise ValueError(f"Matéria '{dados.nome}' já existe")
 
@@ -33,10 +52,29 @@ class MateriasService:
         return MateriaSchema.model_validate(materia)
 
     def listar_materias(self) -> List[MateriaSchema]:
+        """
+        Lista todas as matérias utilizando o DAO e retorna uma lista de objetos MateriaSchema.
+
+        Returns:
+            List[MateriaSchema]: Uma lista de objetos MateriaSchema representando todas as matérias.
+        """
         materias = self.materias_dao.listar_todas()
         return [MateriaSchema.model_validate(m) for m in materias]
 
     def obter_materia_por_id(self, materia_id: int) -> MateriaSchema:
+        """
+        Obtém uma matéria por ID utilizando o DAO. Se a matéria não for encontrada, lança um ValueError. Caso contrário,
+        retorna a matéria encontrada como um objeto MateriaSchema.
+
+        Args:
+            materia_id (int): O ID da matéria a ser obtida.
+
+        Raises:
+            ValueError: Se a matéria não for encontrada.
+
+        Returns:
+            MateriaSchema: A matéria encontrada como um objeto MateriaSchema.
+        """
         materia = self.materias_dao.obter_por_id(materia_id)
 
         if not materia:
@@ -45,11 +83,30 @@ class MateriasService:
         return MateriaSchema.model_validate(materia)
 
     def atualizar_materia(self, materia_id: int, dados: MateriaUpdate) -> MateriaSchema:
+        """
+        Verifica se a matéria existe utilizando o DAO. Se a matéria não for encontrada, lança um ValueError. Caso contrário,
+        verifica se o campo "nome" está presente nos dados de atualização e se já existe uma matéria com o mesmo nome
+        (excluindo a matéria atual). Se existir, lança um ValueError. Em seguida, verifica se o campo "professor_id" está
+        presente e se o professor existe, caso contrário lança um ValueError. Por fim, atualiza a matéria utilizando o DAO
+        e retorna a matéria atualizada como um objeto MateriaSchema.
+
+        Args:
+            materia_id (int): O ID da matéria a ser atualizada.
+            dados (MateriaUpdate): Dados de atualização para a matéria.
+
+        Raises:
+            ValueError: Se a matéria não for encontrada.
+            ValueError: Se já existir uma matéria com o mesmo nome.
+            ValueError: Se o professor_id fornecido não existir.
+
+        Returns:
+            MateriaSchema: A matéria atualizada como um objeto MateriaSchema.
+        """
         materia = self.materias_dao.obter_por_id(materia_id)
         if not materia:
             raise ValueError(f"Matéria {materia_id} não encontrada")
 
-        dados_dict = dados.dict(exclude_unset=True)
+        dados_dict = dados.model_dump(exclude_unset=True)
 
         if 'nome' in dados_dict and dados_dict['nome']:
             nome_existe = self.materias_dao.obter_por_nome(dados_dict['nome'])
@@ -65,6 +122,21 @@ class MateriasService:
         return MateriaSchema.model_validate(materia_atualizada)
 
     def deletar_materia(self, materia_id: int) -> Dict:
+        """
+        Verifica se a matéria existe utilizando o DAO. Se a matéria não for encontrada, lança um ValueError. Caso contrário,
+        lista todos os alunos associados à matéria utilizando o DAO e deleta cada associação. Por fim, deleta a matéria
+        utilizando o DAO e retorna um dicionário contendo o ID da matéria deletada, um indicador de que a matéria foi deletada
+        e a quantidade de alunos que foram removidos.
+
+        Args:
+            materia_id (int): O ID da matéria a ser deletada.
+
+        Raises:
+            ValueError: Se a matéria não for encontrada.
+
+        Returns:
+            Dict: Com os dados da matéria deletada e a quantidade de alunos removidos.
+        """
         materia = self.materias_dao.obter_por_id(materia_id)
         if not materia:
             raise ValueError(f"Matéria {materia_id} não encontrada")
@@ -82,6 +154,19 @@ class MateriasService:
         }
 
     def listar_materias_por_professor(self, professor_id: int) -> List[MateriaSchema]:
+        """
+        Verifica se o professor existe utilizando o DAO. Se o professor não for encontrado, lança um ValueError. Caso contrário,
+        lista todas as matérias associadas ao professor utilizando o DAO e retorna uma lista de objetos MateriaSchema.
+
+        Args:
+            professor_id (int): O ID do professor cujas matérias serão listadas.
+
+        Raises:
+            ValueError: Se o professor não for encontrado.
+
+        Returns:
+            List[MateriaSchema]: Uma lista de objetos MateriaSchema representando as matérias do professor.
+        """
         professor = self.professor_dao.obter_por_id(professor_id)
         if not professor:
             raise ValueError(f"Professor {professor_id} não encontrado")
@@ -90,6 +175,23 @@ class MateriasService:
         return [MateriaSchema.model_validate(m) for m in materias]
 
     def desempenho_materia(self, materia_id: int) -> Dict:
+        """
+        Verifica se a matéria existe utilizando o DAO. Se a matéria não for encontrada, lança um ValueError. Em seguida,
+        lista todos os registros de alunos matriculados na matéria utilizando o DAO. Se não houver registros, lança um ValueError.
+        Caso contrário, calcula estatísticas de desempenho incluindo: média geral, maior e menor nota, taxa de aprovação e taxa
+        de reprovação. Retorna um dicionário contendo essas informações.
+
+        Args:
+            materia_id (int): O ID da matéria cujo desempenho será analisado.
+
+        Raises:
+            ValueError: Se a matéria não for encontrada.
+            ValueError: Se nenhum aluno estiver matriculado na matéria.
+            ValueError: Se nenhuma nota foi registrada para os alunos.
+
+        Returns:
+            Dict: Com as estatísticas de desempenho incluindo media_geral, maior_nota, menor_nota, taxa_aprovacao e taxa_reprovacao.
+        """
         materia = self.materias_dao.obter_por_id(materia_id)
         if not materia:
             raise ValueError(f"Matéria {materia_id} não encontrada")
