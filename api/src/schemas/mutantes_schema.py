@@ -9,32 +9,28 @@ class MutanteBase(BaseModel):
     senha: str
 
 
+class MutanteCreate(MutanteBase):
+    pass
+
+
 class MutanteUpdate(BaseModel):
     nome: Optional[str] = None
     matricula: str
     email: Optional[EmailStr] = None
     senha: Optional[str] = None
     esta_ativo: Optional[bool] = False
-    poder_id: Optional[int]
-    turma_id: Optional[int]
-
-
-class MutanteResponse(MutanteBase):
-    id: Optional[int]
-
-
-class MutantUpdate(BaseModel):
-    nome: Optional[str] = None
-    email: Optional[EmailStr] = None
-    senha: Optional[str] = None
     poder_id: Optional[int] = None
     turma_id: Optional[int] = None
 
 
-class MutantSchema(BaseModel):
+class MutanteResponse(MutanteBase):
+    id: Optional[int] = None
+
+
+class MutanteSchema(BaseModel):
     id: int
     nome: str
-    matricula: int
+    matricula: str
     email: EmailStr
     senha: str
     poder_id: int
