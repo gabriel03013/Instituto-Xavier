@@ -1,60 +1,46 @@
-from typing import Annotated
-
+from typing import Annotated, Optional, Literal
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from pydantic import BaseModel
+from sqlalchemy.orm import Session
 
-fake_users_db = {
-    "johndoe": {
-        "username": "johndoe",
-        "full_name": "John Doe",
-        "hashed_password": "fakehashedsecret",
-    },
-    "alice": {
-        "full_name": "Alice Wonderson",
-        "email": "alice@example.com",
-        "hashed_password": "fakehashedsecret2",
-    },
-}
+from auth_utils import listar_mutantes, listar_professores
 
-def fake_users():
-    return fake_users_db
+from dependencies import get_session
 
+from dao.mutante_dao import MutanteDAO
+from dao.mutantes_materias_dao import MutantesMateriasDAO
+from dao.poder_dao import PoderDAO
+from dao.turmas_dao import TurmasDAO
+from services.mutante_service import MutanteService
 
-def fake_hash_password(password: str):
-    return "fakehashed" + password
-
+from services.professor_service import ProfessorService
+from dao.professor_dao import ProfessorDAO
+from dao.materias_dao import MateriasDAO
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
-
 class User(BaseModel):
-    username: str | None = None
-    email: str | None = None
-    full_name: str | None = None
-    disabled: bool | None = None
+    id: int
+    nome: str
+    identificador: str  # mutante: email | professor: usuario
+    tipo: Literal["mutante", "professor"]
 
 
-class UserInDB(User):
-    hashed_password: str
+def decode_token(token: str, session: Session) -> Optional[User]:
+    
+    for m in listar_mutantes(session): # Carregando todos os mutantes do banco
+        if getattr(m, "email", None) == token:
+            return User(id=m.id, nome=m.nome, identificador=m.email, tipo="mutante")
 
+    for p in listar_professores(session): # Carregando todos os professores do banco
+        if getattr(p, "usuario", None) == token:
+            return User(id=p.id, nome=p.nome, identificador=p.usuario, tipo="professor")
 
-def get_user(db, user: str):
-    if user in db:
-        user_dict = db[user]
-        return UserInDB(**user_dict)
-        
+    return None
 
-
-def fake_decode_token(token):
-    # This doesn't provide any security at all
-    # Check the next version
-    user = get_user(fake_users_db, token)
-    return user
-
-
-async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
-    user = fake_decode_token(token)
+async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)],session: Session = Depends(get_session)) -> User:
+    user = decode_token(token, session)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,

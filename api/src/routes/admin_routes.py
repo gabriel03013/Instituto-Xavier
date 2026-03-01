@@ -7,7 +7,7 @@ from database import engine
 from dependencies import get_session
 from models import Mutante
 from db.helpers.security import hash_password 
-from dao.mutante_dao import MutanteDAO ########### temporario -> TODO: fazer service 
+from dao.mutante_dao import MutanteDAO 
 
 
 admin_router = APIRouter(prefix="/admin", tags=["admin"])

@@ -1,3 +1,6 @@
+from dao.professor_dao import ProfessorDAO
+from dao.materias_dao import MateriasDAO
+from schemas.professores_schema import ProfessorCreate, ProfessorUpdate, ProfessorSchema
 """
 Service para gerenciar os professores do Instituto. Este service é responsável por criar, listar, obter, atualizar e 
 deletar professores, além de lidar com a exclusão das matérias associadas. Ele utiliza os DAOs de professores e matérias 
@@ -15,6 +18,7 @@ class ProfessorService:
     def __init__(self, professor_dao: ProfessorDAO, materias_dao: MateriasDAO):
         self.professor_dao = professor_dao
         self.materias_dao = materias_dao
+        
 
     def criar_novo_professor(self, dados: ProfessorCreate) -> ProfessorSchema:
         """
