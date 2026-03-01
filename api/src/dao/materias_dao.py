@@ -5,7 +5,9 @@ from typing import List, Optional
 class MateriasDAO:
     def __init__(self, session: Session):
         self.session = session
+    
 
+    
     def criar(self, nome: str, professor_id: int) -> Materias:
         """Cria uma nova matéria."""
 

@@ -1,12 +1,13 @@
-from src.dao.professor_dao import ProfessorDAO
-from src.dao.materias_dao import MateriasDAO
-from src.schemas.professores_schema import ProfessorCreate, ProfessorUpdate, ProfessorSchema
+from dao.professor_dao import ProfessorDAO
+from dao.materias_dao import MateriasDAO
+from schemas.professores_schema import ProfessorCreate, ProfessorUpdate, ProfessorSchema
 from typing import List, Dict
 
 class ProfessorService:
     def __init__(self, professor_dao: ProfessorDAO, materias_dao: MateriasDAO):
         self.professor_dao = professor_dao
         self.materias_dao = materias_dao
+        
 
 
     def criar_novo_professor(self, dados: ProfessorCreate) -> ProfessorSchema:

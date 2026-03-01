@@ -1,10 +1,14 @@
 from typing import Annotated
 
-from auth import User, UserInDB, fake_hash_password, fake_users, get_current_user
+from sqlalchemy.orm import Session
+from routes.user_routes import user_router
+from dependencies import get_session
+from auth_utils import listar_mutantes as mutantes, listar_professores as professores, verificar_usuario
+from db.helpers.security import verify_password
 from routes.mutante_routes import mutante_router
 from routes.professor_routes import professor_router
 from dotenv import load_dotenv
-from fastapi import Depends, FastAPI, HTTPException
+from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 
 load_dotenv()
@@ -14,22 +18,42 @@ app = FastAPI()
 from routes.admin_routes import admin_router
 from routes.mutante_routes import mutante_router
 from routes.professor_routes import professor_router
-from routes.auth_routes import auth_router
 
 
-app.include_router(auth_router)
 app.include_router(admin_router)
 app.include_router(mutante_router)
 app.include_router(professor_router)
+app.include_router(user_router)
 
 @app.post("/token")
-async def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]):
-    user_dict = fake_users().get(form_data.username)
-    if not user_dict:
-        raise HTTPException(status_code=400, detail="Incorrect username/email or password")
-    user = UserInDB(**user_dict)
-    hashed_password = fake_hash_password(form_data.password)
-    if not hashed_password == user.hashed_password:
-        raise HTTPException(status_code=400, detail="Incorrect username/email or password")
+async def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], session: Session = Depends(get_session)):
+    user_obj = None
+    identificador = None
 
-    return {"access_token": user.username, "token_type": "bearer"}
+    if verificar_usuario(form_data.username):
+        for m in mutantes(session):
+            if m.email == form_data.username:
+                user_obj = m
+                identificador = m.email
+                break
+    else:
+        for p in professores(session):
+            if p.usuario == form_data.username:
+                user_obj = p
+                identificador = p.usuario
+                break
+
+    if not user_obj:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Incorrect username/email or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    if not verify_password(form_data.password, user_obj.senha):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Incorrect username/email or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    return {"access_token": identificador, "token_type": "bearer"}
