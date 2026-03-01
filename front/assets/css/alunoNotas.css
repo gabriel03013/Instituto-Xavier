@@ -1,0 +1,116 @@
+.aluno-container {
+    padding: 28px 32px;
+}
+
+.aluno-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2.4rem;
+}
+.aluno-boletim {
+  display: flex;
+  gap: 3rem;
+  align-items: center;
+
+  button {
+    border-radius: 0.5rem;
+    border: 3px solid #000;
+    background-color: var(--azul);
+    box-shadow: 0 4px 0 0 #000;
+    font-family: inherit;
+    height: 5rem;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #6891d7;
+    }
+  }
+}
+
+.status-aprovado {
+    color: #2e7d32;
+    font-weight: 700;
+}
+.status-reprovado {
+    color: #c62828;
+    font-weight: 700;
+}
+.aluno-titulo {
+    font-size: 3.5rem;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    color: #222;
+}
+
+
+.aluno-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.aluno-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.aluno-table thead tr {
+    background-color: var(--azul);
+}
+
+.aluno-table thead th {
+    padding: 1.2rem 1.6rem;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #222;
+    white-space: nowrap;
+}
+
+.aluno-table thead th:last-child {
+    width: 4.8rem;
+}
+
+.aluno-table tbody tr {
+    border-bottom: 1px solid #ebebeb;
+    transition: background 0.15s;
+    cursor: pointer;
+}
+
+.aluno-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.aluno-table tbody tr:hover {
+    background-color: #fafafa;
+}
+
+.aluno-table tbody td {
+    padding: 13px 16px;
+    font-size: 1.8rem;
+    text-align: center;
+}
+
+.td-action {
+    text-align: right;
+    padding-right: 12px !important;
+}
+
+.btn-edit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    background-color: var(--azul);
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    color: #333;
+    transition: opacity 0.15s, transform 0.1s;
+}
+
+.btn-edit:hover {
+    opacity: 0.8;
+}
