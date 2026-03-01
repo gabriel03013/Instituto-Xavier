@@ -11,6 +11,8 @@
   --vermelho: #dd0127;
   --azul: #5c80be;
   --azul-escuro: #052542;
+  --roxo:#BB89FD;
+  --roxo-escuro: #9768D3; 
   font-family: IBS;
 }
 body {
@@ -31,6 +33,13 @@ body {
   background: #ffd947;
   box-shadow: 4px 4px 0 0 #000;
   padding: 1rem;
+}
+
+.aba-admin-ativa {
+  border-radius: 0.2rem;
+  background: var(--roxo);
+  box-shadow: 4px 4px 0 0 #000;
+  padding: 1rem 2rem;
 }
 
 header {

@@ -17,5 +17,5 @@ form.addEventListener("submit", (e) => {
 //     document.getElementById("erro").style.display = "flex";
 //   }
 
-    window.location.href = "./pages/professor/index.html";
+    window.location.href = "./pages/admin/index.html";
 });

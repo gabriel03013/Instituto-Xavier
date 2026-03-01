@@ -21,3 +21,12 @@ prepare-macos:
 	.venv/bin/pip install -r requirements/requirements.txt
 	@echo "O ambiente virtual esta pronto."
 	@echo "Ative usando: source .venv/bin/activate"
+
+prepare-linux:
+	@echo "Preparando ambiente virtual e dependências para Linux"
+	rm -rf .venv
+	python -m venv .venv
+	.venv/bin/python -m pip install --upgrade pip
+	.venv/bin/pip install -r requirements/requirements.txt
+	@echo "O ambiente virtual esta pronto."
+	@echo "Ative usando: source .venv/bin/activate"	

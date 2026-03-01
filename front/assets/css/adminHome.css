@@ -1,0 +1,38 @@
+header {
+  background-color: var(--roxo-escuro);
+}
+
+#dashboard {
+  display: flex;
+  gap: 6rem;
+  margin: 5rem 0 0 2rem;
+}
+
+.dashboard-card {
+  border-radius: 0.8rem;
+  border: 5px solid var(--preto);
+  background: var(--roxo);
+  width: 27rem;
+  height: 13rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    h2 {
+      margin-top: 3rem;
+      font-size: 2rem;
+    }
+
+    p {
+      margin-top: -1rem;
+      font-size: 4rem;
+    }
+  }
+}
