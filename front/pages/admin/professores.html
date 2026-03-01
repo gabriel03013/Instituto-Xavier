@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Professores - Admin</title>
+    <link rel="stylesheet" href="../../assets/css/globals.css" />
+    <link rel="stylesheet" href="../../assets/css/adminGlobal.css" />
+  </head>
+  <body>
+    <header>
+      <div>
+        <img src="../../assets/images/Group 14.svg" alt="" />
+        <ul>
+          <li><a href="index.html">Início</a></li>
+          <li><a href="turmas.html">Turmas</a></li>
+          <li><a href="selecionarTurma.html">Alunos</a></li>
+          <li class="aba-admin-ativa">
+            <a href="professores.html">Professores</a>
+          </li>
+          <li><a href="disciplinas.html">Disciplinas</a></li>
+        </ul>
+      </div>
+    </header>
+
+    <main>
+      <div class="turma-header">
+        <div id="admin-header-titulo-botao">
+          <h1 class="turma-titulo">Professores</h1>
+          <button id="admin-adicionar">
+            <i class="fa-solid fa-plus"></i>
+            Adicionar Professor
+          </button>
+        </div>
+
+        <div class="admin-search">
+          <i class="fa-solid fa-magnifying-glass search-icon"></i>
+          <input type="search" placeholder="Pesquisar professor" />
+        </div>
+      </div>
+
+      <div class="admin-table-wrapper">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Matéria</th>
+              <th>Login</th>
+              <th>Senha</th>
+              <th>Nº Alunos</th>
+              <th>Opções</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>CARLOS SILVA</td>
+              <td>Matemática</td>
+              <td>carlos.silva</td>
+              <td>••••••</td>
+              <td>90</td>
+              <td class="td-action">
+                <button class="btn-edit" title="Editar">
+                  <i class="fa-solid fa-pen"></i>
+                </button>
+                <button class="btn-excluir" title="Excluir">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td>ANA OLIVEIRA</td>
+              <td>Português</td>
+              <td>ana.oliveira</td>
+              <td>••••••</td>
+              <td>85</td>
+              <td class="td-action">
+                <button class="btn-edit" title="Editar">
+                  <i class="fa-solid fa-pen"></i>
+                </button>
+                <button class="btn-excluir" title="Excluir">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td>MARCOS SANTOS</td>
+              <td>História</td>
+              <td>marcos.santos</td>
+              <td>••••••</td>
+              <td>60</td>
+              <td class="td-action">
+                <button class="btn-edit" title="Editar">
+                  <i class="fa-solid fa-pen"></i>
+                </button>
+                <button class="btn-excluir" title="Excluir">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td>JULIANA COSTA</td>
+              <td>Ciências</td>
+              <td>juliana.costa</td>
+              <td>••••••</td>
+              <td>55</td>
+              <td class="td-action">
+                <button class="btn-edit" title="Editar">
+                  <i class="fa-solid fa-pen"></i>
+                </button>
+                <button class="btn-excluir" title="Excluir">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td>ROBERTO LIMA</td>
+              <td>Geografia</td>
+              <td>roberto.lima</td>
+              <td>••••••</td>
+              <td>72</td>
+              <td class="td-action">
+                <button class="btn-edit" title="Editar">
+                  <i class="fa-solid fa-pen"></i>
+                </button>
+                <button class="btn-excluir" title="Excluir">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+
+    <!-- Modal Editar Professor -->
+    <div class="admin-modal" id="modal-editar-professor">
+      <div>
+        <div class="admin-modal-header">
+          <h3>Editar Professor</h3>
+          <button class="fechar-modal">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <form class="admin-modal-content">
+          <label for="editar-professor-nome"
+            >Nome
+            <input
+              type="text"
+              id="editar-professor-nome"
+              placeholder="Carlos Silva"
+            />
+          </label>
+
+          <label for="editar-professor-materia"
+            >Matéria
+            <input
+              type="text"
+              id="editar-professor-materia"
+              placeholder="Matemática"
+            />
+          </label>
+
+          <label for="editar-professor-login"
+            >Login
+            <input
+              type="text"
+              id="editar-professor-login"
+              placeholder="carlos.silva"
+            />
+          </label>
+
+          <label for="editar-professor-senha"
+            >Senha
+            <input
+              type="password"
+              id="editar-professor-senha"
+              placeholder="••••••"
+            />
+          </label>
+
+          <div class="admin-modal-botoes">
+            <button type="submit">Salvar</button>
+            <button type="button" class="cancelar-alteracoes">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal Adicionar Professor -->
+    <div class="admin-modal modal-adicionar" id="modal-adicionar-professor">
+      <div>
+        <div class="admin-modal-header">
+          <h3>Adicionar Professor</h3>
+          <button type="button" class="fechar-modal">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <form class="admin-modal-content">
+          <label for="adicionar-professor-nome"
+            >Nome
+            <input
+              type="text"
+              id="adicionar-professor-nome"
+              placeholder="Nome completo"
+              required
+            />
+          </label>
+
+          <label for="adicionar-professor-materia"
+            >Matéria
+            <input
+              type="text"
+              id="adicionar-professor-materia"
+              placeholder="Matéria"
+              required
+            />
+          </label>
+
+          <label for="adicionar-professor-login"
+            >Login
+            <input
+              type="text"
+              id="adicionar-professor-login"
+              placeholder="Login"
+              required
+            />
+          </label>
+
+          <label for="adicionar-professor-senha"
+            >Senha
+            <input
+              type="password"
+              id="adicionar-professor-senha"
+              placeholder="Senha"
+              required
+            />
+          </label>
+
+          <div class="admin-modal-botoes">
+            <button type="submit">Adicionar</button>
+            <button type="button" class="cancelar-alteracoes">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script
+      src="https://kit.fontawesome.com/02db64e304.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="../../assets/js/adminGlobal.js"></script>
+  </body>
+</html>

@@ -3,22 +3,184 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Alunos</title>
-    <link rel="stylesheet" href="../../assets/css/globals.css">
+    <title>Turmas - Admin</title>
+    <link rel="stylesheet" href="../../assets/css/globals.css" />
+    <link rel="stylesheet" href="../../assets/css/adminGlobal.css" />
   </head>
   <body>
     <header>
       <div>
         <img src="../../assets/images/Group 14.svg" alt="" />
         <ul>
-          <li class="aba-admin-ativa"><a href="">Início</a></li>
-          <li><a href="turmas.html">Turmas</a></li>
-          <li><a href="">Alunos</a></li>
-          <li><a href="">Professores</a></li>
-          <li><a href="">Disciplinas</a></li>
+          <li><a href="index.html">Início</a></li>
+          <li class="aba-admin-ativa"><a href="turmas.html">Turmas</a></li>
+          <li><a href="selecionarTurma.html">Alunos</a></li>
+          <li><a href="professores.html">Professores</a></li>
+          <li><a href="disciplinas.html">Disciplinas</a></li>
         </ul>
       </div>
     </header>
-    <main></main>
+
+    <main>
+      <div class="turma-header">
+        <div id="admin-header-titulo-botao">
+          <h1 class="turma-titulo">Turmas</h1>
+          <button id="admin-adicionar">
+            <i class="fa-solid fa-plus"></i>
+            Adicionar Turma
+          </button>
+        </div>
+
+        <div class="admin-search">
+          <i class="fa-solid fa-magnifying-glass search-icon"></i>
+          <input type="search" placeholder="Pesquisar turma" />
+        </div>
+      </div>
+
+      <div class="admin-table-wrapper">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Turma</th>
+              <th>Nº Alunos</th>
+              <th>Opções</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>9º ANO A</td>
+              <td>32</td>
+              <td class="td-action">
+                <button class="btn-edit" title="Editar">
+                  <i class="fa-solid fa-pen"></i>
+                </button>
+                <button class="btn-excluir" title="Excluir">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td>9º ANO B</td>
+              <td>28</td>
+              <td class="td-action">
+                <button class="btn-edit" title="Editar">
+                  <i class="fa-solid fa-pen"></i>
+                </button>
+                <button class="btn-excluir" title="Excluir">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td>9º ANO C</td>
+              <td>30</td>
+              <td class="td-action">
+                <button class="btn-edit" title="Editar">
+                  <i class="fa-solid fa-pen"></i>
+                </button>
+                <button class="btn-excluir" title="Excluir">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td>8º ANO A</td>
+              <td>25</td>
+              <td class="td-action">
+                <button class="btn-edit" title="Editar">
+                  <i class="fa-solid fa-pen"></i>
+                </button>
+                <button class="btn-excluir" title="Excluir">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td>8º ANO B</td>
+              <td>27</td>
+              <td class="td-action">
+                <button class="btn-edit" title="Editar">
+                  <i class="fa-solid fa-pen"></i>
+                </button>
+                <button class="btn-excluir" title="Excluir">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td>7º ANO A</td>
+              <td>33</td>
+              <td class="td-action">
+                <button class="btn-edit" title="Editar">
+                  <i class="fa-solid fa-pen"></i>
+                </button>
+                <button class="btn-excluir" title="Excluir">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+
+    <!-- Modal Editar Turma -->
+    <div class="admin-modal" id="modal-editar-turma">
+      <div>
+        <div class="admin-modal-header">
+          <h3>Editar Turma</h3>
+          <button class="fechar-modal">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <form class="admin-modal-content">
+          <label for="editar-turma-nome"
+            >Turma
+            <input type="text" id="editar-turma-nome" placeholder="9º ANO A" />
+          </label>
+
+          <div class="admin-modal-botoes">
+            <button type="submit">Salvar</button>
+            <button type="button" class="cancelar-alteracoes">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal Adicionar Turma -->
+    <div class="admin-modal modal-adicionar" id="modal-adicionar-turma">
+      <div>
+        <div class="admin-modal-header">
+          <h3>Adicionar Turma</h3>
+          <button type="button" class="fechar-modal">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <form class="admin-modal-content">
+          <label for="adicionar-turma-nome"
+            >Nome da Turma
+            <input
+              type="text"
+              id="adicionar-turma-nome"
+              placeholder="9º ANO D"
+              required
+            />
+          </label>
+
+          <div class="admin-modal-botoes">
+            <button type="submit">Adicionar</button>
+            <button type="button" class="cancelar-alteracoes">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script
+      src="https://kit.fontawesome.com/02db64e304.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="../../assets/js/adminGlobal.js"></script>
   </body>
 </html>
