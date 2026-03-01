@@ -49,3 +49,46 @@ class DashboardProfessorDAO():
         result = self.session.execute(stmt, {"id_professor": id_professor}).mappings().one()
 
         return result
+    
+    def obter_notas_por_turma_materia(self, id_professor: int):
+        """Retorna média de notas agrupada por turma e matéria para o gráfico de barras."""
+
+        stmt = text("""
+            SELECT
+                CONCAT(t.serie, 'º Ano ', t.turma) AS turma,
+                mt.nome                             AS materia,
+                AVG((mm.nota1 + mm.nota2) / 2.0)   AS media
+            FROM mutantesmaterias mm
+                JOIN mutantes m  ON mm.mutante_id  = m.id
+                JOIN turmas t    ON m.turma_id     = t.id
+                JOIN materias mt ON mm.materia_id  = mt.id
+            WHERE mt.professor_id = :id_professor
+            GROUP BY t.id, mt.id
+            ORDER BY t.serie, t.turma, mt.nome
+        """)
+
+        result = self.session.execute(stmt, {"id_professor": id_professor}).mappings().all()
+        return result
+
+
+    def obter_situacao_alunos(self, id_professor: int):
+        """Retorna contagem de aprovados, em recuperação e reprovados para o gráfico de pizza."""
+
+        stmt = text("""
+            SELECT
+                COUNT(CASE WHEN media >= 7               THEN 1 END) AS aprovados,
+                COUNT(CASE WHEN media >= 5 AND media < 7 THEN 1 END) AS recuperacao,
+                COUNT(CASE WHEN media < 5                THEN 1 END) AS reprovados
+            FROM (
+                SELECT
+                    mm.mutante_id,
+                    AVG((mm.nota1 + mm.nota2) / 2.0) AS media
+                FROM mutantesmaterias mm
+                    JOIN materias mt ON mm.materia_id = mt.id
+                WHERE mt.professor_id = :id_professor
+                GROUP BY mm.mutante_id
+            ) AS medias_por_aluno
+        """)
+
+        result = self.session.execute(stmt, {"id_professor": id_professor}).mappings().one()
+        return result
