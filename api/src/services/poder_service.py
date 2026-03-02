@@ -6,8 +6,8 @@ os resultados como objetos de esquema apropriados.
 
 __author__ = "Davi Franco"
 
-from src.dao.poder_dao import PoderDAO
-from src.schemas.poderes_schema import PoderCreate, PoderUpdate, PoderSchema
+from dao.poder_dao import PoderDAO
+from schemas.poderes_schema import PoderCreate, PoderUpdate, PoderSchema
 from typing import List, Dict
 
 class PoderService:

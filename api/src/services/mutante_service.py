@@ -7,13 +7,13 @@ no banco de dados e retorna os resultados como objetos de esquema apropriados.
 
 __author__ = "Davi Franco"
 
-from src.dao.mutante_dao import MutanteDAO
-from src.dao.poder_dao import PoderDAO
-from src.dao.turmas_dao import TurmasDAO
-from src.dao.mutantes_materias_dao import MutantesMateriasDAO
-from src.schemas.mutantes_schema import MutanteCreate, MutanteUpdate, MutanteResponse, MutanteSchema
+from dao.mutante_dao import MutanteDAO
+from dao.poder_dao import PoderDAO
+from dao.turmas_dao import TurmasDAO
+from dao.mutantes_materias_dao import MutantesMateriasDAO
+from schemas.mutantes_schema import MutanteCreate, MutanteUpdate, MutanteResponse, MutanteSchema
 from typing import List, Dict
-from src.db.helpers.security import hash_password
+from db.helpers.security import hash_password
 
 class MutanteService:
     def __init__(

@@ -78,6 +78,10 @@ class Turmas(Base):
     turma = Column(String(1), nullable=False)
 
     mutantes = relationship("Mutante", back_populates="turma")
+
+    @property
+    def alunos(self):
+        return self.mutantes
     
     
 class Observacoes(Base):
@@ -89,3 +93,7 @@ class Observacoes(Base):
 
     mutantesmaterias_id = Column(Integer, ForeignKey("mutantesmaterias.id"))
     mutantesmaterias = relationship("MutantesMaterias", back_populates="observacoes")
+
+    @property
+    def aluno(self):
+        return self.mutantesmaterias.mutante

@@ -40,6 +40,18 @@ class ObservacoesDAO:
             (Observacoes.data >= data_inicio) & (Observacoes.data <= data_fim)
         ).order_by(Observacoes.data.desc()).all()
 
+    def listar_por_turma(self, turma_id: int) -> List[Observacoes]:
+        """Lista todas as observações de mutantes de uma turma."""
+        from models import Mutante, MutantesMaterias
+
+        return self.session.query(Observacoes).join(
+            MutantesMaterias, Observacoes.mutantesmaterias_id == MutantesMaterias.id
+        ).join(
+            Mutante, MutantesMaterias.mutante_id == Mutante.id
+        ).filter(
+            Mutante.turma_id == turma_id
+        ).order_by(Observacoes.data.desc()).all()
+
     def listar_todas(self) -> List[Observacoes]:
         """Lista todas as observações."""
 

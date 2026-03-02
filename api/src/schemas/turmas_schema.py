@@ -1,5 +1,6 @@
-from typing import Optional
+from typing import Optional, List
 from pydantic import BaseModel
+from schemas.mutantes_schema import MutanteSchema
 
 
 class TurmaBase(BaseModel):
@@ -24,6 +25,7 @@ class TurmaSchema(BaseModel):
     id: int
     serie: int
     turma: str
+    alunos: List[MutanteSchema] = []
 
     class Config:
         from_attributes = True

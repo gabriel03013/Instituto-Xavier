@@ -1,5 +1,15 @@
 from typing import Optional
 from pydantic import BaseModel, EmailStr
+from datetime import date
+
+
+class MutanteSimpleSchema(BaseModel):
+    id: int
+    nome: str
+    matricula: str
+
+    class Config:
+        from_attributes = True
 
 
 class MutanteBase(BaseModel):

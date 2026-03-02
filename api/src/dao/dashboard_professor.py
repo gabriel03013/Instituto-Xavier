@@ -31,14 +31,14 @@ class DashboardProfessorDAO():
                 (SELECT COUNT(*) FROM mutantes) AS total_alunos,
 
                 (
-                    SELECT AVG((mm.nota1 + mm.nota2) / 2)
+                    SELECT COALESCE(AVG((mm.nota1 + mm.nota2) / 2.0), 0.0)
                     FROM mutantesmaterias mm
                         JOIN materias mt ON mm.materia_id = mt.id
                     WHERE mt.professor_id = :id_professor
                 ) AS media_notas,
 
                 (
-                    SELECT COUNT(ob.id)
+                    SELECT COALESCE(COUNT(ob.id), 0)
                     FROM observacoes ob
                         JOIN mutantesmaterias mm ON ob.mutantesmaterias_id = mm.id
                         JOIN materias mt ON mm.materia_id = mt.id

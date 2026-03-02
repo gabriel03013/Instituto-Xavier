@@ -1,5 +1,6 @@
-from typing import Optional
+from typing import Optional, List
 from pydantic import BaseModel
+from schemas.materias_schema import MateriaSchema
 
 
 class ProfessorBase(BaseModel):
@@ -28,6 +29,7 @@ class ProfessorSchema(BaseModel):
     nome: str
     usuario: str
     senha: str
+    materias: List[MateriaSchema] = []
 
     class Config:
         from_attributes = True

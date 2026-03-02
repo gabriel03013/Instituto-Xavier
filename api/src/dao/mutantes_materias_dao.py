@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from models import MutantesMaterias
+from models import MutantesMaterias, Mutante
 from typing import List, Optional
 
 class MutantesMateriasDAO:
@@ -44,6 +44,13 @@ class MutantesMateriasDAO:
         """Lista mutantes de uma matéria."""
 
         return self.session.query(MutantesMaterias).filter(MutantesMaterias.materia_id == materia_id).all()
+
+    def listar_por_turma_e_materia(self, turma_id: int, materia_id: int) -> List[MutantesMaterias]:
+        """Lista mutantes de uma turma em uma determinada matéria."""
+        return self.session.query(MutantesMaterias).join(Mutante).filter(
+            (Mutante.turma_id == turma_id) &
+            (MutantesMaterias.materia_id == materia_id)
+        ).all()
 
     def listar_todos(self) -> List[MutantesMaterias]:
         """Lista todos os registros."""
