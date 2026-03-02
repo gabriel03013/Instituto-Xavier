@@ -15,6 +15,7 @@ form.addEventListener("submit", async (e) => {
     localStorage.setItem("token", res.access_token);
     localStorage.setItem("userId", res.id);
     localStorage.setItem("userTipo", res.tipo);
+    localStorage.setItem("materia_id", res.materia_id);
 
     window.location.href = `./pages/${res.tipo.toLowerCase()}/index.html?tipo=${res.tipo.toLowerCase()}&id=${res.id}`;
   } catch (e) {

@@ -28,3 +28,8 @@ export async function api(endpoint, metodo = "GET", body = null) {
 
   return res.json();
 }
+
+export const getIdTurma = () => {
+    const urlParams = new URLSearchParams(window.location.search)
+    return urlParams.get("turma")
+}
