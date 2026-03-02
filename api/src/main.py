@@ -1,3 +1,9 @@
+"""
+Main com todas as rotas do projeto, unificando e identificando suas funções e eventos
+"""
+
+__author__ = ["Gustavo Manganelli", "Erik Santos", "Gabriel Mendes"]
+
 from typing import Annotated
 
 from sqlalchemy.orm import Session

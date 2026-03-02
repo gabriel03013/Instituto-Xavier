@@ -1,3 +1,10 @@
+"""
+Classe DAO do boletim do aluno, responsável por realizar as consultas necessárias para obter as notas do aluno e calcular a 
+média final, além de determinar o status de aprovação ou reprovação com base na média.
+"""
+
+__author__ = "Erik Santos"
+
 from sqlalchemy import select, case
 from sqlalchemy.orm import Session
 from models import Professor, Materias, MutantesMaterias
@@ -8,7 +15,15 @@ class BoletimDAO:
         self.session = session
 
     def obter_minhas_notas(self, id_mutante: int) -> list:
-        """Obtém o boletim do aluno"""
+        """
+        Obtém o boletim do aluno
+        
+        Args:
+            id_mutante (int): ID do mutante
+            
+        Returns:
+            list: Lista de dicionários contendo as notas do aluno
+        """
         media_aritmetica = (MutantesMaterias.nota1 + MutantesMaterias.nota2) / 2
         
         status_case = case(

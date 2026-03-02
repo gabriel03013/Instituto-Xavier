@@ -1,3 +1,7 @@
+"""Logging para debug do dataload"""
+
+__author__ = "Davi Franco"
+
 import logging
 
 def get_logger(name: str = __name__):

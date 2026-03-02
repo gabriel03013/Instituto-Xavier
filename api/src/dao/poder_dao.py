@@ -1,3 +1,9 @@
+"""
+Classe DAO para a entidade Poder, responsável por realizar as operações de CRUD (Create, Read, Update, Delete)
+"""
+
+__author__ = "Davi Franco"
+
 from sqlalchemy.orm import Session
 from models import Poder
 from typing import List, Optional
