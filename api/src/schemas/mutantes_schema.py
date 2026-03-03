@@ -18,6 +18,24 @@ class MutanteSimpleSchema(BaseModel):
         from_attributes = True
 
 
+class MutanteInfoSchema(BaseModel):
+    id: int
+    nome: str
+    turma: str
+
+    class Config:
+        from_attributes = True
+
+
+class MutanteMateriaInfoSchema(BaseModel):
+    materia_id: int
+    materia: str
+    professor: str
+
+    class Config:
+        from_attributes = True
+
+
 class MutanteBase(BaseModel):
     nome: str
     matricula: str

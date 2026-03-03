@@ -46,6 +46,7 @@ app.include_router(observacao_router)
 app.include_router(turma_router)
 app.include_router(mutante_materia_router)
 
+
 @app.post("/token")
 async def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], session: Session = Depends(get_session)):
     user_obj = None

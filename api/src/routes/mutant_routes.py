@@ -96,3 +96,77 @@ async def see_mutants(
     mutants = session.query(Mutante).filter(Mutante.id==id).first()
 
     return {"msg": mutants}
+
+
+@mutant_router.get("/info")
+async def get_mutante_info(
+    id_mutante: int,
+    session: Session = Depends(get_session)
+):
+    """
+    Retorna informações básicas do mutante: nome, id e turma formatada.
+
+    Args:
+        id_mutante (int): ID do mutante.
+        session (Session, optional): Conexão do banco de dados. Defaults to Depends(get_session).
+
+    Raises:
+        HTTPException: 404 se o mutante não for encontrado.
+
+    Returns:
+        MutanteInfoSchema: Nome, ID e turma do mutante.
+    """
+    from fastapi import HTTPException
+    from schemas.mutantes_schema import MutanteInfoSchema
+
+    mutante = session.query(Mutante).filter(Mutante.id == id_mutante).first()
+
+    if not mutante:
+        raise HTTPException(status_code=404, detail="Mutante não encontrado.")
+
+    turma_str = ""
+    if mutante.turma:
+        turma_str = f"{mutante.turma.serie}° ANO {mutante.turma.turma}"
+
+    return MutanteInfoSchema(
+        id=mutante.id,
+        nome=mutante.nome,
+        turma=turma_str
+    )
+
+
+@mutant_router.get("/my_subjects")
+async def get_mutante_subjects(
+    id_mutante: int,
+    session: Session = Depends(get_session)
+):
+    """
+    Retorna todas as matérias em que o mutante está matriculado,
+    incluindo o ID da matéria, nome e nome do professor.
+
+    Args:
+        id_mutante (int): ID do mutante.
+        session (Session, optional): Conexão do banco de dados.
+
+    Returns:
+        List[MutanteMateriaInfoSchema]: Lista de matérias do aluno.
+    """
+    from fastapi import HTTPException
+    from schemas.mutantes_schema import MutanteMateriaInfoSchema
+    from models import MutantesMaterias
+
+    registros = session.query(MutantesMaterias).filter(
+        MutantesMaterias.mutante_id == id_mutante
+    ).all()
+
+    if not registros:
+        raise HTTPException(status_code=404, detail="Nenhuma matéria encontrada para este aluno.")
+
+    return [
+        MutanteMateriaInfoSchema(
+            materia_id=r.materias.id,
+            materia=r.materias.nome,
+            professor=r.materias.professor.nome
+        )
+        for r in registros
+    ]

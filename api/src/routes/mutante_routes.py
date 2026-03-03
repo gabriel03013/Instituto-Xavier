@@ -17,9 +17,10 @@ from dao.poder_dao import PoderDAO
 from dao.turmas_dao import TurmasDAO
 from schemas.mutantes_schema import MutanteBase, MutanteUpdate
 from schemas.mutantes_materias_schema import MyGradeSchema
+from schemas.mutantes_schema import MutanteInfoSchema, MutanteMateriaInfoSchema
 from dependencies import get_session
 from database import engine
-from models import Mutante
+from models import Mutante, MutantesMaterias
 from services.mutante_service import MutanteService
 from dao.boletim_dao import BoletimDAO
 
@@ -179,3 +180,70 @@ async def see_my_grades(
         raise HTTPException(status_code=404, detail="Grades are not available.")
     
     return [MyGradeSchema.model_validate(dict(row)) for row in boletim]
+
+
+@mutante_router.get("/info")
+async def get_mutante_info(
+    id_mutante: int,
+    session: Session = Depends(get_session)
+):
+    """
+    Retorna informações básicas do mutante: nome, id e turma formatada.
+
+    Args:
+        id_mutante (int): ID do mutante.
+        session (Session, optional): Conexão do banco de dados.
+
+    Raises:
+        HTTPException: 404 se o mutante não for encontrado.
+
+    Returns:
+        MutanteInfoSchema: Nome, ID e turma do mutante.
+    """
+    mutante = session.query(Mutante).filter(Mutante.id == id_mutante).first()
+
+    if not mutante:
+        raise HTTPException(status_code=404, detail="Mutante não encontrado.")
+
+    turma_str = ""
+    if mutante.turma:
+        turma_str = f"{mutante.turma.serie}° ANO {mutante.turma.turma}"
+
+    return MutanteInfoSchema(
+        id=mutante.id,
+        nome=mutante.nome,
+        turma=turma_str
+    )
+
+
+@mutante_router.get("/my_subjects")
+async def get_mutante_subjects(
+    id_mutante: int,
+    session: Session = Depends(get_session)
+):
+    """
+    Retorna todas as matérias em que o mutante está matriculado,
+    incluindo o ID da matéria, nome e nome do professor.
+
+    Args:
+        id_mutante (int): ID do mutante.
+        session (Session, optional): Conexão do banco de dados.
+
+    Returns:
+        List[MutanteMateriaInfoSchema]: Lista de matérias do aluno.
+    """
+    registros = session.query(MutantesMaterias).filter(
+        MutantesMaterias.mutante_id == id_mutante
+    ).all()
+
+    if not registros:
+        raise HTTPException(status_code=404, detail="Nenhuma matéria encontrada para este aluno.")
+
+    return [
+        MutanteMateriaInfoSchema(
+            materia_id=r.materias.id,
+            materia=r.materias.nome,
+            professor=r.materias.professor.nome
+        )
+        for r in registros
+    ]
