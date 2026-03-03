@@ -1,0 +1,6 @@
+<script>start("c:\\Users\\eriksilva-ieg\\Desktop\\InstitutoXavier\\api\\src\\db\\");</script>
+<script>onHasParentDirectory();</script>
+<script>addRow("connection","connection",1,0,"0 B",1772450381,"3/2/26, 8:19:41 AM");</script>
+<script>addRow("helpers","helpers",1,0,"0 B",1772450381,"3/2/26, 8:19:41 AM");</script>
+<script>addRow("models","models",1,0,"0 B",1772450381,"3/2/26, 8:19:41 AM");</script>
+<script>addRow("scripts","scripts",1,0,"0 B",1772450381,"3/2/26, 8:19:41 AM");</script>
