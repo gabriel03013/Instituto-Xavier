@@ -8,7 +8,7 @@ __author__ = "Davi Franco"
 
 from dao.observacoes_dao import ObservacoesDAO
 from dao.mutantes_materias_dao import MutantesMateriasDAO
-from schemas.observacoes_schema import ObservacaoCreate, ObservacaoUpdate, ObservacaoSchema
+from schemas.observacoes_schema import ObservacaoCreate, ObservacaoUpdate, ObservacaoSchema, ObservacaoStudentSchema
 from typing import List, Dict
 from datetime import date
 
@@ -111,6 +111,19 @@ class ObservacoesService:
         """
         observacoes = self.observacoes_dao.listar_por_turma(turma_id)
         return [ObservacaoSchema.model_validate(o) for o in observacoes]
+
+    def listar_observacoes_por_mutante(self, mutante_id: int) -> List[ObservacaoStudentSchema]:
+        """
+            Lista todas as observações associadas a um mutante específico.
+
+        Args:
+            mutante_id (int): ID do mutante para o qual se deseja listar as observações.
+
+        Returns:
+            List[ObservacaoStudentSchema]: Lista de objetos ObservacaoStudentSchema representando as observações do mutante.
+        """
+        observacoes = self.observacoes_dao.listar_por_mutante(mutante_id)
+        return [ObservacaoStudentSchema.model_validate(o) for o in observacoes]
 
     def obter_observacao_por_id(self, observacao_id: int) -> ObservacaoSchema:
         """

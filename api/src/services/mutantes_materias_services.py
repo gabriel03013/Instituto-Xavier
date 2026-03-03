@@ -219,7 +219,8 @@ class MutantesMateriasService:
             media = (r.nota1 + r.nota2) / 2.0
             
             grade = MutanteGradeSchema(
-                id=r.mutante.id,
+                id=r.id,
+                mutante_id=r.mutante.id,
                 nome=r.mutante.nome,
                 matricula=r.mutante.matricula,
                 nota1=float(r.nota1),

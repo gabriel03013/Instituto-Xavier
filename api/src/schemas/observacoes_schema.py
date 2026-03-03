@@ -35,5 +35,16 @@ class ObservacaoSchema(BaseModel):
         from_attributes = True
 
 
+class ObservacaoStudentSchema(BaseModel):
+    id: int
+    observacao: str
+    data: date
+    materia: str
+    professor: str
+
+    class Config:
+        from_attributes = True
+
+
 # alias for compatibility
 ObservacoesSchemas = ObservacaoSchema

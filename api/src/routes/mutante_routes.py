@@ -2,14 +2,15 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import text
+from typing import List
 from dao.mutante_dao import MutanteDAO
 from dao.mutantes_materias_dao import MutantesMateriasDAO
 from dao.poder_dao import PoderDAO
 from dao.turmas_dao import TurmasDAO
 from schemas.mutantes_schema import MutanteBase, MutanteUpdate
+from schemas.mutantes_materias_schema import MyGradeSchema
 from dependencies import get_session
 from database import engine
-from dependencies import get_session
 from models import Mutante
 from db.helpers.security import hash_password
 from services.mutante_service import MutanteService
@@ -85,7 +86,7 @@ async def complete_registration(
         raise HTTPException(status_code=404, detail=str(e))
     
 
-@mutante_router.get("/my_grades")
+@mutante_router.get("/my_grades", response_model=List[MyGradeSchema])
 async def see_my_grades(
     id_mutante: int,
     session: Session = Depends(get_session)
@@ -94,6 +95,6 @@ async def see_my_grades(
     boletim = boletim_dao.obter_minhas_notas(id_mutante)
 
     if not boletim:
-        raise HTTPException(status_code=404, detail="Grades are not avaiable.")
+        raise HTTPException(status_code=404, detail="Grades are not available.")
     
-    return {"grades": boletim}
+    return [MyGradeSchema.model_validate(dict(row)) for row in boletim]

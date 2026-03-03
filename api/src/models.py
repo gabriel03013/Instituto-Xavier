@@ -97,3 +97,11 @@ class Observacoes(Base):
     @property
     def aluno(self):
         return self.mutantesmaterias.mutante
+
+    @property
+    def materia(self):
+        return self.mutantesmaterias.materias.nome
+
+    @property
+    def professor(self):
+        return self.mutantesmaterias.materias.professor.nome

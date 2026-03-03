@@ -5,7 +5,7 @@ from dependencies import get_session
 from dao.observacoes_dao import ObservacoesDAO
 from dao.mutantes_materias_dao import MutantesMateriasDAO
 from services.observacoes_service import ObservacoesService
-from schemas.observacoes_schema import ObservacaoCreate, ObservacaoUpdate, ObservacaoSchema
+from schemas.observacoes_schema import ObservacaoCreate, ObservacaoUpdate, ObservacaoSchema, ObservacaoStudentSchema
 
 observacao_router = APIRouter(prefix="/observacao", tags=["observacao"])
 
@@ -28,6 +28,10 @@ async def adicionar_observacao(dados: ObservacaoCreate, service: ObservacoesServ
 @observacao_router.get("/turma/{turma_id}", response_model=List[ObservacaoSchema])
 async def listar_observacoes_por_turma(turma_id: int, service: ObservacoesService = Depends(get_observacao_service)):
     return service.listar_observacoes_por_turma(turma_id)
+
+@observacao_router.get("/aluno/{aluno_id}", response_model=List[ObservacaoStudentSchema])
+async def listar_observacoes_por_aluno(aluno_id: int, service: ObservacoesService = Depends(get_observacao_service)):
+    return service.listar_observacoes_por_mutante(aluno_id)
 
 @observacao_router.get("/{observacao_id}", response_model=ObservacaoSchema)
 async def obter_observacao(observacao_id: int, service: ObservacoesService = Depends(get_observacao_service)):
