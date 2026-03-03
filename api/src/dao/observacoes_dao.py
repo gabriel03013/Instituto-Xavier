@@ -1,3 +1,9 @@
+"""
+Classe DAO para a entidade Observações, responsável por realizar as operações de CRUD (Create, Read, Update, Delete)
+"""
+
+__author__ = "Davi Franco"
+
 from sqlalchemy.orm import Session
 from models import Observacoes
 from typing import List, Optional
@@ -9,7 +15,17 @@ class ObservacoesDAO:
 
     def criar(self, mutantesmaterias_id: int, observacao: str, 
               data: date) -> Observacoes:
-        """Cria uma nova observação."""
+        """
+        Cria uma nova observação.
+        
+        Args:
+            mutantesmaterias_id (int): ID do registro mutante-matéria 
+            observacao (str): Texto da observação.
+            data (date): Data da observação.
+            
+        Returns:
+            Observacoes: A observação criada no sistema.
+        """
 
         nova_observacao = Observacoes(
             mutantesmaterias_id=mutantesmaterias_id,
@@ -50,6 +66,16 @@ class ObservacoesDAO:
             Mutante, MutantesMaterias.mutante_id == Mutante.id
         ).filter(
             Mutante.turma_id == turma_id
+        ).order_by(Observacoes.data.desc()).all()
+
+    def listar_por_mutante(self, mutante_id: int) -> List[Observacoes]:
+        """Lista todas as observações de um mutante específico."""
+        from models import MutantesMaterias
+
+        return self.session.query(Observacoes).join(
+            MutantesMaterias, Observacoes.mutantesmaterias_id == MutantesMaterias.id
+        ).filter(
+            MutantesMaterias.mutante_id == mutante_id
         ).order_by(Observacoes.data.desc()).all()
 
     def listar_todas(self) -> List[Observacoes]:

@@ -12,11 +12,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   const notaRes = await api(
     `mutante_materia/notas/turma/${idTurma}/materia/${localStorage.getItem("materia_id")}`,
     "GET",
-  );
-  console.log(notaRes);
+  );  
 
   notaRes.forEach((e) => {
     const tr = document.createElement("tr");
+    tr.dataset.id = e.id;
+    tr.dataset.alunoId = e.mutante_id;
     tr.innerHTML = `
             <td>${e.nome}</td>
             <td>${e.matricula}</td>
@@ -36,7 +37,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         event.target.closest(".btn-edit") ||
         !event.target.closest("button")
       ) {
-        comportamentoModal(e.nome, e.nota1, e.nota2);
+        comportamentoModal(e.id, e.mutante_id, e.nome, e.nota1, e.nota2);
       }
     });
   });
@@ -44,24 +45,53 @@ document.addEventListener("DOMContentLoaded", async () => {
   document
     .getElementById("fechar-modal")
     .addEventListener("click", () => comportamentoModal());
+
+  const form = document.getElementById("editar-notas-modal-content");
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const idAluno = form.dataset.alunoId;
+    const nota1 = document.getElementById("media1").value;
+    const nota2 = document.getElementById("media2").value;
+
+    console.log("Dados:", { idAluno, nota1, nota2 });
+
+    await api(
+      `mutante_materia/${+idAluno}/${+localStorage.getItem("materia_id")}`,
+      "PATCH",
+      {
+        nota1: +nota1,
+        nota2: +nota2,
+      },
+    );
+
+    comportamentoModal();
+    location.reload(); // Recarregar para ver as notas novas
+  });
 });
 
-const comportamentoModal = (nome = "", n1 = "", n2 = "") => {
+const comportamentoModal = (
+  id = "",
+  alunoId = "",
+  nome = "",
+  n1 = "",
+  n2 = "",
+) => {
   const modal = document.getElementById("editar-notas-modal");
+  const form = document.getElementById("editar-notas-modal-content");
   const inputNome = document.getElementById("selectAluno");
   const inputN1 = document.getElementById("media1");
   const inputN2 = document.getElementById("media2");
 
   if (modal.style.display === "") {
     modal.style.display = "flex";
+    if (id) form.dataset.id = id;
+    if (alunoId) form.dataset.alunoId = alunoId;
     if (nome) inputNome.value = nome;
     if (n1 !== "") inputN1.value = n1;
     if (n2 !== "") inputN2.value = n2;
-    console.log("abriu");
   } else {
     modal.style.display = "";
+    form.dataset.id = "";
+    form.dataset.alunoId = "";
   }
 };
-
-// ! TODO -> Média preview conforme digitação
-const span = document.getElementById("media-final-preview");

@@ -1,3 +1,9 @@
+"""
+Main com todas as rotas do projeto, unificando e identificando suas funções e eventos
+"""
+
+__author__ = ["Gustavo Manganelli", "Erik Santos", "Gabriel Mendes"]
+
 from typing import Annotated
 
 from sqlalchemy.orm import Session
@@ -39,6 +45,7 @@ app.include_router(user_router)
 app.include_router(observacao_router)
 app.include_router(turma_router)
 app.include_router(mutante_materia_router)
+
 
 @app.post("/token")
 async def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], session: Session = Depends(get_session)):

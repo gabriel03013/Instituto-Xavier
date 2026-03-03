@@ -17,7 +17,16 @@ form.addEventListener("submit", async (e) => {
     localStorage.setItem("userTipo", res.tipo);
     localStorage.setItem("materia_id", res.materia_id);
 
-    window.location.href = `./pages/${res.tipo.toLowerCase()}/index.html?tipo=${res.tipo.toLowerCase()}&id=${res.id}`;
+    const pastas = {
+      professor: "professor",
+      mutante: "aluno",
+      admin: "admin",
+    };
+
+    const lower = res.tipo.toLowerCase();
+    const pastaDestino = pastas[lower];
+
+    window.location.href = `./pages/${pastaDestino}/index.html?tipo=${pastaDestino}&id=${res.id}`;
   } catch (e) {
     document.getElementById("erro").style.display = "flex";
   }

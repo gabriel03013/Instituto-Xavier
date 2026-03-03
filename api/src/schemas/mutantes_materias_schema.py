@@ -1,3 +1,9 @@
+"""
+Schemas Pydantic para a entidade Materias, definindo as estruturas de dados para criação, atualização e resposta de matérias.
+"""
+
+__author__ = ["Gustavo Manganelli", "Erik Santos"]
+
 from typing import Optional
 from pydantic import BaseModel
 
@@ -37,11 +43,24 @@ class MutantesMateriasSchema(BaseModel):
 
 class MutanteGradeSchema(BaseModel):
     id: int
+    mutante_id: int
     nome: str
     matricula: str
     nota1: float
     nota2: float
     media: float
+
+    class Config:
+        from_attributes = True
+
+
+class MyGradeSchema(BaseModel):
+    professor: str
+    materia: str
+    nota1: float
+    nota2: float
+    media_final: float
+    status: str
 
     class Config:
         from_attributes = True

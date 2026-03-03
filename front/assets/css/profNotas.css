@@ -201,6 +201,7 @@
   display: flex;
   gap: 2rem;
   margin-left: 1rem;
+  margin-top: 6rem;
   button {
     width: 12rem;
     height: 3.5rem;
