@@ -1,3 +1,10 @@
+"""
+Classes Models com as colunas e tipos de dados relacionados e referentes ao banco de dados.
+Utilizado para a validação dos dados no dataload.
+"""
+
+__author__ = ["Davi Franco", "Erik Santos", "Gabriel Mendes"]
+
 from sqlalchemy import Column, Integer, String, ForeignKey, Date, Text, SmallInteger, Boolean
 from sqlalchemy.orm import relationship
 from database import Base

@@ -1,3 +1,11 @@
+"""
+Script dataload utilizando Faker para a geração dos dados e SQLAlchemy para a conexão com o banco de dados.
+Utiliza de funcões auxiliares em /helpers como logging (log do estado de execucao), wrappers(debug das funções) e criptografia
+das senhas em security, utilizando bcript
+"""
+
+__author__ = "Davi Franco"
+
 from asyncio import tasks
 import os
 import random

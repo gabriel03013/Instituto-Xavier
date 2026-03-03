@@ -1,3 +1,11 @@
+"""
+Classe DAO do dashboard do professor, responsável por realizar as consultas necessárias para obter as informações relevantes 
+sobre os alunos e suas notas, como total de alunos, média de notas e total de observações, além de fornecer dados para 
+gráficos de barras e pizza relacionados à situação dos alunos.
+"""
+
+__author__ = ["Erik Santos", "Davi Franco"]
+
 from sqlalchemy import select, case, func, text
 from sqlalchemy.orm import Session
 from models import Mutante, MutantesMaterias, Observacoes, Materias, Professor
@@ -9,7 +17,15 @@ class DashboardProfessorDAO():
         self.session = session
 
     def obter_dashboard(self, id_professor: int):
-        """Obtém o dashboard com Total de alunos, Média de notas e Total de observações."""
+        """
+        Obtém o dashboard com Total de alunos, Média de notas e Total de observações.
+        
+        Args:
+            id_professor (int): ID do professor para filtrar os dados
+            
+        Returns:
+            dict: Dicionário contendo total de alunos, média de notas e total de observações
+        """
 
         #TODO if we'll use the code below, we have to fix it
         
@@ -50,8 +66,16 @@ class DashboardProfessorDAO():
 
         return result
     
-    def obter_notas_por_turma_materia(self, id_professor: int):
-        """Retorna média de notas agrupada por turma e matéria para o gráfico de barras."""
+    def obter_notas_por_turma_materia(self, id_professor: int) -> dict:
+        """
+        Retorna média de notas agrupada por turma e matéria para o gráfico de barras.
+        
+        Args:
+            id_professor (int): ID do professor para filtrar os dados
+            
+        Returns:
+            list: Lista de dicionários contendo a turma, matéria e média de notas
+        """
 
         stmt = text("""
             SELECT
@@ -71,8 +95,16 @@ class DashboardProfessorDAO():
         return result
 
 
-    def obter_situacao_alunos(self, id_professor: int):
-        """Retorna contagem de aprovados, em recuperação e reprovados para o gráfico de pizza."""
+    def obter_situacao_alunos(self, id_professor: int) -> dict:
+        """
+        Retorna contagem de aprovados, em recuperação e reprovados para o gráfico de pizza.
+        
+        Args:
+            id_professor: (int) ID do professor para filtrar os dados
+            
+        Returns:
+            dict: Dicionário contendo a contagem de alunos aprovados, em recuperação e reprovados
+        """
 
         stmt = text("""
             SELECT
