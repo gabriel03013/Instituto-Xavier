@@ -12,12 +12,13 @@ from sqlalchemy.orm import Session
 from dependencies import get_session
 from dao.professor_dao import ProfessorDAO
 from dao.materias_dao import MateriasDAO
-from dao.dashboards import DashboardsDAO
+from api.src.dao.dashboards_dao import DashboardsDAO
 from services.professor_service import ProfessorService
 from schemas.professores_schema import ProfessorCreate, ProfessorUpdate, ProfessorSchema
 
 
 professor_router = APIRouter(prefix="/professor", tags=["professor"])
+
 
 def get_professor_service(session: Session = Depends(get_session)) -> ProfessorService:
     """
@@ -29,7 +30,6 @@ def get_professor_service(session: Session = Depends(get_session)) -> ProfessorS
     Returns:
         ProfessorService: service com as dependências necessárias para as operações relacionadas ao professor
     """
-    
     professor_dao = ProfessorDAO(session)
     materias_dao = MateriasDAO(session)
     return ProfessorService(professor_dao, materias_dao)
@@ -83,7 +83,7 @@ async def get_dashboard(
         dict: Dicionário contendo os dados do dashboard, incluindo total de alunos, média de notas e total de observações
     """
     dashboard_dao = DashboardsDAO(session=session)
-    dash = dashboard_dao.obter_dashboard_professor(id_professor=int(id_professor))
+    dash = dashboard_dao.obter_kpis_professor(id_professor=int(id_professor))
     nota_turma_materia = dashboard_dao.obter_notas_por_turma_materia(id_professor=int(id_professor))
     situacao_alunos = dashboard_dao.obter_situacao_alunos(id_professor=int(id_professor))
     return {

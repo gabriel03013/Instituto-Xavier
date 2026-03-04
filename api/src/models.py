@@ -27,7 +27,6 @@ class Mutante(Base):
     mutantesmaterias = relationship("MutantesMaterias", back_populates="mutante", cascade="all, delete-orphan")
 
 
-
 class Professor(Base):
     __tablename__ = "professores"
 
