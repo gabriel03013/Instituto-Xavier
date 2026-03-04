@@ -17,7 +17,7 @@ from database import engine
 from models import Mutante
 from db.helpers.security import hash_password 
 from dao.mutante_dao import MutanteDAO 
-from dao.dashboards import DashboardsDAO
+from api.src.dao.dashboards_dao import DashboardsDAO
 
 
 admin_router = APIRouter(prefix="/admin", tags=["admin"])
@@ -73,8 +73,8 @@ async def create_registration(
     return {"msg": f"Register without credencials created! ID: {mutante_matricula.id}"}
 
 
-@admin_router.get("/dashboard")
-async def get_dashboard(
+@admin_router.get("/kpis")
+async def get_kpis(
     session: Session = Depends(get_session)
 ):
     """
@@ -82,4 +82,4 @@ async def get_dashboard(
     """
     dashboards_dao = DashboardsDAO(session=session)
 
-    return dashboards_dao.obter_dashboard_admin()
+    return dashboards_dao.obter_kpis_admin()
