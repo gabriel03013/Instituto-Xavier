@@ -19,12 +19,10 @@ class MutanteService:
     def __init__(
         self,
         mutante_dao: MutanteDAO,
-        poder_dao: PoderDAO,
         turmas_dao: TurmasDAO,
         mutantes_materias_dao: MutantesMateriasDAO
     ):
         self.mutante_dao = mutante_dao
-        self.poder_dao = poder_dao
         self.turmas_dao = turmas_dao
         self.mutantes_materias_dao = mutantes_materias_dao
 
@@ -122,9 +120,6 @@ class MutanteService:
             if email_existe and email_existe.id != mutante_id:
                 raise ValueError(f"Email {dados_dict['email']} já existe")
 
-        if 'poder_id' in dados_dict and dados_dict['poder_id']:
-            if not self.poder_dao.obter_por_id(dados_dict['poder_id']):
-                raise ValueError(f"Poder {dados_dict['poder_id']} não existe")
 
         if 'turma_id' in dados_dict and dados_dict['turma_id']:
             if not self.turmas_dao.obter_por_id(dados_dict['turma_id']):

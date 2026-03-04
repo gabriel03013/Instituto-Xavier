@@ -1,5 +1,11 @@
+"""
+Classe DAO para a entidade Professor, responsável por realizar as operações de CRUD (Create, Read, Update, Delete)
+"""
+
+__author__ = "Davi Franco"
+
 from sqlalchemy.orm import Session
-from models import Professor
+from api.src.models import Professor
 from typing import List, Optional
 
 class ProfessorDAO:

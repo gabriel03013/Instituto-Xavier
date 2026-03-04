@@ -1,3 +1,11 @@
+"""
+Script dataload utilizando Faker para a geração dos dados e SQLAlchemy para a conexão com o banco de dados.
+Utiliza de funcões auxiliares em /helpers como logging (log do estado de execucao), wrappers(debug das funções) e criptografia
+das senhas em security, utilizando bcript
+"""
+
+__author__ = "Davi Franco"
+
 from asyncio import tasks
 import os
 import random
@@ -7,32 +15,24 @@ from db.helpers.logger import logger
 from db.helpers.security import hash_password
 from db.helpers.wrappers import debug
 
-from db.connection.database import Session, engine, Base
-from db.models import Observacoes, Poder, Professor, Mutant, Materias, MutantesMaterias, Turmas
+from api.src.database import Session, engine, Base
+from api.src.models import Observacoes, Professor, Mutante, Materias, MutantesMaterias, Turmas
+from api.src.dao.mutante_dao import MutanteDAO
+from api.src.dao.turmas_dao import TurmasDAO
+from api.src.dao.materias_dao import MateriasDAO
+
 
 
 fake = Faker('pt_BR') 
 session = Session()
 
-N_ROWS = 20
-SENHA_PROFESSORES = os.getenv("SENHA_PROFESSORES")
+SENHA_PROFESSORES = "123456"
 
-# Poderes
-
-def seed_poderes(n: int=10):
-    poderes = []
-    for _ in range(n):
-        poder = Poder(nome=fake.unique.word().capitalize())
-        poderes.append(poder)
-    
-    session.add_all(poderes)
-    session.commit()
-    logger.info("Poderes criados!")
     
 def seed_turmas(n: int = 0):
     turmas = []
-    for serie in range(1, 9):  
-        for turma in ['A', 'B', 'C', 'D', 'E']:  
+    for serie in range(1, 4):  
+        for turma in ['A', 'B']:  
             turmas.append(Turmas(serie=serie, turma=turma))
 
     session.add_all(turmas)
@@ -42,24 +42,19 @@ def seed_turmas(n: int = 0):
 
 # Mutantes
 def seed_mutantes(n: int = 0):
-    ids_poderes = [id[0] for id in session.query(Poder.id).all()]
     ids_turmas = [id[0] for id in session.query(Turmas.id).all()]
-    
-    if not ids_poderes:
-        logger.error("Erro: Não há poderes cadastrados. Rode create_poderes primeiro.")
-        return
 
     mutantes = []
 
     for _ in range(n):
     
-        mutante = Mutant(
+        mutante = Mutante(
             matricula=str(fake.unique.random_number(digits=5)),
             nome=fake.name(),
             email=fake.unique.email(),
             senha=hash_password(fake.password()), 
-            poder_id=random.choice(ids_poderes),
-            turma_id=random.choice(ids_turmas)
+            turma_id=random.choice(ids_turmas),
+            esta_ativo=random.choice([True, False])
         )
         mutantes.append(mutante)
 
@@ -130,19 +125,41 @@ def seed_materias(n: int = 0):
     session.add_all(materias)
     session.commit()
     logger.info("Matérias fixas inseridas e vinculadas aos professores.")
+    
+
+def seed_new_materias(n: int = 0):
+    
+    materias = []
+
+    materias_novas = [
+        "Teletransporte cósmico",
+        "Análise de cataclisma",
+        "História dos Mutantes",
+        "Controle de Poderes",
+        "Telecinese Aplicada",
+        "Simulações de Combate"
+    ]
+
+    for nome_materia in materias_novas:
+        materias.append(Materias(nome=nome_materia))
+
+    session.add_all(materias)
+    session.commit()
+    logger.info("Matérias novas inseridas.")
 
 
 
-# MutantesMaterias 
+# --------------------------------- MutantesMaterias ---------------------------------
+
 def seed_mutantes_materias(n: int = 50):
-    mutantes_ids = [id[0] for id in session.query(Mutant.id).all()]
+    mutantes_ids = [id[0] for id in session.query(Mutante.id).all()]
     materias_ids = [id[0] for id in session.query(Materias.id).all()]
 
     if not mutantes_ids or not materias_ids:
         logger.error("Erro: Mutantes ou Matérias ausentes.")
         return
 
-    notas = []
+    notas = []    
    
     pares_criados = set()
 
@@ -194,11 +211,11 @@ def run():
     tasks = [
         (seed_professores, 0),
         (seed_turmas, 0),
-        (seed_poderes, 10),
-        (seed_mutantes, N_ROWS),
+        (seed_mutantes, 200),
         (seed_materias, 0),
-        (seed_mutantes_materias, 50),
-        (seed_observacoes, 50),
+        (seed_new_materias, 0),
+        (seed_mutantes_materias, 1000),
+        (seed_observacoes, 400),
     ]
     
     try:

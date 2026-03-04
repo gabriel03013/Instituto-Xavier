@@ -12,6 +12,7 @@ __author__ = "Davi Franco"
 from dao.professor_dao import ProfessorDAO
 from dao.materias_dao import MateriasDAO
 from schemas.professores_schema import ProfessorCreate, ProfessorUpdate, ProfessorSchema
+
 from typing import List, Dict
 
 class ProfessorService:

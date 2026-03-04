@@ -164,12 +164,11 @@
 #editar-notas-modal-content {
   background-color: #fff;
   width: 96%;
-  height: 98%;
-  margin-bottom: 1rem;
+  height: 80%;
   border-radius: 0 0 1rem 1rem;
   display: flex;
   flex-direction: column;
-  gap: 3rem;
+  gap: 1rem;
 
   label:first-child {
     margin-top: 2rem;
@@ -194,10 +193,15 @@
   }
 }
 
+#media-final-preview {
+  margin-left: 1rem;
+}
+
 #editar-notas-modal-botoes {
-  margin: 2rem 0 0 1rem;
   display: flex;
   gap: 2rem;
+  margin-left: 1rem;
+  margin-top: 6rem;
   button {
     width: 12rem;
     height: 3.5rem;

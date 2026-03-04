@@ -8,6 +8,7 @@ from auth_utils import listar_mutantes, listar_professores, verificar_adm
 
 from dependencies import get_session
 
+
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 class User(BaseModel):

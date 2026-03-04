@@ -6,9 +6,9 @@ realizar as operações necessárias no banco de dados e retorna os resultados c
 
 __author__ = "Davi Franco"
 
-from src.dao.turmas_dao import TurmasDAO
-from src.dao.mutante_dao import MutanteDAO
-from src.schemas.turmas_schema import TurmaCreate, TurmaUpdate, TurmaSchema
+from dao.turmas_dao import TurmasDAO
+from dao.mutante_dao import MutanteDAO
+from schemas.turmas_schema import TurmaCreate, TurmaUpdate, TurmaSchema
 from typing import List, Dict
 
 class TurmasService:

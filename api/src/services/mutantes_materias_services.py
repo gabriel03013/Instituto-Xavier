@@ -7,10 +7,10 @@ para realizar as operações necessárias no banco de dados e retorna os resulta
 
 __author__ = "Davi Franco"
 
-from src.dao.mutantes_materias_dao import MutantesMateriasDAO
-from src.dao.mutante_dao import MutanteDAO
-from src.dao.materias_dao import MateriasDAO
-from src.schemas.mutantes_materias_schema import MutantesMateriasCreate, MutantesMateriasUpdate, MutantesMateriasSchema
+from dao.mutantes_materias_dao import MutantesMateriasDAO
+from dao.mutante_dao import MutanteDAO
+from dao.materias_dao import MateriasDAO
+from schemas.mutantes_materias_schema import MutantesMateriasCreate, MutantesMateriasUpdate, MutantesMateriasSchema, MutanteGradeSchema
 from typing import List, Dict
 
 class MutantesMateriasService:
@@ -56,8 +56,8 @@ class MutantesMateriasService:
         registro = self.mutantes_materias_dao.criar(
             mutante_id=dados.mutante_id,
             materia_id=dados.materia_id,
-            nota1=dados.nota_1,
-            nota2=dados.nota_2
+            nota1=dados.nota1,
+            nota2=dados.nota2
         )
 
         return MutantesMateriasSchema.model_validate(registro)
@@ -135,10 +135,10 @@ class MutantesMateriasService:
         """
         
         
-        if dados.nota_1 is not None and not (0 <= dados.nota_1 <= 10):
+        if dados.nota1 is not None and not (0 <= dados.nota1 <= 10):
             raise ValueError("Nota 1 deve estar entre 0 e 10")
 
-        if dados.nota_2 is not None and not (0 <= dados.nota_2 <= 10):
+        if dados.nota2 is not None and not (0 <= dados.nota2 <= 10):
             raise ValueError("Nota 2 deve estar entre 0 e 10")
 
         registro = self.mutantes_materias_dao.obter_por_mutante_e_materia(mutante_id, materia_id)
@@ -147,8 +147,8 @@ class MutantesMateriasService:
 
         registro_atualizado = self.mutantes_materias_dao.atualizar_notas(
             registro.id,
-            nota1=dados.nota_1,
-            nota2=dados.nota_2
+            nota1=dados.nota1,
+            nota2=dados.nota2
         )
 
         return MutantesMateriasSchema.model_validate(registro_atualizado)
@@ -204,3 +204,29 @@ class MutantesMateriasService:
             "materia_id": materia_id,
             "removido": True
         }
+
+    def listar_grades_por_turma(self, turma_id: int, materia_id: int) -> List[MutanteGradeSchema]:
+        """
+        Lista as notas dos mutantes de uma turma em uma determinada matéria.
+        Calcula a média final de cada mutante.
+        """
+        registros = self.mutantes_materias_dao.listar_por_turma_e_materia(turma_id, materia_id)
+        
+        grades = []
+        for r in registros:
+            # Nota 1 e 2 são Integer no banco, mas tratamos como float para média se necessário.
+            # No esquema estão como float.
+            media = (r.nota1 + r.nota2) / 2.0
+            
+            grade = MutanteGradeSchema(
+                id=r.id,
+                mutante_id=r.mutante.id,
+                nome=r.mutante.nome,
+                matricula=r.mutante.matricula,
+                nota1=float(r.nota1),
+                nota2=float(r.nota2),
+                media=media
+            )
+            grades.append(grade)
+            
+        return grades

@@ -1,194 +1,139 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Observações - Professor</title>
+    <link rel="stylesheet" href="../../assets/css/profObs.css" />
+    <link rel="stylesheet" href="../../assets/css/globals.css" />
+    <link rel="stylesheet" href="../../assets/css/profNotas.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Observações - Professor</title>
-  <link rel="stylesheet" href="../../assets/css/profObs.css">
-  <link rel="stylesheet" href="../../assets/css/globals.css">
-  <link rel="stylesheet" href="../../assets/css/profNotas.css">
-</head>
-
-<body>
-  <header>
-    <div>
-      <img src="../../assets/images/Group 14.svg" alt="" />
-      <ul>
-        <li><a href="">Minha disciplina</a></li>
-        <li class="aba-professor-ativa"><a href="selecionarTurma.html?tipo=obs">Observações</a></li>
-        <li><a href="selecionarTurma.html?tipo=notas">Notas lançadas</a></li>
-      </ul>
-    </div>
-  </header>
-
-  <main>
-
-    <div class="turma-header">
-      <div id="turma-header-titulo-botao">
-        <h1 class="turma-titulo">9° ANO A</h1>
-        <button id="adicionar-observação">
-          <i class="fa-solid fa-plus"></i>
-          Adicionar Observação
-        </button>
+  <body>
+    <header>
+      <div>
+        <img src="../../assets/images/Group 14.svg" alt="" />
+        <ul>
+          <li><a href="index.html">Minha disciplina</a></li>
+          <li class="aba-professor-ativa">
+            <a href="selecionarTurma.html?tipo=obs">Observações</a>
+          </li>
+          <li><a href="selecionarTurma.html?tipo=notas">Notas lançadas</a></li>
+        </ul>
       </div>
+    </header>
 
-      <div class="turma-search">
-        <i class="fa-solid fa-magnifying-glass search-icon"></i>
-        <input type="search" placeholder="Digite a matrícula ou nome do aluno" />
-      </div>
-    </div>
-
-    <div class="turma-table-wrapper">
-      <table class="turma-table">
-        <thead>
-          <tr>
-            <th>Nome do Aluno</th>
-            <th>Matrícula</th>
-            <th>Observação</th>
-            <th>Opções</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>ARIANA GRANDE</td>
-            <td>3456765443</td>
-            <td>Blalallbalblabla</td>
-            <td class="td-action"><button class="btn-edit" title="Editar">
-                <i class="fa-solid fa-pen"></i></button>
-              <button class="btn-excluir">
-                <i class="fa-solid fa-trash-can"></i>
-              </button>
-            </td>
-          </tr>
-          <tr>
-            <td>BILLIE EILISH</td>
-            <td>8987654677</td>
-            <td>Blalallbalblabla</td>
-            <td class="td-action"><button class="btn-edit" title="Editar">
-                <i class="fa-solid fa-pen"></i></button>
-              <button class="btn-excluir">
-                <i class="fa-solid fa-trash-can"></i>
-              </button>
-            </td>
-          </tr>
-          <tr>
-            <td>TAYLOR SWIFT</td>
-            <td>5559382823</td>
-            <td>Blalallbalblabla</td>
-            <td class="td-action"><button class="btn-edit" title="Editar">
-                <i class="fa-solid fa-pen"></i></button>
-              <button class="btn-excluir">
-                <i class="fa-solid fa-trash-can"></i>
-              </button>
-            </td>
-          </tr>
-          <tr>
-            <td>BILLY JOEL</td>
-            <td>7656787387</td>
-            <td>Blalallbalblabla</td>
-            <td class="td-action"><button class="btn-edit" title="Editar">
-                <i class="fa-solid fa-pen"></i></button>
-              <button class="btn-excluir">
-                <i class="fa-solid fa-trash-can"></i>
-              </button>
-            </td>
-          </tr>
-          <tr>
-            <td>SNUPI</td>
-            <td>5658498348</td>
-            <td>Blalallbalblabla</td>
-            <td class="td-action"><button class="btn-edit" title="Editar">
-                <i class="fa-solid fa-pen"></i></button>
-              <button class="btn-excluir">
-                <i class="fa-solid fa-trash-can"></i>
-              </button>
-            </td>
-          </tr>
-          <tr>
-            <td>THE POLICE</td>
-            <td>3955665433</td>
-            <td>Blalallbalblabla</td>
-            <td class="td-action"><button class="btn-edit" title="Editar">
-                <i class="fa-solid fa-pen"></i></button>
-              <button class="btn-excluir">
-                <i class="fa-solid fa-trash-can"></i>
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </main>
-
-  <div class="observacoes-modal">
-    <div>
-      <div class="observacoes-modal-header">
-        <h3>Editar Observações</h3>
-        <button class="fechar-modal">
-          <i class="fa-solid fa-xmark"></i>
-        </button>
-      </div>
-
-      <form class="observacoes-modal-content">
-        <label for="nomeAluno">Aluno
-          <input type="text" placeholder="Taylor Swift" disabled id="nomeAluno">
-        </label>
-
-        <label for="observacao-aluno">Observação<textarea name="area-obs" id="observacao-aluno" rows="10"
-            placeholder="Entrega de tarefa atrasada"></textarea></label>
-
-
-
-        <div class="observacoes-modal-botoes">
-          <button type="submit" id="salvar-alteracoes">Salvar</button>
-          <button class="cancelar-alteracoes">Cancelar</button>
+    <main>
+      <div class="turma-header">
+        <div id="turma-header-titulo-botao">
+          <h1 class="turma-titulo">9° ANO A</h1>
+          <button id="adicionar-observação">
+            <i class="fa-solid fa-plus"></i>
+            Adicionar Observação
+          </button>
         </div>
-      </form>
-    </div>
-  </div>
 
-  <div class="observacoes-modal modal-adicionar">
-    <div>
-      <div class="observacoes-modal-header">
-        <h3>Adicionar Observação</h3>
-        <button type="button" class="fechar-modal">
-          <i class="fa-solid fa-xmark"></i>
-        </button>
-      </div>
-  
-      <form class="observacoes-modal-content">
-        
-        <label for="selectAluno">
-          Aluno
-          <select id="selectAluno" required>
-            <option value="" disabled selected>Selecione um aluno</option>
-            <option value="1">Taylor Swift</option>
-            <option value="2">Bruno Mars</option>
-          </select>
-        </label>
-  
-        <label for="observacao-aluno">
-          Observação
-          <textarea 
-            id="observacao-aluno"
-            rows="10"
-            placeholder="Digite a observação"
-            required>
-          </textarea>
-        </label>
-  
-        <div class="observacoes-modal-botoes">
-          <button type="submit" id="salvar-observacao">Adicionar</button>
-          <button type="button" class="cancelar-alteracoes">Cancelar</button>
+        <div class="turma-search">
+          <i class="fa-solid fa-magnifying-glass search-icon"></i>
+          <input
+            type="search"
+            placeholder="Digite a matrícula ou nome do aluno"
+          />
         </div>
-  
-      </form>
+      </div>
+
+      <div class="turma-table-wrapper">
+        <table class="turma-table">
+          <thead>
+            <tr>
+              <th>Nome do Aluno</th>
+              <th>Matrícula</th>
+              <th>Observação</th>
+              <th>Opções</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </main>
+
+    <div class="observacoes-modal">
+      <div>
+        <div class="observacoes-modal-header">
+          <h3>Editar Observações</h3>
+          <button class="fechar-modal">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <form class="observacoes-modal-content">
+          <label for="nomeAluno"
+            >Aluno
+            <input
+              type="text"
+              placeholder="Taylor Swift"
+              disabled
+              id="nomeAluno"
+            />
+          </label>
+
+          <label for="editar-observacao-aluno"
+            >Observação<textarea
+              name="area-obs"
+              id="editar-observacao-aluno"
+              rows="10"
+              placeholder="Entrega de tarefa atrasada"
+            ></textarea>
+          </label>
+
+          <div class="observacoes-modal-botoes">
+            <button type="submit" id="salvar-alteracoes">Salvar</button>
+            <button class="cancelar-alteracoes">Cancelar</button>
+          </div>
+        </form>
+      </div>
     </div>
-  </div>
 
-  <script src="https://kit.fontawesome.com/02db64e304.js" crossorigin="anonymous"></script>
-  <script src="../../assets/js/profObs.js"></script>
-</body>
+    <div class="observacoes-modal modal-adicionar">
+      <div>
+        <div class="observacoes-modal-header">
+          <h3>Adicionar Observação</h3>
+          <button type="button" class="fechar-modal">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
 
+        <form class="observacoes-modal-content">
+          <label for="selectAluno">
+            Aluno
+            <select id="selectAluno" required>
+              <option value="" disabled selected>Selecione um aluno</option>
+            </select>
+          </label>
+
+          <label for="adicionar-observacao-aluno">
+            Observação
+            <textarea
+              id="adicionar-observacao-aluno"
+              rows="10"
+              placeholder="Digite a observação"
+              required
+            >
+            </textarea>
+          </label>
+
+          <div class="observacoes-modal-botoes">
+            <button type="submit" id="salvar-observacao">Adicionar</button>
+            <button type="button" class="cancelar-alteracoes">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script
+      src="https://kit.fontawesome.com/02db64e304.js"
+      crossorigin="anonymous"
+    ></script>
+    <script type="module" src="../../assets/js/profObs.js"></script>
+  </body>
 </html>

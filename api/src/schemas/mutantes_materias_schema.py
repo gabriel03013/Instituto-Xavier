@@ -1,10 +1,16 @@
+"""
+Schemas Pydantic para a entidade Materias, definindo as estruturas de dados para criação, atualização e resposta de matérias.
+"""
+
+__author__ = ["Gustavo Manganelli", "Erik Santos"]
+
 from typing import Optional
 from pydantic import BaseModel
 
 
 class MutantesMateriasBase(BaseModel):
-    nota_1: float
-    nota_2: float
+    nota1: float = 0
+    nota2: float = 0
     mutante_id: int
     materia_id: int
 
@@ -14,8 +20,8 @@ class MutantesMateriasCreate(MutantesMateriasBase):
 
 
 class MutantesMateriasUpdate(BaseModel):
-    nota_1: Optional[float] = None
-    nota_2: Optional[float] = None
+    nota1: Optional[float] = None
+    nota2: Optional[float] = None
     mutante_id: Optional[int] = None
     materia_id: Optional[int] = None
 
@@ -26,10 +32,35 @@ class MutantesMateriasResponse(MutantesMateriasBase):
 
 class MutantesMateriasSchema(BaseModel):
     id: int
-    nota_1: float
-    nota_2: float
+    nota1: float
+    nota2: float
     mutante_id: int
     materia_id: int
+
+    class Config:
+        from_attributes = True
+
+
+class MutanteGradeSchema(BaseModel):
+    id: int
+    mutante_id: int
+    nome: str
+    matricula: str
+    nota1: float
+    nota2: float
+    media: float
+
+    class Config:
+        from_attributes = True
+
+
+class MyGradeSchema(BaseModel):
+    professor: str
+    materia: str
+    nota1: float
+    nota2: float
+    media_final: float
+    status: str
 
     class Config:
         from_attributes = True

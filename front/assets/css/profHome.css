@@ -3,8 +3,9 @@
   overflow: hidden;
 }
 
-
-
+section {
+  margin: 3rem 0 0 2rem;
+}
 #professor-overview {
   display: flex;
   align-items: center;

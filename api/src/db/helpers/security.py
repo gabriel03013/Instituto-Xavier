@@ -1,3 +1,7 @@
+"""Criptografia das senhas para teste"""
+
+__author__ = "Davi Franco"
+
 import bcrypt
 
 def hash_password(password: str) -> str:
