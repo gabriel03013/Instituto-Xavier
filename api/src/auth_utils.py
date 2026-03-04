@@ -11,6 +11,10 @@ from dao.materias_dao import MateriasDAO
 def verificar_usuario(usuario: str) -> bool:
     return '@' in usuario
 
+def verificar_adm(usuario:str) -> bool:
+    return '!' in usuario
+
+
 def listar_professores(session: Session):
     return ProfessorService(ProfessorDAO(session), MateriasDAO(session)).listar_professores()
 
