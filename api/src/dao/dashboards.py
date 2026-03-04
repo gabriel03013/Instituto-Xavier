@@ -16,9 +16,10 @@ class DashboardsDAO():
     def __init__(self, session: Session):
         self.session = session
 
-    def obter_dashboard_professor(self, id_professor: int):
+
+    def obter_kpis_professor(self, id_professor: int):
         """
-        Obtém o dashboard com Total de alunos, Média de notas e Total de observações.
+        Obtém as KPIs com Total de alunos, Média de notas e Total de observações para visualização do Professor.
         
         Args:
             id_professor (int): ID do professor para filtrar os dados
@@ -50,9 +51,9 @@ class DashboardsDAO():
 
         return result
     
+
     def obter_notas_por_turma_materia(self, id_professor: int) -> dict:
-        """
-        Retorna média de notas agrupada por turma e matéria para o gráfico de barras.
+        """ Retorna média de notas agrupada por turma e matéria para o gráfico de barras.
         
         Args:
             id_professor (int): ID do professor para filtrar os dados
@@ -60,10 +61,7 @@ class DashboardsDAO():
         Returns:
             list: Lista de dicionários contendo a turma, matéria e média de notas
         """
-    
-    def obter_notas_por_turma_materia(self, id_professor: int):
-        """Retorna média de notas agrupada por turma e matéria para o gráfico de barras."""
-
+        
         stmt = text("""
             SELECT
                 CONCAT(t.serie, 'º Ano ', t.turma) AS turma,
@@ -113,8 +111,8 @@ class DashboardsDAO():
         return result
     
 
-    def obter_dashboard_admin(self):
-        """Obtém o dashboard com Total de Alunos, Total de Professores e Total de Turmas para visualização do Admin"""
+    def obter_kpis_admin(self):
+        """Obtém as KPIs com Total de Alunos, Total de Professores e Total de Turmas para visualização do Admin"""
 
         stmt = text(
             """

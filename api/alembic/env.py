@@ -26,7 +26,7 @@ load_dotenv()
 
 config.set_main_option(
     "sqlalchemy.url",
-    os.getenv("DATABASE_URL")
+    os.getenv("DB_URI")
 )
 
 # add your model's MetaData object here

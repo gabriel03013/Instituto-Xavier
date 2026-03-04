@@ -24,7 +24,7 @@ class User(BaseModel):
     id: int
     nome: str
     identificador: str  # mutante: email | professor: usuario
-    tipo: Literal["mutante", "professor"]
+    tipo: Literal["mutante", "professor", "admin"]
 
 
 def decode_token(token: str, session: Session) -> Optional[User]:

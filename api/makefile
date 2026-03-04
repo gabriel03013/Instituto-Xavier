@@ -2,7 +2,6 @@ requirements:
 	@.venv\Scripts\python -m pip install --upgrade pip
 	@.venv\Scripts\pip install -r requirements/requirements.txt
 
-
 prepare-venvironment:
 	@echo "Preparando ambiente virtual e dependências para Windows"
 	@if exist venv rmdir /s /q venv
@@ -11,7 +10,6 @@ prepare-venvironment:
 	@.venv\Scripts\pip install -r requirements/requirements.txt
 	@echo "O ambiente virtual esta pronto."
 	@echo "Ative o .venv usando .venv\Scripts\activate"
-
 
 prepare-macos:
 	@echo "Preparando ambiente virtual e dependências para MacOs"

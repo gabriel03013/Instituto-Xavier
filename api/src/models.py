@@ -7,7 +7,7 @@ __author__ = ["Davi Franco", "Erik Santos", "Gabriel Mendes"]
 
 from sqlalchemy import Column, Integer, String, ForeignKey, Date, Text, SmallInteger, Boolean
 from sqlalchemy.orm import relationship
-from database import Base
+from src.database import Base
 
 
 class Mutante(Base):
@@ -18,24 +18,13 @@ class Mutante(Base):
     matricula = Column(String(50), nullable=False, unique=True)
     email = Column(String(100), unique=True)
     senha = Column(String(100))
+    chave_seguranca = Column(String(30), nullable=True)
     esta_ativo = Column(Boolean, nullable=False, default=False)
-    
-    poder_id = Column(Integer, ForeignKey("poderes.id"))
-    poder = relationship("Poder", back_populates="mutantes")
 
     turma_id = Column(Integer, ForeignKey("turmas.id"))
     turma = relationship("Turmas", back_populates="mutantes")
 
     mutantesmaterias = relationship("MutantesMaterias", back_populates="mutante")
-
-
-class Poder(Base):
-    __tablename__ = "poderes"
-
-    id = Column(Integer, primary_key=True)
-    nome = Column(String(100), nullable=False, unique=True)
-
-    mutantes = relationship("Mutante", back_populates="poder")
 
 
 class Professor(Base):
