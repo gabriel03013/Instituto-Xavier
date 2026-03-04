@@ -13,7 +13,6 @@ from sqlalchemy import text
 from typing import List
 from dao.mutante_dao import MutanteDAO
 from dao.mutantes_materias_dao import MutantesMateriasDAO
-from dao.poder_dao import PoderDAO
 from dao.turmas_dao import TurmasDAO
 from schemas.mutantes_schema import MutanteBase, MutanteUpdate
 from schemas.mutantes_materias_schema import MyGradeSchema
