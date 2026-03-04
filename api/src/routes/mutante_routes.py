@@ -40,7 +40,6 @@ def get_mutante_service(session: Session = Depends(get_session)) -> MutanteServi
     """
     return MutanteService(
         mutante_dao=MutanteDAO(session),
-        poder_dao=PoderDAO(session),
         turmas_dao=TurmasDAO(session),
         mutantes_materias_dao=MutantesMateriasDAO(session)
     )

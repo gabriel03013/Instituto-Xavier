@@ -15,8 +15,15 @@ class MutanteDAO:
         self.session = session
 
 
-    def criar(self, matricula: str, nome: str, email: str, senha: str, esta_ativo: bool = False, 
-              poder_id: Optional[int] = None, turma_id: Optional[int] = None) -> Mutante:
+    def criar(
+        self, 
+        matricula: str, 
+        nome: str, 
+        email: str, 
+        senha: str, 
+        esta_ativo: bool = False, 
+        turma_id: Optional[int] = None
+    ) -> Mutante:
         """
         Cria um novo mutante.
         
@@ -39,7 +46,6 @@ class MutanteDAO:
             email=email,
             senha=senha,
             esta_ativo=esta_ativo,
-            poder_id=poder_id,
             turma_id=turma_id
         )
         self.session.add(novo_mutante)
