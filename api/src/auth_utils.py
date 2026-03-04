@@ -1,7 +1,6 @@
 from sqlalchemy.orm import Session
 from dao.mutante_dao import MutanteDAO
 from dao.mutantes_materias_dao import MutantesMateriasDAO
-from dao.poder_dao import PoderDAO
 from dao.turmas_dao import TurmasDAO
 from services.mutante_service import MutanteService
 from services.professor_service import ProfessorService
@@ -16,5 +15,5 @@ def listar_professores(session: Session):
 
 def listar_mutantes(session: Session):
     return MutanteService(
-        MutanteDAO(session), PoderDAO(session), TurmasDAO(session), MutantesMateriasDAO(session)
+        MutanteDAO(session), TurmasDAO(session), MutantesMateriasDAO(session)
     ).listar_mutantes()

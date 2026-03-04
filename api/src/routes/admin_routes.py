@@ -14,10 +14,10 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import text
 from dependencies import get_session
 from database import engine
-from dependencies import get_session
 from models import Mutante
 from db.helpers.security import hash_password 
 from dao.mutante_dao import MutanteDAO 
+from api.src.dao.dashboards_dao import DashboardsDAO
 
 
 admin_router = APIRouter(prefix="/admin", tags=["admin"])
@@ -71,3 +71,15 @@ async def create_registration(
     session.refresh(mutante_matricula)
 
     return {"msg": f"Register without credencials created! ID: {mutante_matricula.id}"}
+
+
+@admin_router.get("/kpis")
+async def get_kpis(
+    session: Session = Depends(get_session)
+):
+    """
+    KPIs que contém o total de Alunos, total de Professores e total de Turmas para visualização do Admin
+    """
+    dashboards_dao = DashboardsDAO(session=session)
+
+    return dashboards_dao.obter_kpis_admin()

@@ -10,7 +10,6 @@ from dependencies import get_session
 
 from dao.mutante_dao import MutanteDAO
 from dao.mutantes_materias_dao import MutantesMateriasDAO
-from dao.poder_dao import PoderDAO
 from dao.turmas_dao import TurmasDAO
 from services.mutante_service import MutanteService
 
@@ -24,7 +23,7 @@ class User(BaseModel):
     id: int
     nome: str
     identificador: str  # mutante: email | professor: usuario
-    tipo: Literal["mutante", "professor"]
+    tipo: Literal["mutante", "professor", "admin"]
 
 
 def decode_token(token: str, session: Session) -> Optional[User]:

@@ -18,13 +18,13 @@ class Mutante(Base):
     matricula = Column(String(50), nullable=False, unique=True)
     email = Column(String(100), unique=True)
     senha = Column(String(100))
+    chave_seguranca = Column(String(30), nullable=True)
     esta_ativo = Column(Boolean, nullable=False, default=False)
 
     turma_id = Column(Integer, ForeignKey("turmas.id", ondelete="CASCADE"))
     turma = relationship("Turmas", back_populates="mutantes")
 
     mutantesmaterias = relationship("MutantesMaterias", back_populates="mutante", cascade="all, delete-orphan")
-
 
 
 class Professor(Base):
