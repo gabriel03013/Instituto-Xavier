@@ -7,7 +7,7 @@ __author__ = "Erik Santos"
 
 from sqlalchemy import select, case
 from sqlalchemy.orm import Session
-from api.src.models import Professor, Materias, MutantesMaterias
+from models import Professor, Materias, MutantesMaterias
 from typing import List, Optional
 
 class BoletimDAO:

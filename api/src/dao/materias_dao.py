@@ -8,7 +8,7 @@ do sistema.
 __author__ = "Davi Franco"
 
 from sqlalchemy.orm import Session
-from api.src.models import Materias
+from models import Materias
 from typing import List, Optional
 
 class MateriasDAO:
