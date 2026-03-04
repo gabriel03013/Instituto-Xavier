@@ -8,7 +8,7 @@ __author__ = ["Erik Santos", "Davi Franco"]
 
 from sqlalchemy import select, case, func, text
 from sqlalchemy.orm import Session
-from models import Mutante, MutantesMaterias, Observacoes, Materias, Professor
+from api.src.models import Mutante, MutantesMaterias, Observacoes, Materias, Professor
 from typing import List, Optional
 
 

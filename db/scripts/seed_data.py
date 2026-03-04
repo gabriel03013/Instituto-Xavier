@@ -16,7 +16,7 @@ from db.helpers.security import hash_password
 from db.helpers.wrappers import debug
 
 from api.src.database import Session, engine, Base
-from api.src.models import Observacoes, Poder, Professor, Mutant, Materias, MutantesMaterias, Turmas
+from api.src.models import Observacoes, Professor, Mutante, Materias, MutantesMaterias, Turmas
 from api.src.dao.mutante_dao import MutanteDAO
 from api.src.dao.turmas_dao import TurmasDAO
 from api.src.dao.materias_dao import MateriasDAO
@@ -26,12 +26,12 @@ from api.src.dao.materias_dao import MateriasDAO
 fake = Faker('pt_BR') 
 session = Session()
 
-SENHA_PROFESSORES = os.getenv("SENHA_PROFESSORES")
+SENHA_PROFESSORES = "123456"
 
     
 def seed_turmas(n: int = 0):
     turmas = []
-    for serie in range(1, 3):  
+    for serie in range(1, 4):  
         for turma in ['A', 'B']:  
             turmas.append(Turmas(serie=serie, turma=turma))
 
@@ -42,23 +42,19 @@ def seed_turmas(n: int = 0):
 
 # Mutantes
 def seed_mutantes(n: int = 0):
-    ids_poderes = [id[0] for id in session.query(Poder.id).all()]
     ids_turmas = [id[0] for id in session.query(Turmas.id).all()]
-    
-    if not ids_poderes:
-        logger.error("Erro: Não há poderes cadastrados. Rode create_poderes primeiro.")
-        return
 
     mutantes = []
 
     for _ in range(n):
     
-        mutante = Mutant(
+        mutante = Mutante(
             matricula=str(fake.unique.random_number(digits=5)),
             nome=fake.name(),
             email=fake.unique.email(),
-            senha=hash_password(fake.password(length=8, digits=True, lower_case=True, special_chars=False)), 
-            turma_id=random.choice(ids_turmas)
+            senha=hash_password(fake.password()), 
+            turma_id=random.choice(ids_turmas),
+            esta_ativo=random.choice([True, False])
         )
         mutantes.append(mutante)
 
@@ -153,9 +149,10 @@ def seed_new_materias(n: int = 0):
 
 
 
-# MutantesMaterias 
+# --------------------------------- MutantesMaterias ---------------------------------
+
 def seed_mutantes_materias(n: int = 50):
-    mutantes_ids = [id[0] for id in session.query(Mutant.id).all()]
+    mutantes_ids = [id[0] for id in session.query(Mutante.id).all()]
     materias_ids = [id[0] for id in session.query(Materias.id).all()]
 
     if not mutantes_ids or not materias_ids:
@@ -214,11 +211,11 @@ def run():
     tasks = [
         (seed_professores, 0),
         (seed_turmas, 0),
-        (seed_mutantes, 100),
+        (seed_mutantes, 200),
         (seed_materias, 0),
-        (seed_new_materias, 0)
-        (seed_mutantes_materias, 50),
-        (seed_observacoes, 50),
+        (seed_new_materias, 0),
+        (seed_mutantes_materias, 1000),
+        (seed_observacoes, 400),
     ]
     
     try:

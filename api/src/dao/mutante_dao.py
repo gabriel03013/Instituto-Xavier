@@ -7,7 +7,7 @@ __author__ = "Davi Franco"
 
 from sqlalchemy.orm import Session
 from sqlalchemy import and_, or_
-from models import Mutante
+from api.src.models import Mutante
 from typing import List, Optional
 
 class MutanteDAO:

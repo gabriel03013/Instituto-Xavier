@@ -5,7 +5,7 @@ Classe DAO para a entidade MutantesMaterias, respons√°vel por realizar as opera√
 __author__ = "Davi Franco"
 
 from sqlalchemy.orm import Session
-from models import MutantesMaterias, Mutante
+from api.src.models import MutantesMaterias, Mutante
 from typing import List, Optional
 
 class MutantesMateriasDAO:

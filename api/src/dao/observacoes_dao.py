@@ -5,7 +5,7 @@ Classe DAO para a entidade Observações, responsável por realizar as operaçõ
 __author__ = "Davi Franco"
 
 from sqlalchemy.orm import Session
-from models import Observacoes
+from api.src.models import Observacoes
 from typing import List, Optional
 from datetime import date
 
