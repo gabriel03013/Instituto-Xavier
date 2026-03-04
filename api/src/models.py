@@ -21,10 +21,11 @@ class Mutante(Base):
     chave_seguranca = Column(String(30), nullable=True)
     esta_ativo = Column(Boolean, nullable=False, default=False)
 
-    turma_id = Column(Integer, ForeignKey("turmas.id"))
+    turma_id = Column(Integer, ForeignKey("turmas.id", ondelete="CASCADE"))
     turma = relationship("Turmas", back_populates="mutantes")
 
-    mutantesmaterias = relationship("MutantesMaterias", back_populates="mutante")
+    mutantesmaterias = relationship("MutantesMaterias", back_populates="mutante", cascade="all, delete-orphan")
+
 
 
 class Professor(Base):
@@ -44,7 +45,7 @@ class Materias(Base):
     id = Column(Integer, primary_key=True)
     nome = Column(String(100), nullable=False, unique=True)
 
-    professor_id = Column(Integer, ForeignKey("professores.id"))
+    professor_id = Column(Integer, ForeignKey("professores.id", ondelete="CASCADE"))
     professor = relationship("Professor", back_populates="materias")
 
     mutantesmaterias = relationship("MutantesMaterias", back_populates="materias")
@@ -57,13 +58,13 @@ class MutantesMaterias(Base):
     nota1 = Column(Integer, default=0)
     nota2 = Column(Integer, default=0)
 
-    mutante_id = Column(Integer, ForeignKey("mutantes.id"))
+    mutante_id = Column(Integer, ForeignKey("mutantes.id", ondelete="CASCADE"))
     mutante = relationship("Mutante", back_populates="mutantesmaterias")
     
-    materia_id = Column(Integer, ForeignKey("materias.id"))
+    materia_id = Column(Integer, ForeignKey("materias.id", ondelete="CASCADE"))
     materias = relationship("Materias", back_populates="mutantesmaterias")
 
-    observacoes = relationship("Observacoes", back_populates="mutantesmaterias")
+    observacoes = relationship("Observacoes", back_populates="mutantesmaterias", cascade="all, delete-orphan")
 
 
 class Turmas(Base):
@@ -87,7 +88,7 @@ class Observacoes(Base):
     observacao = Column(Text, nullable=False)
     data = Column(Date, nullable=False)
 
-    mutantesmaterias_id = Column(Integer, ForeignKey("mutantesmaterias.id"))
+    mutantesmaterias_id = Column(Integer, ForeignKey("mutantesmaterias.id", ondelete="CASCADE"))
     mutantesmaterias = relationship("MutantesMaterias", back_populates="observacoes")
 
     @property
