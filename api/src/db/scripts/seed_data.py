@@ -15,11 +15,11 @@ from db.helpers.logger import logger
 from db.helpers.security import hash_password
 from db.helpers.wrappers import debug
 
-from api.src.database import Session, engine, Base
-from api.src.models import Observacoes, Professor, Mutante, Materias, MutantesMaterias, Turmas
-from api.src.dao.mutante_dao import MutanteDAO
-from api.src.dao.turmas_dao import TurmasDAO
-from api.src.dao.materias_dao import MateriasDAO
+from  database import Session, engine, Base
+from  models import Observacoes, Professor, Mutante, Materias, MutantesMaterias, Turmas
+from  dao.mutante_dao import MutanteDAO
+from  dao.turmas_dao import TurmasDAO
+from  dao.materias_dao import MateriasDAO
 
 
 

@@ -5,7 +5,7 @@ Classe DAO para a entidade Turmas, responsável por realizar as operações de C
 __author__ = "Davi Franco"
 
 from sqlalchemy.orm import Session
-from api.src.models import Turmas
+from models import Turmas
 from typing import List, Optional
 
 class TurmasDAO:

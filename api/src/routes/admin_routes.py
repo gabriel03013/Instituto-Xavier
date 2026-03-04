@@ -17,7 +17,7 @@ from database import engine
 from models import Mutante
 from db.helpers.security import hash_password 
 from dao.mutante_dao import MutanteDAO 
-from api.src.dao.dashboards_dao import DashboardsDAO
+from  dao.dashboards_dao import DashboardsDAO
 
 
 admin_router = APIRouter(prefix="/admin", tags=["admin"])

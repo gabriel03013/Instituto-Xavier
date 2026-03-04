@@ -5,7 +5,7 @@ Classe DAO para a entidade Professor, responsável por realizar as operações d
 __author__ = "Davi Franco"
 
 from sqlalchemy.orm import Session
-from api.src.models import Professor
+from  models import Professor
 from typing import List, Optional
 
 class ProfessorDAO:
