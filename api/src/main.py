@@ -9,7 +9,7 @@ from typing import Annotated
 from sqlalchemy.orm import Session
 from routes.user_routes import user_router
 from dependencies import get_session
-from auth_utils import listar_mutantes as mutantes, listar_professores as professores, verificar_usuario
+from auth_utils import listar_mutantes as mutantes, listar_professores as professores, verificar_adm, verificar_usuario
 from db.helpers.security import verify_password
 from routes.mutante_routes import mutante_router
 from routes.professor_routes import professor_router
@@ -47,7 +47,7 @@ app.include_router(turma_router)
 app.include_router(mutante_materia_router)
 
 
-@app.post("/token")
+@app.post("/login")
 async def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], session: Session = Depends(get_session)):
     user_obj = None
     identificador = None
@@ -79,7 +79,12 @@ async def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], sess
             headers={"WWW-Authenticate": "Bearer"},
         )
     
-    tipo = "MUTANTE" if verificar_usuario(form_data.username) else "PROFESSOR"
+    if verificar_usuario(form_data.username):
+        tipo = "MUTANTE"
+    elif verificar_adm(form_data.username):
+        tipo = "ADMINISTRADOR"
+    else:
+        tipo = "PROFESSOR"
     
     materia_id = None
     if tipo == "PROFESSOR" and user_obj.materias:

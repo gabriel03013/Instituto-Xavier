@@ -9,6 +9,9 @@ para realizar as operações necessárias no banco de dados e retorna os resulta
 
 __author__ = "Davi Franco"
 
+from dao.professor_dao import ProfessorDAO
+from dao.materias_dao import MateriasDAO
+from schemas.professores_schema import ProfessorCreate, ProfessorUpdate, ProfessorSchema
 
 from typing import List, Dict
 
