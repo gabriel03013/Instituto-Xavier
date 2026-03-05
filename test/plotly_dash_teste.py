@@ -2,7 +2,7 @@ import plotly.express as px
 import pandas as pd
 
 from dao.dashboard_professor import DashboardProfessorDAO
-from database import Session
+from src.database import Session
 
 session = Session()
 dash = DashboardProfessorDAO(session=session)
