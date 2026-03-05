@@ -7,7 +7,7 @@ __author__ = ["Davi Franco", "Erik Santos", "Gabriel Mendes"]
 
 from sqlalchemy import Column, Integer, String, ForeignKey, Date, Text, SmallInteger, Boolean
 from sqlalchemy.orm import relationship
-from api.src.database import Base
+from database import Base
 
 
 class Mutante(Base):

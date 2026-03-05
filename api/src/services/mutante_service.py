@@ -8,7 +8,6 @@ no banco de dados e retorna os resultados como objetos de esquema apropriados.
 __author__ = "Davi Franco"
 
 from dao.mutante_dao import MutanteDAO
-from dao.poder_dao import PoderDAO
 from dao.turmas_dao import TurmasDAO
 from dao.mutantes_materias_dao import MutantesMateriasDAO
 from schemas.mutantes_schema import MutanteCreate, MutanteUpdate, MutanteResponse, MutanteSchema

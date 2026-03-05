@@ -12,7 +12,7 @@ from sqlalchemy.orm import Session
 from dependencies import get_session
 from dao.professor_dao import ProfessorDAO
 from dao.materias_dao import MateriasDAO
-from api.src.dao.dashboards_dao import DashboardsDAO
+from dao.dashboards_dao import DashboardsDAO
 from services.professor_service import ProfessorService
 from schemas.professores_schema import ProfessorCreate, ProfessorUpdate, ProfessorSchema
 
