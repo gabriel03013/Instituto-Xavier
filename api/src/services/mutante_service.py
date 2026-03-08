@@ -26,35 +26,34 @@ class MutanteService:
         self.mutantes_materias_dao = mutantes_materias_dao
 
     def registrar_novo_mutante(self, dados: MutanteCreate) -> MutanteResponse:
-        """
-        Verifica se já existe um mutante com a mesma matrícula, caso exista lança um ValueError. Em seguida, verifica
-        se já existe um mutante com o mesmo email, caso exista lança um ValueError. Caso contrário, cria um novo mutante
-        utilizando o DAO com a senha criptografada e retorna o mutante criado como um objeto MutanteResponse.
-
-        Args:
-            dados (MutanteCreate): Dados necessários para registrar um novo mutante.
-
-        Raises:
-            ValueError: Se a matrícula já existir.
-            ValueError: Se o email já existir.
-
-        Returns:
-            MutanteResponse: O mutante criado como um objeto MutanteResponse.
-        """
-        if self.mutante_dao.obter_matricula_vazia(dados.matricula):
-            raise ValueError(f"Matrícula {dados.matricula} já existe")
-
-        if self.mutante_dao.obter_por_email(dados.email):
-            raise ValueError(f"Email {dados.email} já existe")
-
-        mutante = self.mutante_dao.criar(
-            matricula=dados.matricula,
-            nome=dados.nome,
-            email=dados.email,
-            senha=hash_password(dados.senha)
-        )
+        mutante_existente = self.mutante_dao.obter_por_matricula(dados.matricula)
+        
+        if mutante_existente:
+             # Se existe e está "vazia", vamos apenas completar. 
+             # Se já tem nome/email, então realmente "já existe".
+             if mutante_existente.nome:
+                 raise ValueError(f"Matrícula {dados.matricula} já está vinculada a um aluno.")
+             
+             mutante = self.mutante_dao.atualizar(
+                 mutante_existente.id,
+                 nome=dados.nome,
+                 email=dados.email,
+                 senha=hash_password(dados.senha),
+                 turma_id=dados.turma_id,
+                 esta_ativo=True
+             )
+        else:
+            mutante = self.mutante_dao.criar(
+                matricula=dados.matricula,
+                nome=dados.nome,
+                email=dados.email,
+                senha=hash_password(dados.senha),
+                esta_ativo=True,
+                turma_id=dados.turma_id
+            )
 
         return MutanteResponse.model_validate(mutante)
+
 
     def listar_mutantes(self) -> List[MutanteSchema]:
         """

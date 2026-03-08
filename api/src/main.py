@@ -16,6 +16,7 @@ from routes.professor_routes import professor_router
 from routes.observacao_routes import observacao_router
 from routes.turma_routes import turma_router
 from routes.mutante_materia_routes import mutante_materia_router
+from routes.materia_routes import materia_router
 from dotenv import load_dotenv
 from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
@@ -45,6 +46,7 @@ app.include_router(user_router)
 app.include_router(observacao_router)
 app.include_router(turma_router)
 app.include_router(mutante_materia_router)
+app.include_router(materia_router)
 
 
 @app.post("/login")
@@ -82,7 +84,7 @@ async def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], sess
     if verificar_usuario(form_data.username):
         tipo = "MUTANTE"
     elif verificar_adm(form_data.username):
-        tipo = "ADMINISTRADOR"
+        tipo = "ADMIN"
     else:
         tipo = "PROFESSOR"
     

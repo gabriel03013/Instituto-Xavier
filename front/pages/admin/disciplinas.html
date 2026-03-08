@@ -6,7 +6,11 @@
     <title>Disciplinas - Admin</title>
     <link rel="stylesheet" href="../../assets/css/globals.css" />
     <link rel="stylesheet" href="../../assets/css/adminGlobal.css" />
-    <link rel="icon" href="../../assets/images/Group 14.svg" type="image/x-icon">
+    <link
+      rel="icon"
+      href="../../assets/images/Group 14.svg"
+      type="image/x-icon"
+    />
   </head>
   <body>
     <header>
@@ -50,91 +54,11 @@
               <th>Opções</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td>Matemática</td>
-              <td>CARLOS SILVA</td>
-              <td>3</td>
-              <td class="td-action">
-                <button class="btn-edit" title="Editar">
-                  <i class="fa-solid fa-pen"></i>
-                </button>
-                <button class="btn-excluir" title="Excluir">
-                  <i class="fa-solid fa-trash-can"></i>
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td>Português</td>
-              <td>ANA OLIVEIRA</td>
-              <td>4</td>
-              <td class="td-action">
-                <button class="btn-edit" title="Editar">
-                  <i class="fa-solid fa-pen"></i>
-                </button>
-                <button class="btn-excluir" title="Excluir">
-                  <i class="fa-solid fa-trash-can"></i>
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td>História</td>
-              <td>MARCOS SANTOS</td>
-              <td>2</td>
-              <td class="td-action">
-                <button class="btn-edit" title="Editar">
-                  <i class="fa-solid fa-pen"></i>
-                </button>
-                <button class="btn-excluir" title="Excluir">
-                  <i class="fa-solid fa-trash-can"></i>
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td>Ciências</td>
-              <td>JULIANA COSTA</td>
-              <td>3</td>
-              <td class="td-action">
-                <button class="btn-edit" title="Editar">
-                  <i class="fa-solid fa-pen"></i>
-                </button>
-                <button class="btn-excluir" title="Excluir">
-                  <i class="fa-solid fa-trash-can"></i>
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td>Geografia</td>
-              <td>ROBERTO LIMA</td>
-              <td>2</td>
-              <td class="td-action">
-                <button class="btn-edit" title="Editar">
-                  <i class="fa-solid fa-pen"></i>
-                </button>
-                <button class="btn-excluir" title="Excluir">
-                  <i class="fa-solid fa-trash-can"></i>
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td>Educação Física</td>
-              <td>PEDRO ALVES</td>
-              <td>6</td>
-              <td class="td-action">
-                <button class="btn-edit" title="Editar">
-                  <i class="fa-solid fa-pen"></i>
-                </button>
-                <button class="btn-excluir" title="Excluir">
-                  <i class="fa-solid fa-trash-can"></i>
-                </button>
-              </td>
-            </tr>
-          </tbody>
+          <tbody></tbody>
         </table>
       </div>
     </main>
 
-    <!-- Modal Editar Disciplina -->
     <div class="admin-modal" id="modal-editar-disciplina">
       <div>
         <div class="admin-modal-header">
@@ -156,11 +80,9 @@
 
           <label for="editar-disciplina-docente"
             >Docente
-            <input
-              type="text"
-              id="editar-disciplina-docente"
-              placeholder="Carlos Silva"
-            />
+            <select id="editar-disciplina-docente" required>
+              <option value="" disabled selected>Selecione um professor</option>
+            </select>
           </label>
 
           <div class="admin-modal-botoes">
@@ -171,7 +93,6 @@
       </div>
     </div>
 
-    <!-- Modal Adicionar Disciplina -->
     <div class="admin-modal modal-adicionar" id="modal-adicionar-disciplina">
       <div>
         <div class="admin-modal-header">
@@ -194,12 +115,9 @@
 
           <label for="adicionar-disciplina-docente"
             >Docente
-            <input
-              type="text"
-              id="adicionar-disciplina-docente"
-              placeholder="Nome do docente"
-              required
-            />
+            <select id="adicionar-disciplina-docente" required>
+              <option value="" disabled selected>Selecione um professor</option>
+            </select>
           </label>
 
           <div class="admin-modal-botoes">
@@ -210,10 +128,32 @@
       </div>
     </div>
 
+    <div class="admin-modal modal-excluir" id="modal-excluir-disciplina">
+      <div>
+        <div class="admin-modal-header">
+          <h3>Excluir Disciplina</h3>
+          <button class="fechar-modal">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <div class="admin-modal-content">
+          <p style="font-size: 2rem; margin-top: 2rem; margin-left: 1rem">
+            Deseja excluir a disciplina?
+          </p>
+
+          <div class="admin-modal-botoes">
+            <button type="button" id="btn-confirmar-excluir">Excluir</button>
+            <button type="button" class="cancelar-alteracoes">Cancelar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <script
       src="https://kit.fontawesome.com/02db64e304.js"
       crossorigin="anonymous"
     ></script>
-    <script src="../../assets/js/adminGlobal.js"></script>
+    <script type="module" src="../../assets/js/adminDisciplinas.js"></script>
   </body>
 </html>

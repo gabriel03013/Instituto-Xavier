@@ -87,9 +87,20 @@ async def get_dashboard(
     nota_turma_materia = dashboard_dao.obter_notas_por_turma_materia(id_professor=int(id_professor))
     situacao_alunos = dashboard_dao.obter_situacao_alunos(id_professor=int(id_professor))
     return {
-        "dashboard": dash,
-        "notas_turma_materia": nota_turma_materia,
-        "situacao_alunos": situacao_alunos
+        "dashboard": {
+            "total_alunos": int(dash["total_alunos"]),
+            "media_notas": float(dash["media_notas"]),
+            "total_observacoes": int(dash["total_observacoes"]),
+        },
+        "notas_turma_materia": [
+            {"turma": r["turma"], "materia": r["materia"], "media": float(r["media"])}
+            for r in nota_turma_materia
+        ],
+        "situacao_alunos": {
+            "aprovados": int(situacao_alunos["aprovados"]),
+            "recuperacao": int(situacao_alunos["recuperacao"]),
+            "reprovados": int(situacao_alunos["reprovados"]),
+        },
     }
 
 

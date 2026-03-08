@@ -41,6 +41,8 @@ class MutanteBase(BaseModel):
     matricula: str
     email: EmailStr
     senha: str
+    turma_id: Optional[int] = None
+
 
 
 class MutanteCreate(MutanteBase):
@@ -66,6 +68,8 @@ class MutanteSchema(BaseModel):
     matricula: str
     email: EmailStr
     senha: str
+    turma_id: Optional[int] = None
+
 
     class Config:
         from_attributes = True

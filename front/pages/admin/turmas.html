@@ -6,7 +6,11 @@
     <title>Turmas - Admin</title>
     <link rel="stylesheet" href="../../assets/css/globals.css" />
     <link rel="stylesheet" href="../../assets/css/adminGlobal.css" />
-    <link rel="icon" href="../../assets/images/Group 14.svg" type="image/x-icon">
+    <link
+      rel="icon"
+      href="../../assets/images/Group 14.svg"
+      type="image/x-icon"
+    />
   </head>
   <body>
     <header>
@@ -47,85 +51,11 @@
               <th>Opções</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td>9º ANO A</td>
-              <td>32</td>
-              <td class="td-action">
-                <button class="btn-edit" title="Editar">
-                  <i class="fa-solid fa-pen"></i>
-                </button>
-                <button class="btn-excluir" title="Excluir">
-                  <i class="fa-solid fa-trash-can"></i>
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td>9º ANO B</td>
-              <td>28</td>
-              <td class="td-action">
-                <button class="btn-edit" title="Editar">
-                  <i class="fa-solid fa-pen"></i>
-                </button>
-                <button class="btn-excluir" title="Excluir">
-                  <i class="fa-solid fa-trash-can"></i>
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td>9º ANO C</td>
-              <td>30</td>
-              <td class="td-action">
-                <button class="btn-edit" title="Editar">
-                  <i class="fa-solid fa-pen"></i>
-                </button>
-                <button class="btn-excluir" title="Excluir">
-                  <i class="fa-solid fa-trash-can"></i>
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td>8º ANO A</td>
-              <td>25</td>
-              <td class="td-action">
-                <button class="btn-edit" title="Editar">
-                  <i class="fa-solid fa-pen"></i>
-                </button>
-                <button class="btn-excluir" title="Excluir">
-                  <i class="fa-solid fa-trash-can"></i>
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td>8º ANO B</td>
-              <td>27</td>
-              <td class="td-action">
-                <button class="btn-edit" title="Editar">
-                  <i class="fa-solid fa-pen"></i>
-                </button>
-                <button class="btn-excluir" title="Excluir">
-                  <i class="fa-solid fa-trash-can"></i>
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td>7º ANO A</td>
-              <td>33</td>
-              <td class="td-action">
-                <button class="btn-edit" title="Editar">
-                  <i class="fa-solid fa-pen"></i>
-                </button>
-                <button class="btn-excluir" title="Excluir">
-                  <i class="fa-solid fa-trash-can"></i>
-                </button>
-              </td>
-            </tr>
-          </tbody>
+          <tbody></tbody>
         </table>
       </div>
     </main>
 
-    <!-- Modal Editar Turma -->
     <div class="admin-modal" id="modal-editar-turma">
       <div>
         <div class="admin-modal-header">
@@ -136,9 +66,23 @@
         </div>
 
         <form class="admin-modal-content">
-          <label for="editar-turma-nome"
-            >Turma
-            <input type="text" id="editar-turma-nome" placeholder="9º ANO A" />
+          <label for="editar-turma-ano"
+            >Ano
+            <select id="editar-turma-ano">
+              <option value="1">1º Ano</option>
+              <option value="2">2º Ano</option>
+              <option value="3">3º Ano</option>
+            </select>
+          </label>
+
+          <label for="editar-turma-classe"
+            >Classe
+            <select id="editar-turma-classe">
+              <option value="A">A</option>
+              <option value="B">B</option>
+              <option value="C">C</option>
+              <option value="D">D</option>
+            </select>
           </label>
 
           <div class="admin-modal-botoes">
@@ -149,7 +93,6 @@
       </div>
     </div>
 
-    <!-- Modal Adicionar Turma -->
     <div class="admin-modal modal-adicionar" id="modal-adicionar-turma">
       <div>
         <div class="admin-modal-header">
@@ -160,14 +103,25 @@
         </div>
 
         <form class="admin-modal-content">
-          <label for="adicionar-turma-nome"
-            >Nome da Turma
-            <input
-              type="text"
-              id="adicionar-turma-nome"
-              placeholder="9º ANO D"
-              required
-            />
+          <label for="adicionar-turma-ano"
+            >Ano
+            <select id="adicionar-turma-ano" required>
+              <option value="" disabled selected>Selecione o ano</option>
+              <option value="1">1º Ano</option>
+              <option value="2">2º Ano</option>
+              <option value="3">3º Ano</option>
+            </select>
+          </label>
+
+          <label for="adicionar-turma-classe"
+            >Classe
+            <select id="adicionar-turma-classe" required>
+              <option value="" disabled selected>Selecione a classe</option>
+              <option value="A">A</option>
+              <option value="B">B</option>
+              <option value="C">C</option>
+              <option value="D">D</option>
+            </select>
           </label>
 
           <div class="admin-modal-botoes">
@@ -178,10 +132,32 @@
       </div>
     </div>
 
+    <div class="admin-modal modal-excluir" id="modal-excluir-turma">
+      <div>
+        <div class="admin-modal-header">
+          <h3>Excluir Turma</h3>
+          <button class="fechar-modal">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <div class="admin-modal-content">
+          <p style="font-size: 2rem; margin-top: 2rem; margin-left: 1rem">
+            Deseja excluir a turma?
+          </p>
+
+          <div class="admin-modal-botoes">
+            <button type="button" id="btn-confirmar-excluir">Excluir</button>
+            <button type="button" class="cancelar-alteracoes">Cancelar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <script
       src="https://kit.fontawesome.com/02db64e304.js"
       crossorigin="anonymous"
     ></script>
-    <script src="../../assets/js/adminGlobal.js"></script>
+    <script type="module" src="../../assets/js/adminTurmas.js"></script>
   </body>
 </html>

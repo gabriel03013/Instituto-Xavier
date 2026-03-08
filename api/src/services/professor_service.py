@@ -25,6 +25,7 @@ class ProfessorService:
         """
         Verifica se já existe um professor com o mesmo usuário, caso exista lança um ValueError. Caso contrário, cria um
         novo professor utilizando o DAO e retorna o professor criado como um objeto ProfessorSchema.
+        Se uma matéria for fornecida, cria a matéria associada ao professor.
 
         Args:
             dados (ProfessorCreate): Dados necessários para criar um novo professor.
@@ -44,6 +45,16 @@ class ProfessorService:
             senha=dados.senha
         )
 
+        if dados.materia:
+            materia_existente = self.materias_dao.obter_por_nome(dados.materia)
+            if materia_existente:
+                self.materias_dao.atualizar(materia_existente.id, professor_id=professor.id)
+            else:
+                self.materias_dao.criar(nome=dados.materia, professor_id=professor.id)
+
+
+        # Refresh professor to include materias
+        professor = self.professor_dao.obter_por_id(professor.id)
         return ProfessorSchema.model_validate(professor)
 
     def listar_professores(self) -> List[ProfessorSchema]:
@@ -80,8 +91,9 @@ class ProfessorService:
         """
         Verifica se o professor existe utilizando o DAO. Se o professor não for encontrado, lança um ValueError. Caso contrário,
         verifica se o campo "usuario" está presente nos dados de atualização e se já existe um professor com o mesmo usuário
-        (excluindo o professor atual). Se existir, lança um ValueError. Caso contrário, atualiza o professor utilizando o DAO
-        e retorna o professor atualizado como um objeto ProfessorSchema.
+        (excluindo o professor atual). Se existir, lança um ValueError. Caso contrário, atualiza o professor utilizando o DAO.
+        Se uma matéria for fornecida, cria ou atualiza a matéria associada ao professor.
+        Retorna o professor atualizado como um objeto ProfessorSchema.
 
         Args:
             professor_id (int): O ID do professor a ser atualizado.
@@ -99,6 +111,7 @@ class ProfessorService:
             raise ValueError(f"Professor {professor_id} não encontrado")
 
         dados_dict = dados.model_dump(exclude_unset=True)
+        materia_nome = dados_dict.pop('materia', None)
 
         if 'usuario' in dados_dict and dados_dict['usuario']:
             usuario_existe = self.professor_dao.obter_por_usuario(dados_dict['usuario'])
@@ -107,6 +120,22 @@ class ProfessorService:
 
         professor_atualizado = self.professor_dao.atualizar(professor_id, **dados_dict)
 
+        if materia_nome:
+            # Clear old association
+            materias_do_prof = self.materias_dao.listar_por_professor(professor_id)
+            for mat in materias_do_prof:
+                self.materias_dao.atualizar(mat.id, professor_id=None)
+
+            # Assign new one
+            materia_nova = self.materias_dao.obter_por_nome(materia_nome)
+            if materia_nova:
+                self.materias_dao.atualizar(materia_nova.id, professor_id=professor_id)
+            else:
+                self.materias_dao.criar(nome=materia_nome, professor_id=professor_id)
+
+
+        # Refresh professor to include updated materias
+        professor_atualizado = self.professor_dao.obter_por_id(professor_id)
         return ProfessorSchema.model_validate(professor_atualizado)
 
     def deletar_professor(self, professor_id: int) -> Dict:

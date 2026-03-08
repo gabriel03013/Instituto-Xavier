@@ -153,7 +153,23 @@ async def complete_registration(
         raise HTTPException(status_code=404, detail=str(e))
     
 
+@mutante_router.patch("/{id_mutante}")
+async def update_mutante(
+    id_mutante: int,
+    mutante_schema: MutanteUpdate,
+    service: MutanteService = Depends(get_mutante_service)
+):
+    """
+    Atualiza um mutante existente.
+    """
+    try:
+        return service.atualizar_mutante(id_mutante, mutante_schema)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
 @mutante_router.get("/my_grades", response_model=List[MyGradeSchema])
+
 async def see_my_grades(
     id_mutante: int,
     session: Session = Depends(get_session)
@@ -234,14 +250,34 @@ async def get_mutante_subjects(
         MutantesMaterias.mutante_id == id_mutante
     ).all()
 
-    if not registros:
-        raise HTTPException(status_code=404, detail="Nenhuma matéria encontrada para este aluno.")
-
     return [
         MutanteMateriaInfoSchema(
             materia_id=r.materias.id,
             materia=r.materias.nome,
-            professor=r.materias.professor.nome
+            professor=r.materias.professor.nome if r.materias.professor else "Sem professor"
         )
-        for r in registros
+        for r in registros if r.materias
     ]
+
+
+
+@mutante_router.delete("/{id_mutante}")
+async def delete_mutante(
+    id_mutante: int,
+    service: MutanteService = Depends(get_mutante_service)
+):
+    """
+    Deleta um mutante do sistema.
+    
+    Args:
+        id_mutante (int): ID do mutante a ser deletado.
+        service (MutanteService): Service para lógica e validação.
+    
+    Returns:
+        dict: Mensagem de sucesso.
+    """
+    try:
+        service.deletar_mutante(id_mutante)
+        return {"msg": "Mutante deleted successfully."}
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))

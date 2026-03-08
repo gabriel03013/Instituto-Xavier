@@ -214,17 +214,17 @@ class MutantesMateriasService:
         
         grades = []
         for r in registros:
-            # Nota 1 e 2 são Integer no banco, mas tratamos como float para média se necessário.
-            # No esquema estão como float.
-            media = (r.nota1 + r.nota2) / 2.0
+            n1 = float(r.nota1 or 0)
+            n2 = float(r.nota2 or 0)
+            media = (n1 + n2) / 2.0
             
             grade = MutanteGradeSchema(
                 id=r.id,
                 mutante_id=r.mutante.id,
                 nome=r.mutante.nome,
                 matricula=r.mutante.matricula,
-                nota1=float(r.nota1),
-                nota2=float(r.nota2),
+                nota1=n1,
+                nota2=n2,
                 media=media
             )
             grades.append(grade)

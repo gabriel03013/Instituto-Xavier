@@ -7,7 +7,7 @@ form.addEventListener("submit", async (e) => {
   const [user, senha] = form.querySelectorAll("input");
 
   try {
-    const res = await api("token", "POST", {
+    const res = await api("login", "POST", {
       username: user.value,
       password: senha.value,
     });

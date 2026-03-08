@@ -29,7 +29,8 @@ class MateriaResponse(MateriaBase):
 class MateriaSchema(BaseModel):
     id: int
     nome: str
-    professor_id: int
+    professor_id: Optional[int] = None
+
 
     class Config:
         from_attributes = True

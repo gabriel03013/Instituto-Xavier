@@ -314,11 +314,35 @@ main {
   width: 100%;
   min-height: 80vh;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: flex-start;
   align-items: center;
+  padding-top: 5rem;
+}
+
+.admin-turmas-header {
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4rem;
+
+  h1 {
+    font-size: 3.5rem;
+    color: #222;
+  }
 }
 
 /* ── Header admin ── */
 header {
   background-color: var(--roxo-escuro);
+}
+
+.modal-excluir > div {
+  min-height: 15rem !important;
+}
+
+.modal-excluir .admin-modal-content {
+  gap: 1rem !important;
+  padding-bottom: 1rem !important;
 }

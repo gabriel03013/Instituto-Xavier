@@ -16,6 +16,38 @@
   color: #222;
 }
 
+.aluno-search {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  border-radius: 1.2rem;
+  border: 0.3rem solid #000;
+  background: #fefefe;
+  padding: 1rem 2rem;
+  width: 35rem;
+  background: #fff;
+}
+
+.aluno-search .search-icon {
+  flex-shrink: 0;
+  font-size: 1.6rem;
+}
+
+.aluno-search input {
+  border: none;
+  outline: none;
+  font-family: inherit;
+  font-size: 1.4rem;
+  color: #555;
+  width: 100%;
+  background: transparent;
+  letter-spacing: 0.3px;
+}
+
+.aluno-search input::placeholder {
+  color: #bbb;
+}
+
 .aluno-table-wrapper {
   width: 100%;
   overflow-x: auto;

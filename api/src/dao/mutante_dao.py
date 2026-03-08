@@ -112,8 +112,6 @@ class MutanteDAO:
             or_(Mutante.nome == None, Mutante.nome == ""),
             or_(Mutante.email == None, Mutante.email == ""),
             or_(Mutante.senha == None, Mutante.senha == ""),
-            or_(Mutante.poder_id == None, Mutante.poder_id == 0),
-            or_(Mutante.turma_id == None, Mutante.turma_id == 0)
         ).first()
 
 
