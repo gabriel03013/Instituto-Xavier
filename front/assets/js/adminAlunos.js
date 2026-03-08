@@ -153,11 +153,17 @@ function renderizarTabela(lista) {
   lista.forEach((aluno) => {
     const tr = document.createElement("tr");
     tr.dataset.id = aluno.id;
-    tr.dataset.nome = aluno.nome;
+    tr.dataset.nome = aluno.nome || "";
     tr.dataset.matricula = aluno.matricula;
     tr.dataset.turmaId = aluno.turma_id || "";
+
+    const pendente = !aluno.nome || aluno.nome.trim() === "";
+    const nomeDisplay = pendente
+      ? `<span style="color: #999; font-style: italic;">Cadastro pendente</span>`
+      : aluno.nome;
+
     tr.innerHTML = `
-      <td>${aluno.nome}</td>
+      <td>${nomeDisplay}</td>
       <td>${aluno.matricula}</td>
       <td>-</td>
       <td>-</td>

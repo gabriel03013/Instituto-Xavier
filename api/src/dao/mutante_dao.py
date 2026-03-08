@@ -110,7 +110,7 @@ class MutanteDAO:
         return self.session.query(Mutante).filter(
             Mutante.matricula == matricula,
             or_(Mutante.nome == None, Mutante.nome == ""),
-            or_(Mutante.email == None, Mutante.email == ""),
+            or_(Mutante.email == None, Mutante.email == "", Mutante.email.like("pending_%@placeholder")),
             or_(Mutante.senha == None, Mutante.senha == ""),
         ).first()
 

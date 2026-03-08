@@ -65,6 +65,9 @@ async def create_registration(
         raise HTTPException(status_code=400, detail="Matrícula já existe ou pertence a alguém.")
     
     mutante_matricula = Mutante()
+    mutante_matricula.nome = ""
+    mutante_matricula.email = f"pending_{matricula}@placeholder"
+    mutante_matricula.senha = ""
     mutante_matricula.esta_ativo = False
     mutante_matricula.matricula = matricula
     if turma_id:
