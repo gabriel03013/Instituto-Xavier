@@ -1,13 +1,23 @@
+"""
+Rotas administrativas para o sistema, destinadas ao uso por administradores.
+Oferece endpoints para verificar a saúde da conexão com o banco de dados e
+criar registros de matrícula vazios que serão completados posteriormente.
+
+Algumas funcionalidades são temporárias e possuem TODOs de refatoração.
+"""
+
+__author__ = "Erik Santos"
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import text
 from dependencies import get_session
 from database import engine
-from dependencies import get_session
 from models import Mutante
 from db.helpers.security import hash_password 
 from dao.mutante_dao import MutanteDAO 
+from dao.dashboards_dao import DashboardsDAO
 
 
 admin_router = APIRouter(prefix="/admin", tags=["admin"])
@@ -17,6 +27,9 @@ admin_router = APIRouter(prefix="/admin", tags=["admin"])
 async def health_db(session: Session = Depends(get_session)):
     """"
     Try connection with database just executing a simple select then returns successful or failure.
+    
+    Args:
+        session (Session): Database session dependency.
     """
     try:
         session.execute(text("SELECT 1"))
@@ -31,23 +44,49 @@ async def health_db(session: Session = Depends(get_session)):
 @admin_router.post("/create_registration")
 async def create_registration(
     matricula: str,
+    turma_id: int = None,
     session: Session = Depends(get_session)
 ):
     """
     Admin insere somente a matricula do aluno, que posteriormente vai ser completada na tela de cadastro.
+    
+    Args:
+        matricula (str): Matrícula do aluno a ser criada.
+        turma_id (int, optional): ID da turma a ser associada ao aluno.
+        session (Session): Database session dependency.
+        
+    Returns:
+        dict: Mensagem de sucesso com o ID do registro criado.
     """
     # TODO -> Criar model, service e schema de admin e arrumar esse codigo
     mutante_dao = MutanteDAO(session=session)
 
-    if mutante_dao.obter_matricula_vazia(matricula):
+    if mutante_dao.obter_por_matricula(matricula):
         raise HTTPException(status_code=400, detail="Matrícula já existe ou pertence a alguém.")
     
     mutante_matricula = Mutante()
-    mutante_matricula.esta_ativo = False #
+    mutante_matricula.nome = ""
+    mutante_matricula.email = f"pending_{matricula}@placeholder"
+    mutante_matricula.senha = ""
+    mutante_matricula.esta_ativo = False
     mutante_matricula.matricula = matricula
+    if turma_id:
+        mutante_matricula.turma_id = turma_id
 
     session.add(mutante_matricula)
     session.commit()
     session.refresh(mutante_matricula)
 
     return {"msg": f"Register without credencials created! ID: {mutante_matricula.id}"}
+
+
+@admin_router.get("/kpis")
+async def get_kpis(
+    session: Session = Depends(get_session)
+):
+    """
+    KPIs que contém o total de Alunos, total de Professores e total de Turmas para visualização do Admin
+    """
+    dashboards_dao = DashboardsDAO(session=session)
+
+    return dashboards_dao.obter_kpis_admin()

@@ -8,10 +8,10 @@ esquema apropriados.
 
 __author__ = "Davi Franco"
 
-from src.dao.materias_dao import MateriasDAO
-from src.dao.professor_dao import ProfessorDAO
-from src.dao.mutantes_materias_dao import MutantesMateriasDAO
-from src.schemas.materias_schema import MateriaCreate, MateriaUpdate, MateriaSchema
+from dao.materias_dao import MateriasDAO
+from dao.professor_dao import ProfessorDAO
+from dao.mutantes_materias_dao import MutantesMateriasDAO
+from schemas.materias_schema import MateriaCreate, MateriaUpdate, MateriaSchema
 from typing import List, Dict
 
 class MateriasService:

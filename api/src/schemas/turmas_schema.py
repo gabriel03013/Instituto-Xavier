@@ -1,5 +1,12 @@
-from typing import Optional
+"""
+Schemas Pydantic para a entidade Materias, definindo as estruturas de dados para criação, atualização e resposta de matérias.
+"""
+
+__author__ = ["Gustavo Manganelli", "Erik Santos"]
+
+from typing import Optional, List
 from pydantic import BaseModel
+from schemas.mutantes_schema import MutanteSchema
 
 
 class TurmaBase(BaseModel):
@@ -24,6 +31,7 @@ class TurmaSchema(BaseModel):
     id: int
     serie: int
     turma: str
+    alunos: List[MutanteSchema] = []
 
     class Config:
         from_attributes = True

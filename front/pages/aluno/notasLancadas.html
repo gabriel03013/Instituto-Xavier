@@ -1,106 +1,73 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Notas - Aluno</title>
+    <link rel="stylesheet" href="../../assets/css/globals.css" />
+    <link rel="stylesheet" href="../../assets/css/alunoNotas.css" />
+    <link
+      rel="icon"
+      href="../../assets/images/Group 14.svg"
+      type="image/x-icon"
+    />
+  </head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notas - Professor</title>
-    <link rel="stylesheet" href="../../assets/css/globals.css">
-    <link rel="stylesheet" href="../../assets/css/alunoNotas.css">
-</head>
-
-<body>
-    <header style="background-color: var(--azul);">
-        <div>
-            <img src="../../assets/images/Group 14.svg" alt="" />
-            <ul>
-                <li><a href="../disciplinas.html">Minha disciplina</a></li>
-                <li id="obs"><a href="../aluno/index.html">Observações</a></li>
-                <li id="notas" class="aba-aluno-ativa"><a href="../aluno/notasLancadas.html">Notas lançadas</a>
-                </li>
-            </ul>
-        </div>
+  <body>
+    <header style="background-color: var(--azul)">
+      <div>
+        <img src="../../assets/images/Group 14.svg" alt="" />
+        <ul>
+          <li><a href="../disciplinas.html">Disciplinas</a></li>
+          <li id="obs"><a href="../aluno/index.html">Observações</a></li>
+          <li id="notas" class="aba-aluno-ativa">
+            <a href="../aluno/notasLancadas.html">Notas lançadas</a>
+          </li>
+        </ul>
+      </div>
     </header>
 
     <main class="aluno-container">
-
-        <div class="aluno-header">
-            <h1 class="aluno-titulo">Notas</h1>
-            <div class="aluno-boletim">
-                <button id="baixar-boletim">
-                    <i class="fa-solid fa-download"></i>
-                    Baixar boletim
-                </button>
-            </div>
+      <div class="aluno-header">
+        <h1 class="aluno-titulo">Notas</h1>
+        <div class="aluno-search">
+          <i class="fa-solid fa-magnifying-glass search-icon"></i>
+          <input
+            type="search"
+            placeholder="Pesquise por professor ou matéria"
+          />
         </div>
-
-        <div class="aluno-table-wrapper">
-            <table class="aluno-table">
-                <thead>
-                    <tr>
-                        <th>Nome do Professor</th>
-                        <th>Matéria</th>
-                        <th>Nota 1</th>
-                        <th>Nota 2</th>
-                        <th>Média</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>TEMPESTADE</td>
-                        <td>CONTROLE DE PODER</td>
-                        <td>9.8</td>
-                        <td>9.8</td>
-                        <td>9.8</td>
-                        <td class="status-aprovado">Aprovado</td>
-                    </tr>
-                    <tr>
-                        <td>LOGAN</td>
-                        <td>HISTÓRIA</td>
-                        <td>10.0</td>
-                        <td>10.0</td>
-                        <td>10.0</td>
-                        <td class="status-aprovado">Aprovado</td>
-                    </tr>
-                    <tr>
-                        <td>CICLOPE</td>
-                        <td>MATEMÁTICA</td>
-                        <td>6.8</td>
-                        <td>6.8</td>
-                        <td>6.8</td>
-                        <td class="status-reprovado">Reprovado</td>
-                    </tr>
-                    <tr>
-                        <td>JEAN GREY</td>
-                        <td>TÁTICAS DE COMBATE</td>
-                        <td>7.2</td>
-                        <td>7.2</td>
-                        <td>7.2</td>
-                        <td class="status-aprovado">Aprovado</td>
-                    </tr>
-                    <tr>
-                        <td>CHARLES XAVIER</td>
-                        <td>ENGENHARIA MOLECULAR</td>
-                        <td>5.6</td>
-                        <td>5.6</td>
-                        <td>5.6</td>
-                        <td class="status-reprovado">Reprovado</td>
-                    </tr>
-                    <tr>
-                        <td>FERA</td>
-                        <td>CIÊNCIAS</td>
-                        <td>7.3</td>
-                        <td>7.3</td>
-                        <td>7.3</td>
-                        <td class="status-aprovado">Aprovado</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="aluno-boletim">
+          <button id="baixar-boletim">
+            <i class="fa-solid fa-download"></i>
+            Baixar boletim
+          </button>
         </div>
+      </div>
+
+      <div class="aluno-table-wrapper">
+        <table class="aluno-table">
+          <thead>
+            <tr>
+              <th>Nome do Professor</th>
+              <th>Matéria</th>
+              <th>Nota 1</th>
+              <th>Nota 2</th>
+              <th>Média</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
     </main>
-      <script src="https://kit.fontawesome.com/02db64e304.js" crossorigin="anonymous"></script>
 
-</body>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script
+      src="https://kit.fontawesome.com/02db64e304.js"
+      crossorigin="anonymous"
+    ></script>
+    <script type="module" src="../../assets/js/alunosNotas.js"></script>
+    <script type="module" src="../../assets/js/pdf.js"></script>
+  </body>
 </html>

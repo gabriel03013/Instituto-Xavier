@@ -7,57 +7,53 @@ no banco de dados e retorna os resultados como objetos de esquema apropriados.
 
 __author__ = "Davi Franco"
 
-from src.dao.mutante_dao import MutanteDAO
-from src.dao.poder_dao import PoderDAO
-from src.dao.turmas_dao import TurmasDAO
-from src.dao.mutantes_materias_dao import MutantesMateriasDAO
-from src.schemas.mutantes_schema import MutanteCreate, MutanteUpdate, MutanteResponse, MutanteSchema
+from dao.mutante_dao import MutanteDAO
+from dao.turmas_dao import TurmasDAO
+from dao.mutantes_materias_dao import MutantesMateriasDAO
+from schemas.mutantes_schema import MutanteCreate, MutanteUpdate, MutanteResponse, MutanteSchema
 from typing import List, Dict
-from src.db.helpers.security import hash_password
+from db.helpers.security import hash_password
 
 class MutanteService:
     def __init__(
         self,
         mutante_dao: MutanteDAO,
-        poder_dao: PoderDAO,
         turmas_dao: TurmasDAO,
         mutantes_materias_dao: MutantesMateriasDAO
     ):
         self.mutante_dao = mutante_dao
-        self.poder_dao = poder_dao
         self.turmas_dao = turmas_dao
         self.mutantes_materias_dao = mutantes_materias_dao
 
     def registrar_novo_mutante(self, dados: MutanteCreate) -> MutanteResponse:
-        """
-        Verifica se já existe um mutante com a mesma matrícula, caso exista lança um ValueError. Em seguida, verifica
-        se já existe um mutante com o mesmo email, caso exista lança um ValueError. Caso contrário, cria um novo mutante
-        utilizando o DAO com a senha criptografada e retorna o mutante criado como um objeto MutanteResponse.
-
-        Args:
-            dados (MutanteCreate): Dados necessários para registrar um novo mutante.
-
-        Raises:
-            ValueError: Se a matrícula já existir.
-            ValueError: Se o email já existir.
-
-        Returns:
-            MutanteResponse: O mutante criado como um objeto MutanteResponse.
-        """
-        if self.mutante_dao.obter_matricula_vazia(dados.matricula):
-            raise ValueError(f"Matrícula {dados.matricula} já existe")
-
-        if self.mutante_dao.obter_por_email(dados.email):
-            raise ValueError(f"Email {dados.email} já existe")
-
-        mutante = self.mutante_dao.criar(
-            matricula=dados.matricula,
-            nome=dados.nome,
-            email=dados.email,
-            senha=hash_password(dados.senha)
-        )
+        mutante_existente = self.mutante_dao.obter_por_matricula(dados.matricula)
+        
+        if mutante_existente:
+             # Se existe e está "vazia", vamos apenas completar. 
+             # Se já tem nome/email, então realmente "já existe".
+             if mutante_existente.nome:
+                 raise ValueError(f"Matrícula {dados.matricula} já está vinculada a um aluno.")
+             
+             mutante = self.mutante_dao.atualizar(
+                 mutante_existente.id,
+                 nome=dados.nome,
+                 email=dados.email,
+                 senha=hash_password(dados.senha),
+                 turma_id=dados.turma_id,
+                 esta_ativo=True
+             )
+        else:
+            mutante = self.mutante_dao.criar(
+                matricula=dados.matricula,
+                nome=dados.nome,
+                email=dados.email,
+                senha=hash_password(dados.senha),
+                esta_ativo=True,
+                turma_id=dados.turma_id
+            )
 
         return MutanteResponse.model_validate(mutante)
+
 
     def listar_mutantes(self) -> List[MutanteSchema]:
         """
@@ -122,9 +118,6 @@ class MutanteService:
             if email_existe and email_existe.id != mutante_id:
                 raise ValueError(f"Email {dados_dict['email']} já existe")
 
-        if 'poder_id' in dados_dict and dados_dict['poder_id']:
-            if not self.poder_dao.obter_por_id(dados_dict['poder_id']):
-                raise ValueError(f"Poder {dados_dict['poder_id']} não existe")
 
         if 'turma_id' in dados_dict and dados_dict['turma_id']:
             if not self.turmas_dao.obter_por_id(dados_dict['turma_id']):

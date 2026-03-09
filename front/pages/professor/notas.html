@@ -1,142 +1,110 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Notas - Professor</title>
-    <link rel="stylesheet" href="../../assets/css/globals.css">
-    <link rel="stylesheet" href="../../assets/css/profNotas.css">
-</head>
+    <link rel="stylesheet" href="../../assets/css/globals.css" />
+    <link rel="stylesheet" href="../../assets/css/profNotas.css" />
+    <link rel="icon" href="../../assets/images/Group 14.svg" type="image/x-icon">
+  </head>
 
-<body>
+  <body>
     <header>
-        <div>
-            <img src="../../assets/images/Group 14.svg" alt="" />
-            <ul>
-                <li><a href="index.html">Minha disciplina</a></li>
-                <li id="obs"><a href="selecionarTurma.html?tipo=obs">Observações</a></li>
-                <li id="notas" class="aba-professor-ativa"><a href="selecionarTurma.html?tipo=notas">Notas lançadas</a>
-                </li>
-            </ul>
-        </div>
+      <div>
+        <img src="../../assets/images/Group 14.svg" alt="" />
+        <ul>
+          <li><a href="index.html">Minha disciplina</a></li>
+          <li id="obs">
+            <a href="selecionarTurma.html?tipo=obs">Observações</a>
+          </li>
+          <li id="notas" class="aba-professor-ativa">
+            <a href="selecionarTurma.html?tipo=notas">Notas lançadas</a>
+          </li>
+        </ul>
+      </div>
     </header>
 
     <main class="turma-container">
-
-        <div class="turma-header">
-            <h1 class="turma-titulo">9° ANO A</h1>
-            <div class="turma-search">
-                <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                <input type="search" placeholder="Digite a matrícula ou nome do aluno" />
-            </div>
+      <div class="turma-header">
+        <h1 class="turma-titulo">9° ANO A</h1>
+        <div class="turma-search">
+          <i class="fa-solid fa-magnifying-glass search-icon"></i>
+          <input
+            type="search"
+            placeholder="Digite a matrícula ou nome do aluno"
+          />
         </div>
+      </div>
 
-        <div class="turma-table-wrapper">
-            <table class="turma-table">
-                <thead>
-                    <tr>
-                        <th>Nome do Aluno</th>
-                        <th>Matrícula</th>
-                        <th>Média 1°Sem</th>
-                        <th>Média 2°Sem</th>
-                        <th>Média Final</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>ARIANA GRANDE</td>
-                        <td>3456765443</td>
-                        <td>9.8</td>
-                        <td>9.8</td>
-                        <td>9.8</td>
-                        <td class="td-action"><button class="btn-edit" title="Editar">
-                                <i class="fa-solid fa-pen"></i></button></td>
-                    </tr>
-                    <tr>
-                        <td>BILLIE EILISH</td>
-                        <td>8987654677</td>
-                        <td>9.8</td>
-                        <td>9.8</td>
-                        <td>9.8</td>
-                        <td class="td-action"><button class="btn-edit" title="Editar">
-                                <i class="fa-solid fa-pen"></i></button></td>
-                    </tr>
-                    <tr>
-                        <td>TAYLOR SWIFT</td>
-                        <td>5559382823</td>
-                        <td>9.8</td>
-                        <td>9.8</td>
-                        <td>9.8</td>
-                        <td class="td-action"><button class="btn-edit" title="Editar">
-                                <i class="fa-solid fa-pen"></i></button></td>
-                    </tr>
-                    <tr>
-                        <td>BILLY JOEL</td>
-                        <td>7656787387</td>
-                        <td>9.8</td>
-                        <td>9.8</td>
-                        <td>9.8</td>
-                        <td class="td-action"><button class="btn-edit" title="Editar">
-                                <i class="fa-solid fa-pen"></i></button></td>
-                    </tr>
-                    <tr>
-                        <td>SNUPI</td>
-                        <td>5658498348</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td class="td-action"><button class="btn-edit" title="Editar">
-                                <i class="fa-solid fa-pen"></i></button></td>
-                    </tr>
-                    <tr>
-                        <td>THE POLICE</td>
-                        <td>3955665433</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td class="td-action"><button class="btn-edit" title="Editar">
-                                <i class="fa-solid fa-pen"></i></button></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+      <div class="turma-table-wrapper">
+        <table class="turma-table">
+          <thead>
+            <tr>
+              <th>Nome do Aluno</th>
+              <th>Matrícula</th>
+              <th>Média 1°Sem</th>
+              <th>Média 2°Sem</th>
+              <th>Média Final</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
     </main>
 
     <div id="editar-notas-modal">
-        <div>
-            <div id="editar-notas-modal-header">
-                <h3>Editar Notas</h3>
-                <button id="fechar-modal"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-
-            <form id="editar-notas-modal-content">
-                <label for="selectAluno">Aluno
-                    <input type="text" placeholder="Taylor Swift" disabled id="selectAluno">
-                </label>
-
-                <label for="media1">Média 1º Semestre
-                    <input type="number" placeholder="Digite a média do 1º Semestre" min="0" max="10" id="media1">
-                </label>
-
-                <label for="media2">Média 2º Semestre
-                    <input type="number" placeholder="Digite a média do 2º Semestre" min="0" max="10" id="media2">
-                </label>
-
-                <p>A média final do aluno será: <span id="media-final-preview"></span></p>
-
-                <div id="editar-notas-modal-botoes">
-                    <button type="submit" id="salvar-alteracoes">Salvar</button>
-                    <button id="cancelar-alteracoes">Cancelar</button>
-                </div>
-            </form>
+      <div>
+        <div id="editar-notas-modal-header">
+          <h3>Editar Notas</h3>
+          <button id="fechar-modal"><i class="fa-solid fa-xmark"></i></button>
         </div>
-        
+
+        <form id="editar-notas-modal-content">
+          <label for="selectAluno"
+            >Aluno
+            <input
+              type="text"
+              placeholder="Taylor Swift"
+              disabled
+              id="selectAluno"
+            />
+          </label>
+
+          <label for="media1"
+            >Média 1º Semestre
+            <input
+              type="number"
+              placeholder="Digite a média do 1º Semestre"
+              min="0"
+              max="10"
+              id="media1"
+            />
+          </label>
+
+          <label for="media2"
+            >Média 2º Semestre
+            <input
+              type="number"
+              placeholder="Digite a média do 2º Semestre"
+              min="0"
+              max="10"
+              id="media2"
+            />
+          </label>  
+          <div id="editar-notas-modal-botoes">
+            <button type="submit" id="salvar-alteracoes">Salvar</button>
+            <button id="cancelar-alteracoes">Cancelar</button>
+          </div>
+        </form>
+      </div>
     </div>
 
-    <script src="https://kit.fontawesome.com/02db64e304.js" crossorigin="anonymous"></script>
-    <script src="../../assets/js/profNotas.js"></script>
-</body>
-
+    <script
+      src="https://kit.fontawesome.com/02db64e304.js"
+      crossorigin="anonymous"
+    ></script>
+    <script type="module" src="../../assets/js/profNotas.js"></script>
+  </body>
 </html>

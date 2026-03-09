@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Selecionar Turma - Admin</title>
+    <link rel="stylesheet" href="../../assets/css/globals.css" />
+    <link rel="stylesheet" href="../../assets/css/adminGlobal.css" />
+    <link
+      rel="icon"
+      href="../../assets/images/Group 14.svg"
+      type="image/x-icon"
+    />
+  </head>
+  <body>
+    <header>
+      <div>
+        <img src="../../assets/images/Group 14.svg" alt="" />
+        <ul>
+          <li><a href="index.html">Início</a></li>
+          <li><a href="turmas.html">Turmas</a></li>
+          <li class="aba-admin-ativa">
+            <a href="selecionarTurma.html">Alunos</a>
+          </li>
+          <li><a href="professores.html">Professores</a></li>
+          <li><a href="disciplinas.html">Disciplinas</a></li>
+        </ul>
+      </div>
+    </header>
+
+    <main class="admin-selecionar-turma-main">
+      <div class="admin-turmas-header">
+        <h1>Selecione uma turma</h1>
+        <div class="admin-search">
+          <i class="fa-solid fa-magnifying-glass search-icon"></i>
+          <input type="search" placeholder="Pesquise por ano ou turma" />
+        </div>
+      </div>
+      <section id="admin-turmas"></section>
+    </main>
+
+    <script
+      src="https://kit.fontawesome.com/02db64e304.js"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      type="module"
+      src="../../assets/js/adminSelecionarTurma.js"
+    ></script>
+  </body>
+</html>

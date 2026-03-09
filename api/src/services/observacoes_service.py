@@ -6,9 +6,9 @@ realizar as operações necessárias no banco de dados e retorna os resultados c
 
 __author__ = "Davi Franco"
 
-from src.dao.observacoes_dao import ObservacoesDAO
-from src.dao.mutantes_materias_dao import MutantesMateriasDAO
-from src.schemas.observacoes_schema import ObservacaoCreate, ObservacaoUpdate, ObservacaoSchema
+from dao.observacoes_dao import ObservacoesDAO
+from dao.mutantes_materias_dao import MutantesMateriasDAO
+from schemas.observacoes_schema import ObservacaoCreate, ObservacaoUpdate, ObservacaoSchema, ObservacaoStudentSchema
 from typing import List, Dict
 from datetime import date
 
@@ -98,6 +98,32 @@ class ObservacoesService:
         
         observacoes = self.observacoes_dao.listar_todas()
         return [ObservacaoSchema.model_validate(o) for o in observacoes]
+
+    def listar_observacoes_por_turma(self, turma_id: int) -> List[ObservacaoSchema]:
+        """
+            Lista todas as observações associadas aos mutantes de uma turma específica.
+
+        Args:
+            turma_id (int): ID da turma para a qual se deseja listar as observações.
+
+        Returns:
+            List[ObservacaoSchema]: Lista de objetos ObservacaoSchema representando as observações da turma.
+        """
+        observacoes = self.observacoes_dao.listar_por_turma(turma_id)
+        return [ObservacaoSchema.model_validate(o) for o in observacoes]
+
+    def listar_observacoes_por_mutante(self, mutante_id: int) -> List[ObservacaoStudentSchema]:
+        """
+            Lista todas as observações associadas a um mutante específico.
+
+        Args:
+            mutante_id (int): ID do mutante para o qual se deseja listar as observações.
+
+        Returns:
+            List[ObservacaoStudentSchema]: Lista de objetos ObservacaoStudentSchema representando as observações do mutante.
+        """
+        observacoes = self.observacoes_dao.listar_por_mutante(mutante_id)
+        return [ObservacaoStudentSchema.model_validate(o) for o in observacoes]
 
     def obter_observacao_por_id(self, observacao_id: int) -> ObservacaoSchema:
         """

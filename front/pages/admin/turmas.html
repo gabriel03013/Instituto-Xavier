@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Turmas - Admin</title>
+    <link rel="stylesheet" href="../../assets/css/globals.css" />
+    <link rel="stylesheet" href="../../assets/css/adminGlobal.css" />
+    <link
+      rel="icon"
+      href="../../assets/images/Group 14.svg"
+      type="image/x-icon"
+    />
+  </head>
+  <body>
+    <header>
+      <div>
+        <img src="../../assets/images/Group 14.svg" alt="" />
+        <ul>
+          <li><a href="index.html">Início</a></li>
+          <li class="aba-admin-ativa"><a href="turmas.html">Turmas</a></li>
+          <li><a href="selecionarTurma.html">Alunos</a></li>
+          <li><a href="professores.html">Professores</a></li>
+          <li><a href="disciplinas.html">Disciplinas</a></li>
+        </ul>
+      </div>
+    </header>
+
+    <main>
+      <div class="turma-header">
+        <div id="admin-header-titulo-botao">
+          <h1 class="turma-titulo">Turmas</h1>
+          <button id="admin-adicionar">
+            <i class="fa-solid fa-plus"></i>
+            Adicionar Turma
+          </button>
+        </div>
+
+        <div class="admin-search">
+          <i class="fa-solid fa-magnifying-glass search-icon"></i>
+          <input type="search" placeholder="Pesquisar turma" />
+        </div>
+      </div>
+
+      <div class="admin-table-wrapper">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Turma</th>
+              <th>Nº Alunos</th>
+              <th>Opções</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </main>
+
+    <div class="admin-modal" id="modal-editar-turma">
+      <div>
+        <div class="admin-modal-header">
+          <h3>Editar Turma</h3>
+          <button class="fechar-modal">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <form class="admin-modal-content">
+          <label for="editar-turma-ano"
+            >Ano
+            <select id="editar-turma-ano">
+              <option value="1">1º Ano</option>
+              <option value="2">2º Ano</option>
+              <option value="3">3º Ano</option>
+            </select>
+          </label>
+
+          <label for="editar-turma-classe"
+            >Classe
+            <select id="editar-turma-classe">
+              <option value="A">A</option>
+              <option value="B">B</option>
+              <option value="C">C</option>
+              <option value="D">D</option>
+            </select>
+          </label>
+
+          <div class="admin-modal-botoes">
+            <button type="submit">Salvar</button>
+            <button type="button" class="cancelar-alteracoes">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="admin-modal modal-adicionar" id="modal-adicionar-turma">
+      <div>
+        <div class="admin-modal-header">
+          <h3>Adicionar Turma</h3>
+          <button type="button" class="fechar-modal">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <form class="admin-modal-content">
+          <label for="adicionar-turma-ano"
+            >Ano
+            <select id="adicionar-turma-ano" required>
+              <option value="" disabled selected>Selecione o ano</option>
+              <option value="1">1º Ano</option>
+              <option value="2">2º Ano</option>
+              <option value="3">3º Ano</option>
+            </select>
+          </label>
+
+          <label for="adicionar-turma-classe"
+            >Classe
+            <select id="adicionar-turma-classe" required>
+              <option value="" disabled selected>Selecione a classe</option>
+              <option value="A">A</option>
+              <option value="B">B</option>
+              <option value="C">C</option>
+              <option value="D">D</option>
+            </select>
+          </label>
+
+          <div class="admin-modal-botoes">
+            <button type="submit">Adicionar</button>
+            <button type="button" class="cancelar-alteracoes">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="admin-modal modal-excluir" id="modal-excluir-turma">
+      <div>
+        <div class="admin-modal-header">
+          <h3>Excluir Turma</h3>
+          <button class="fechar-modal">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <div class="admin-modal-content">
+          <p style="font-size: 2rem; margin-top: 2rem; margin-left: 1rem">
+            Deseja excluir a turma?
+          </p>
+
+          <div class="admin-modal-botoes">
+            <button type="button" id="btn-confirmar-excluir">Excluir</button>
+            <button type="button" class="cancelar-alteracoes">Cancelar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://kit.fontawesome.com/02db64e304.js"
+      crossorigin="anonymous"
+    ></script>
+    <script type="module" src="../../assets/js/adminTurmas.js"></script>
+  </body>
+</html>

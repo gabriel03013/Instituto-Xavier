@@ -1,5 +1,39 @@
+"""
+Schemas Pydantic para a entidade Materias, definindo as estruturas de dados para criação, atualização e resposta de matérias.
+"""
+
+__author__ = ["Gustavo Manganelli", "Erik Santos"]
+
 from typing import Optional
 from pydantic import BaseModel, EmailStr
+from datetime import date
+
+
+class MutanteSimpleSchema(BaseModel):
+    id: int
+    nome: str
+    matricula: str
+
+    class Config:
+        from_attributes = True
+
+
+class MutanteInfoSchema(BaseModel):
+    id: int
+    nome: str
+    turma: str
+
+    class Config:
+        from_attributes = True
+
+
+class MutanteMateriaInfoSchema(BaseModel):
+    materia_id: int
+    materia: str
+    professor: str
+
+    class Config:
+        from_attributes = True
 
 
 class MutanteBase(BaseModel):
@@ -7,6 +41,8 @@ class MutanteBase(BaseModel):
     matricula: str
     email: EmailStr
     senha: str
+    turma_id: Optional[int] = None
+
 
 
 class MutanteCreate(MutanteBase):
@@ -19,7 +55,6 @@ class MutanteUpdate(BaseModel):
     email: Optional[EmailStr] = None
     senha: Optional[str] = None
     esta_ativo: Optional[bool] = False
-    poder_id: Optional[int] = None
     turma_id: Optional[int] = None
 
 
@@ -33,7 +68,8 @@ class MutanteSchema(BaseModel):
     matricula: str
     email: EmailStr
     senha: str
-    poder_id: int
+    turma_id: Optional[int] = None
+
 
     class Config:
         from_attributes = True

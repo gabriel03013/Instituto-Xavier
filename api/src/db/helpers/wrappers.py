@@ -1,3 +1,7 @@
+"""Wrapper para debug do dataload que utiliza o logging"""
+
+__author__ = "Davi Franco"
+
 from db.helpers.logger import logger
 
 # caso precise debuggar mais a fundo

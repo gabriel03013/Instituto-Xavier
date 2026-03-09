@@ -1,3 +1,9 @@
+"""
+Conexão com o banco de dados e inicialização da sessão para consultas e operações CRUD
+"""
+
+__author__ = "Erik Santos"
+
 from sqlalchemy.orm import Session, sessionmaker
 from fastapi import Depends
 from database import engine

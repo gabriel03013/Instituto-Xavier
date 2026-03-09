@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Professores - Admin</title>
+    <link rel="stylesheet" href="../../assets/css/globals.css" />
+    <link rel="stylesheet" href="../../assets/css/adminGlobal.css" />
+    <link
+      rel="icon"
+      href="../../assets/images/Group 14.svg"
+      type="image/x-icon"
+    />
+  </head>
+  <body>
+    <header>
+      <div>
+        <img src="../../assets/images/Group 14.svg" alt="" />
+        <ul>
+          <li><a href="index.html">Início</a></li>
+          <li><a href="turmas.html">Turmas</a></li>
+          <li><a href="selecionarTurma.html">Alunos</a></li>
+          <li class="aba-admin-ativa">
+            <a href="professores.html">Professores</a>
+          </li>
+          <li><a href="disciplinas.html">Disciplinas</a></li>
+        </ul>
+      </div>
+    </header>
+
+    <main>
+      <div class="turma-header">
+        <div id="admin-header-titulo-botao">
+          <h1 class="turma-titulo">Professores</h1>
+          <button id="admin-adicionar">
+            <i class="fa-solid fa-plus"></i>
+            Adicionar Professor
+          </button>
+        </div>
+
+        <div class="admin-search">
+          <i class="fa-solid fa-magnifying-glass search-icon"></i>
+          <input type="search" placeholder="Pesquisar professor" />
+        </div>
+      </div>
+
+      <div class="admin-table-wrapper">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Matéria</th>
+              <th>Login</th>
+              <th>Senha</th>
+              <th>Nº Alunos</th>
+              <th>Opções</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </main>
+
+    <div class="admin-modal" id="modal-editar-professor">
+      <div>
+        <div class="admin-modal-header">
+          <h3>Editar Professor</h3>
+          <button class="fechar-modal">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <form class="admin-modal-content">
+          <label for="editar-professor-nome"
+            >Nome
+            <input
+              type="text"
+              id="editar-professor-nome"
+              placeholder="Carlos Silva"
+            />
+          </label>
+
+          <label for="editar-professor-materia"
+            >Matéria
+            <select id="editar-professor-materia">
+              <option value="">Nenhuma</option>
+            </select>
+          </label>
+
+          <label for="editar-professor-login"
+            >Login
+            <input
+              type="text"
+              id="editar-professor-login"
+              placeholder="carlos.silva"
+            />
+          </label>
+
+          <label for="editar-professor-senha"
+            >Senha
+            <input
+              type="password"
+              id="editar-professor-senha"
+              placeholder="••••••"
+            />
+          </label>
+
+          <div class="admin-modal-botoes">
+            <button type="submit">Salvar</button>
+            <button type="button" class="cancelar-alteracoes">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="admin-modal modal-adicionar" id="modal-adicionar-professor">
+      <div>
+        <div class="admin-modal-header">
+          <h3>Adicionar Professor</h3>
+          <button type="button" class="fechar-modal">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <form class="admin-modal-content">
+          <label for="adicionar-professor-nome"
+            >Nome
+            <input
+              type="text"
+              id="adicionar-professor-nome"
+              placeholder="Nome completo"
+              required
+            />
+          </label>
+
+          <label for="adicionar-professor-materia"
+            >Matéria
+            <select id="adicionar-professor-materia" required>
+              <option value="" disabled selected>Selecione uma matéria</option>
+            </select>
+          </label>
+
+          <label for="adicionar-professor-login"
+            >Login
+            <input
+              type="text"
+              id="adicionar-professor-login"
+              placeholder="Login"
+              required
+            />
+          </label>
+
+          <label for="adicionar-professor-senha"
+            >Senha
+            <input
+              type="password"
+              id="adicionar-professor-senha"
+              placeholder="Senha"
+              required
+            />
+          </label>
+
+          <div class="admin-modal-botoes">
+            <button type="submit">Adicionar</button>
+            <button type="button" class="cancelar-alteracoes">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="admin-modal modal-excluir" id="modal-excluir-professor">
+      <div>
+        <div class="admin-modal-header">
+          <h3>Excluir Professor</h3>
+          <button class="fechar-modal">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <div class="admin-modal-content">
+          <p style="font-size: 2rem; margin-top: 2rem; margin-left: 1rem">
+            Deseja excluir o professor?
+          </p>
+
+          <div class="admin-modal-botoes">
+            <button type="button" id="btn-confirmar-excluir">Excluir</button>
+            <button type="button" class="cancelar-alteracoes">Cancelar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://kit.fontawesome.com/02db64e304.js"
+      crossorigin="anonymous"
+    ></script>
+    <script type="module" src="../../assets/js/adminProfessores.js"></script>
+  </body>
+</html>

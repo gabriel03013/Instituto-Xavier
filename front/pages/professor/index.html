@@ -6,6 +6,7 @@
     <title>Home - Professor</title>
     <link rel="stylesheet" href="../../assets/css/profHome.css" />
     <link rel="stylesheet" href="../../assets/css/globals.css" />
+    <link rel="icon" href="../../assets/images/Group 14.svg" type="image/x-icon">
   </head>
   <body>
     <header>
@@ -29,31 +30,31 @@
           />
 
           <div>
-            <h1 id="materia-professor">Literatura</h1>
-            <p id="nome-professor">Prof. José Pereira</p>
+            <h1 id="materia-professor"></h1>
+            <p id="nome-professor"></p>
           </div>
           <button id="editar-perfil">Editar Perfil</button>
         </div>
 
         <div id="dashboard">
-          <div id="total-alunos" class="dashboard-card">
+          <div class="dashboard-card">
             <div>
               <h2>Total de Alunos</h2>
-              <p>10</p>
+              <p id="total-alunos"></p>
             </div>
           </div>
 
-          <div id="media-notas" class="dashboard-card">
+          <div class="dashboard-card">
             <div>
               <h2>Média de Notas</h2>
-              <p>8</p>
+              <p id="media-notas"></p>
             </div>
           </div>
 
-          <div id="total-observacoes" class="dashboard-card">
+          <div class="dashboard-card">
             <div>
               <h2>Total de Observações</h2>
-              <p>10</p>
+              <p id="total-observacoes"></p>
             </div>
           </div>
         </div>
@@ -127,6 +128,6 @@
       src="https://kit.fontawesome.com/02db64e304.js"
       crossorigin="anonymous"
     ></script>
-    <script src="../../assets/js/profHome.js"></script>
+    <script type="module" src="../../assets/js/profHome.js"></script>
   </body>
 </html>
