@@ -83,18 +83,19 @@ async def get_dashboard(
         dict: Dicionário contendo os dados do dashboard, incluindo total de alunos, média de notas e total de observações
     """
     dashboard_dao = DashboardsDAO(session=session)
-    dash = dashboard_dao.obter_kpis_professor(id_professor=int(id_professor))
+    kpis = dashboard_dao.obter_kpis_professor(id_professor=int(id_professor))
     nota_turma_materia = dashboard_dao.obter_notas_por_turma_materia(id_professor=int(id_professor))
     situacao_alunos = dashboard_dao.obter_situacao_alunos(id_professor=int(id_professor))
+    
     return {
         "dashboard": {
-            "total_alunos": int(dash["total_alunos"]),
-            "media_notas": float(dash["media_notas"]),
-            "total_observacoes": int(dash["total_observacoes"]),
+            "total_alunos": int(kpis["total_alunos"]),
+            "media_notas": float(kpis["media_notas"]),
+            "total_observacoes": int(kpis["total_observacoes"]),
         },
         "notas_turma_materia": [
-            {"turma": r["turma"], "materia": r["materia"], "media": float(r["media"])}
-            for r in nota_turma_materia
+            {"turma": result["turma"], "materia": result["materia"], "media": float(result["media"])}
+            for result in nota_turma_materia
         ],
         "situacao_alunos": {
             "aprovados": int(situacao_alunos["aprovados"]),
