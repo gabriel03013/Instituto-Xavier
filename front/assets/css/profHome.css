@@ -261,7 +261,8 @@ section {
       input {
         border-radius: 0.5rem;
         border: 0.3rem solid var(--preto);
-        padding: 0.5rem 0;
+        padding: 0.5rem 0.5rem;
+        font-family: IBS;
       }
     }
   }
