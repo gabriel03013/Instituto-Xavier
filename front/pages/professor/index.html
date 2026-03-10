@@ -6,7 +6,11 @@
     <title>Home - Professor</title>
     <link rel="stylesheet" href="../../assets/css/profHome.css" />
     <link rel="stylesheet" href="../../assets/css/globals.css" />
-    <link rel="icon" href="../../assets/images/Group 14.svg" type="image/x-icon">
+    <link
+      rel="icon"
+      href="../../assets/images/Group 14.svg"
+      type="image/x-icon"
+    />
   </head>
   <body>
     <header>
@@ -23,12 +27,6 @@
     <main>
       <section>
         <div id="professor-overview">
-          <img
-            id="foto-perfil"
-            src="../../assets/images/5fd8cb750eeb981e89a3d04a9c673fc0.jpg"
-            alt=""
-          />
-
           <div>
             <h1 id="materia-professor"></h1>
             <p id="nome-professor"></p>
@@ -60,8 +58,18 @@
         </div>
 
         <div id="botoes-home">
-          <button id="add-nota">Adicionar Notas</button>
-          <button id="add-obs">Adicionar Observações</button>
+          <button
+            id="add-nota"
+            onclick="document.location.href = 'selecionarTurma.html?tipo=notas'"
+          >
+            Adicionar Notas
+          </button>
+          <button
+            id="add-obs"
+            onclick="document.location.href = 'selecionarTurma.html?tipo=obs'"
+          >
+            Adicionar Observações
+          </button>
         </div>
       </section>
 
@@ -81,19 +89,6 @@
 
         <div>
           <form>
-            <div id="form-imagem">
-              <img
-                src="../../assets/images/5fd8cb750eeb981e89a3d04a9c673fc0.jpg"
-                alt=""
-              />
-              <input type="file" accept="image/*" id="inputFile" hidden />
-
-              <label for="inputFile">
-                <i class="fa-solid fa-upload"></i>
-                <p>Alterar Foto</p>
-              </label>
-            </div>
-
             <div id="form-inputs">
               <div>
                 <h4>José Pereira</h4>

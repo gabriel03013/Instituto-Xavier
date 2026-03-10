@@ -87,9 +87,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       fecharModal(modalAdicionar);
       e.target.reset();
       await carregarAlunos(turmaId);
-      alert("Matrícula criada com sucesso! O aluno deve completar o cadastro.");
     } catch (error) {
-      alert("Erro ao criar matrícula: " + error.message);
+      console.error("erro ao criar matrícula:", error);
     }
   });
 
@@ -109,9 +108,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       fecharModal(modalEditar);
       await carregarAlunos(turmaId);
-      alert("Aluno atualizado com sucesso!");
     } catch (error) {
-      alert("Erro ao atualizar aluno: " + error.message);
+      console.error("erro ao atualizar aluno:", error);
     }
   });
 

@@ -6,10 +6,10 @@ document.addEventListener("DOMContentLoaded", () => {
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const nome = document.getElementById("nome").value;
-    const matricula = document.getElementById("matricula").value;
-    const email = document.getElementById("email").value;
-    const senha = document.getElementById("senha").value;
+    const nome = capitalize(document.getElementById("nome").value).trim();
+    const matricula = document.getElementById("matricula").value.trim();
+    const email = document.getElementById("email").value.toLowerCase().trim();
+    const senha = document.getElementById("senha").value.trim();
 
     try {
       await api("mutant/complete_registration", "PUT", {
@@ -34,3 +34,12 @@ document.addEventListener("DOMContentLoaded", () => {
   loginLink.style.textAlign = "center";
   form.appendChild(loginLink);
 });
+
+
+function capitalize(str) {
+  const stringArr = str.split(" ");
+  stringArr.forEach((word, index) => {
+    stringArr[index] = word.charAt(0).toUpperCase() + word.slice(1);
+  });
+  return stringArr.join(" ");
+}
