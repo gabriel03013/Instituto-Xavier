@@ -69,6 +69,7 @@ async def create_registration(
     mutante_matricula.email = f"pending_{matricula}@placeholder"
     mutante_matricula.senha = ""
     mutante_matricula.esta_ativo = False
+    mutante_matricula.chave_seguranca = ""
     mutante_matricula.matricula = matricula
     if turma_id:
         mutante_matricula.turma_id = turma_id

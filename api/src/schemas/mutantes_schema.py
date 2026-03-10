@@ -73,3 +73,8 @@ class MutanteSchema(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class ResetPasswordSchema(BaseModel):
+    chave_seguranca: str
+    nova_senha: str
