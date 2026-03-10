@@ -4,11 +4,49 @@ body {
 
 main {
   width: 100%;
-  min-height: 100%;
-  height: auto;
+  padding-top: 5rem;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
+}
+
+.prof-turmas-header {
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+
+  h1 {
+    font-size: 3.5rem;
+    color: #222;
+  }
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  border-radius: 1.2rem;
+  border: 0.3rem solid #000;
+  background: #fefefe;
+  padding: 1rem 2rem;
+  width: 35rem;
+  background: #fff;
+
+  .search-icon {
+    font-size: 1.6rem;
+  }
+
+  input {
+    border: none;
+    outline: none;
+    font-family: inherit;
+    font-size: 1.4rem;
+    color: #555;
+    width: 100%;
+    background: transparent;
+  }
 }
 
 #turmas {

@@ -6,6 +6,11 @@
     <title>Alunos - Admin</title>
     <link rel="stylesheet" href="../../assets/css/globals.css" />
     <link rel="stylesheet" href="../../assets/css/adminGlobal.css" />
+    <link
+      rel="icon"
+      href="../../assets/images/Group 14.svg"
+      type="image/x-icon"
+    />
   </head>
   <body>
     <header>
@@ -26,7 +31,7 @@
     <main>
       <div class="turma-header">
         <div id="admin-header-titulo-botao">
-          <h1 class="turma-titulo">9º ANO A</h1>
+          <h1 class="turma-titulo"></h1>
           <button id="admin-adicionar">
             <i class="fa-solid fa-plus"></i>
             Adicionar Aluno
@@ -54,103 +59,11 @@
               <th>Opções</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td>ARIANA GRANDE</td>
-              <td>3456765443</td>
-              <td>9.8</td>
-              <td>9.2</td>
-              <td>9.5</td>
-              <td class="td-action">
-                <button class="btn-edit" title="Editar">
-                  <i class="fa-solid fa-pen"></i>
-                </button>
-                <button class="btn-excluir" title="Excluir">
-                  <i class="fa-solid fa-trash-can"></i>
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td>BILLIE EILISH</td>
-              <td>8987654677</td>
-              <td>8.5</td>
-              <td>9.0</td>
-              <td>8.7</td>
-              <td class="td-action">
-                <button class="btn-edit" title="Editar">
-                  <i class="fa-solid fa-pen"></i>
-                </button>
-                <button class="btn-excluir" title="Excluir">
-                  <i class="fa-solid fa-trash-can"></i>
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td>TAYLOR SWIFT</td>
-              <td>5559382823</td>
-              <td>7.6</td>
-              <td>8.4</td>
-              <td>8.0</td>
-              <td class="td-action">
-                <button class="btn-edit" title="Editar">
-                  <i class="fa-solid fa-pen"></i>
-                </button>
-                <button class="btn-excluir" title="Excluir">
-                  <i class="fa-solid fa-trash-can"></i>
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td>BILLY JOEL</td>
-              <td>7656787387</td>
-              <td>6.5</td>
-              <td>7.0</td>
-              <td>6.7</td>
-              <td class="td-action">
-                <button class="btn-edit" title="Editar">
-                  <i class="fa-solid fa-pen"></i>
-                </button>
-                <button class="btn-excluir" title="Excluir">
-                  <i class="fa-solid fa-trash-can"></i>
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td>SNUPI</td>
-              <td>5658498348</td>
-              <td>9.0</td>
-              <td>8.8</td>
-              <td>8.9</td>
-              <td class="td-action">
-                <button class="btn-edit" title="Editar">
-                  <i class="fa-solid fa-pen"></i>
-                </button>
-                <button class="btn-excluir" title="Excluir">
-                  <i class="fa-solid fa-trash-can"></i>
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td>THE POLICE</td>
-              <td>3955665433</td>
-              <td>5.8</td>
-              <td>6.2</td>
-              <td>6.0</td>
-              <td class="td-action">
-                <button class="btn-edit" title="Editar">
-                  <i class="fa-solid fa-pen"></i>
-                </button>
-                <button class="btn-excluir" title="Excluir">
-                  <i class="fa-solid fa-trash-can"></i>
-                </button>
-              </td>
-            </tr>
-          </tbody>
+          <tbody></tbody>
         </table>
       </div>
     </main>
 
-    <!-- Modal Editar Aluno -->
     <div class="admin-modal" id="modal-editar-aluno">
       <div>
         <div class="admin-modal-header">
@@ -178,6 +91,12 @@
               placeholder="3456765443"
             />
           </label>
+          <label for="editar-aluno-turma"
+            >Turma
+            <select id="editar-aluno-turma" required>
+              <option value="" disabled selected>Selecione a turma</option>
+            </select>
+          </label>
 
           <div class="admin-modal-botoes">
             <button type="submit">Salvar</button>
@@ -187,7 +106,6 @@
       </div>
     </div>
 
-    <!-- Modal Adicionar Aluno -->
     <div class="admin-modal modal-adicionar" id="modal-adicionar-aluno">
       <div>
         <div class="admin-modal-header">
@@ -198,16 +116,6 @@
         </div>
 
         <form class="admin-modal-content">
-          <label for="adicionar-aluno-nome"
-            >Nome
-            <input
-              type="text"
-              id="adicionar-aluno-nome"
-              placeholder="Nome completo"
-              required
-            />
-          </label>
-
           <label for="adicionar-aluno-matricula"
             >Matrícula
             <input
@@ -222,12 +130,6 @@
             >Turma
             <select id="adicionar-aluno-turma" required>
               <option value="" disabled selected>Selecione a turma</option>
-              <option value="9A">9º ANO A</option>
-              <option value="9B">9º ANO B</option>
-              <option value="9C">9º ANO C</option>
-              <option value="8A">8º ANO A</option>
-              <option value="8B">8º ANO B</option>
-              <option value="7A">7º ANO A</option>
             </select>
           </label>
 
@@ -239,10 +141,32 @@
       </div>
     </div>
 
+    <div class="admin-modal modal-excluir" id="modal-excluir-aluno">
+      <div>
+        <div class="admin-modal-header">
+          <h3>Excluir Aluno</h3>
+          <button class="fechar-modal">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <div class="admin-modal-content">
+          <p style="font-size: 2rem; margin-top: 2rem; margin-left: 1rem">
+            Deseja excluir o aluno?
+          </p>
+
+          <div class="admin-modal-botoes">
+            <button type="button" id="btn-confirmar-excluir">Excluir</button>
+            <button type="button" class="cancelar-alteracoes">Cancelar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <script
       src="https://kit.fontawesome.com/02db64e304.js"
       crossorigin="anonymous"
     ></script>
-    <script src="../../assets/js/adminGlobal.js"></script>
+    <script type="module" src="../../assets/js/adminAlunos.js"></script>
   </body>
 </html>

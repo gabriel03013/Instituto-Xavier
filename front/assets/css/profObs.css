@@ -87,7 +87,9 @@ main {
   border-radius: 0.5rem;
   cursor: pointer;
   color: #333;
-  transition: opacity 0.15s, transform 0.1s;
+  transition:
+    opacity 0.15s,
+    transform 0.1s;
 }
 
 .btn-excluir {
@@ -213,10 +215,18 @@ main {
   }
 }
 .modal-adicionar select {
-    font-family: inherit;
-    width: 95%;
-    padding: 1rem 0 1rem 1rem;
-    border: .2rem solid var(--preto);
+  font-family: inherit;
+  width: 95%;
+  padding: 1rem 0 1rem 1rem;
+  border: 0.2rem solid var(--preto);
+}
 
+.modal-excluir > div {
+  min-height: 15rem !important;
+  height: auto !important;
+}
 
+.modal-excluir .observacoes-modal-content {
+  gap: 1rem !important;
+  padding-bottom: 2rem !important;
 }

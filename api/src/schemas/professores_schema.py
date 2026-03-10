@@ -17,13 +17,14 @@ class ProfessorBase(BaseModel):
 
 class ProfessorCreate(ProfessorBase):
     """Schema used when creating a new professor."""
-    pass
+    materia: Optional[str] = None
 
 
 class ProfessorUpdate(BaseModel):
     nome: Optional[str] = None
     usuario: Optional[str] = None
     senha: Optional[str] = None
+    materia: Optional[str] = None
 
 
 class ProfessorResponse(ProfessorBase):

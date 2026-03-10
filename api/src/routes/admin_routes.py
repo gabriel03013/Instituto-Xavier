@@ -17,7 +17,7 @@ from database import engine
 from models import Mutante
 from db.helpers.security import hash_password 
 from dao.mutante_dao import MutanteDAO 
-from  dao.dashboards_dao import DashboardsDAO
+from dao.dashboards_dao import DashboardsDAO
 
 
 admin_router = APIRouter(prefix="/admin", tags=["admin"])
@@ -44,6 +44,7 @@ async def health_db(session: Session = Depends(get_session)):
 @admin_router.post("/create_registration")
 async def create_registration(
     matricula: str,
+    turma_id: int = None,
     session: Session = Depends(get_session)
 ):
     """
@@ -51,6 +52,7 @@ async def create_registration(
     
     Args:
         matricula (str): Matrícula do aluno a ser criada.
+        turma_id (int, optional): ID da turma a ser associada ao aluno.
         session (Session): Database session dependency.
         
     Returns:
@@ -59,12 +61,18 @@ async def create_registration(
     # TODO -> Criar model, service e schema de admin e arrumar esse codigo
     mutante_dao = MutanteDAO(session=session)
 
-    if mutante_dao.obter_matricula_vazia(matricula):
+    if mutante_dao.obter_por_matricula(matricula):
         raise HTTPException(status_code=400, detail="Matrícula já existe ou pertence a alguém.")
     
     mutante_matricula = Mutante()
-    mutante_matricula.esta_ativo = False #
+    mutante_matricula.nome = ""
+    mutante_matricula.email = f"pending_{matricula}@placeholder"
+    mutante_matricula.senha = ""
+    mutante_matricula.esta_ativo = False
+    mutante_matricula.chave_seguranca = ""
     mutante_matricula.matricula = matricula
+    if turma_id:
+        mutante_matricula.turma_id = turma_id
 
     session.add(mutante_matricula)
     session.commit()

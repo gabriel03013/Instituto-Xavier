@@ -1,7 +1,9 @@
 export async function api(endpoint, metodo = "GET", body = null) {
-  const headers = {
-    Authorization: `Bearer ${localStorage.getItem("token")}`,
-  };
+  const headers = {};
+  const token = localStorage.getItem("token");
+  if (token && token !== "null" && token !== "undefined") {
+    headers["Authorization"] = `Bearer ${token}`;
+  }
 
   let processedBody = body;
   if (
@@ -9,7 +11,7 @@ export async function api(endpoint, metodo = "GET", body = null) {
     !(body instanceof FormData) &&
     !(body instanceof URLSearchParams)
   ) {
-    if (endpoint === "token") {
+    if (endpoint === "login") {
       headers["Content-Type"] = "application/x-www-form-urlencoded";
       processedBody = new URLSearchParams(body).toString();
     } else {
@@ -23,13 +25,13 @@ export async function api(endpoint, metodo = "GET", body = null) {
     headers: headers,
     body: processedBody,
   });
-  
+
   if (!res.ok) throw new Error("Erro na requisição");
 
   return res.json();
 }
 
 export const getIdTurma = () => {
-    const urlParams = new URLSearchParams(window.location.search)
-    return urlParams.get("turma")
-}
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get("turma");
+};

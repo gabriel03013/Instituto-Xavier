@@ -50,5 +50,5 @@ export function gerarBoletimPDF(dadosAluno, materias) {
     doc.setTextColor(0, 0, 0);
   });
 
-  doc.save(`Boletim_${dadosAluno.nome}.pdf`);
+  return doc;
 }

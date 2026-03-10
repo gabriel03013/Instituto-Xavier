@@ -110,10 +110,8 @@ class MutanteDAO:
         return self.session.query(Mutante).filter(
             Mutante.matricula == matricula,
             or_(Mutante.nome == None, Mutante.nome == ""),
-            or_(Mutante.email == None, Mutante.email == ""),
+            or_(Mutante.email == None, Mutante.email == "", Mutante.email.like("pending_%@placeholder")),
             or_(Mutante.senha == None, Mutante.senha == ""),
-            or_(Mutante.poder_id == None, Mutante.poder_id == 0),
-            or_(Mutante.turma_id == None, Mutante.turma_id == 0)
         ).first()
 
 
@@ -121,6 +119,17 @@ class MutanteDAO:
         """Lista todos os mutantes."""
 
         return self.session.query(Mutante).all()
+    
+    
+    def obter_por_chave_seguranca(self, chave_seguranca: str):
+        """
+        Verifica se a resposta da pergunta de recuperação fornecida pelo usuário 
+        coincide com a que está armazenada no banco
+
+        Args:
+            chave_seguranca (str): resposta da pergunta de recuperação.
+        """
+        return self.session.query(Mutante).filter(Mutante.chave_seguranca==chave_seguranca).one()
 
 
     def atualizar(self, mutante_id: int, **kwargs) -> Optional[Mutante]:
