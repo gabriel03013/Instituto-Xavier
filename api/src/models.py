@@ -5,9 +5,10 @@ Utilizado para a validação dos dados no dataload.
 
 __author__ = ["Davi Franco", "Erik Santos", "Gabriel Mendes"]
 
-from sqlalchemy import Column, Integer, String, ForeignKey, Date, Text, SmallInteger, Boolean
+from sqlalchemy import Column, Integer, String, ForeignKey, Date, Text, SmallInteger, Boolean, DateTime, Enum
 from sqlalchemy.orm import relationship
-from database import Base
+from datetime import datetime, date
+from src.database import Base
 
 
 class Mutante(Base):
@@ -25,6 +26,8 @@ class Mutante(Base):
     turma = relationship("Turmas", back_populates="mutantes")
 
     mutantesmaterias = relationship("MutantesMaterias", back_populates="mutante", cascade="all, delete-orphan")
+
+    tarefas = relationship("Tarefa", back_populates="mutante")
 
 
 class Professor(Base):
@@ -101,3 +104,19 @@ class Observacoes(Base):
     @property
     def professor(self):
         return self.mutantesmaterias.materias.professor.nome
+
+
+class Tarefa(Base):
+    __tablename__ = "tarefas"
+
+    id = Column(Integer, primary_key=True)
+    titulo = Column(String(30), nullable=False)
+    descricao = Column(Text)
+    status = Column(Enum("Pendente", "Em andamento", "Cancelada", "Concluída"), default="Pendente", nullable=False)
+    prioridade = Column(Enum("Baixa", "Média", "Alta"))
+    data_criacao = Column(DateTime, default=datetime.utcnow)
+    data_limite = Column(DateTime)
+    data_conclusao = Column(DateTime)
+
+    mutante_id = Column(Integer, ForeignKey("mutantes.id", ondelete="CASCADE"))
+    mutante = relationship("Mutante", back_populates="tarefas")

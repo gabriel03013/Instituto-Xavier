@@ -8,7 +8,6 @@ import sys
 import os
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -35,7 +34,7 @@ config.set_main_option(
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 from src.database import Base
-from src import models
+import src.models
 
 target_metadata = Base.metadata
 
