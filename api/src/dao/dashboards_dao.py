@@ -132,3 +132,31 @@ class DashboardsDAO():
 
         result = self.session.execute(stmt).mappings().one()
         return result
+    
+
+    def obter_grafico_admin(self):
+        """ 
+        Retorna média de notas agrupada por turma e matéria para o gráfico de barras.
+            
+        Args:
+            id_professor (int): ID do professor para filtrar os dados
+            
+        Returns:
+            list: Lista de dicionários contendo a turma, matéria e média de notas
+        """
+            
+        stmt = text("""
+            SELECT
+                CONCAT(t.serie, 'º Ano ', t.turma) AS turma,
+                mt.nome                             AS materia,
+                AVG((mm.nota1 + mm.nota2) / 2.0)   AS media
+            FROM mutantesmaterias mm
+                JOIN mutantes m  ON mm.mutante_id  = m.id
+                JOIN turmas t    ON m.turma_id     = t.id
+                JOIN materias mt ON mm.materia_id  = mt.id
+            GROUP BY t.id, mt.id
+            ORDER BY t.serie, t.turma, mt.nome
+        """)
+
+        result = self.session.execute(stmt).mappings().all()
+        return result
