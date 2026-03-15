@@ -39,7 +39,7 @@ class MutanteMateriaInfoSchema(BaseModel):
 class MutanteBase(BaseModel):
     nome: str
     matricula: str
-    email: EmailStr
+    email: str
     senha: str
     turma_id: Optional[int] = None
 
@@ -61,15 +61,23 @@ class MutanteUpdate(BaseModel):
 class MutanteResponse(MutanteBase):
     id: Optional[int] = None
 
+    class Config:
+        from_attributes = True
+
 
 class MutanteSchema(BaseModel):
     id: int
     nome: str
     matricula: str
-    email: EmailStr
+    email: str
     senha: str
     turma_id: Optional[int] = None
 
 
     class Config:
         from_attributes = True
+
+
+class ResetPasswordSchema(BaseModel):
+    chave_seguranca: str
+    nova_senha: str

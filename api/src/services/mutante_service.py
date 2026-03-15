@@ -161,6 +161,35 @@ class MutanteService:
         )
 
         return MutanteResponse.model_validate(mutante_atualizado)
+    
+    
+    def redefinir_senha(self, chave_seguranca: str, nova_senha: str) -> MutanteResponse:
+        """
+        Redefine a senha de um mutante utilizando a chave de segurança.
+
+        Args:
+            chave_seguranca (str): Chave de segurança utilizada para recuperação.
+            nova_senha (str): Nova senha que será definida.
+
+        Raises:
+            ValueError: Caso nenhum mutante seja encontrado com a chave fornecida.
+
+        Returns:
+            MutanteResponse: Mutante com a senha atualizada.
+        """
+
+        mutante = self.mutante_dao.obter_por_chave_seguranca(chave_seguranca)
+
+        if not mutante:
+            raise ValueError("Chave de segurança inválida ou expirada.")
+
+        mutante_atualizado = self.mutante_dao.atualizar(
+            mutante.id,
+            senha=hash_password(nova_senha)
+        )
+
+        return MutanteResponse.model_validate(mutante_atualizado)
+
 
     def deletar_mutante(self, mutante_id: int) -> Dict:
         """

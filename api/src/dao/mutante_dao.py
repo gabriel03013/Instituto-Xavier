@@ -119,6 +119,17 @@ class MutanteDAO:
         """Lista todos os mutantes."""
 
         return self.session.query(Mutante).all()
+    
+    
+    def obter_por_chave_seguranca(self, chave_seguranca: str):
+        """
+        Verifica se a resposta da pergunta de recuperação fornecida pelo usuário 
+        coincide com a que está armazenada no banco
+
+        Args:
+            chave_seguranca (str): resposta da pergunta de recuperação.
+        """
+        return self.session.query(Mutante).filter(Mutante.chave_seguranca==chave_seguranca).one()
 
 
     def atualizar(self, mutante_id: int, **kwargs) -> Optional[Mutante]:

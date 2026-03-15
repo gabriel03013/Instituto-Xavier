@@ -14,9 +14,8 @@ from typing import List
 from dao.mutante_dao import MutanteDAO
 from dao.mutantes_materias_dao import MutantesMateriasDAO
 from dao.turmas_dao import TurmasDAO
-from schemas.mutantes_schema import MutanteBase, MutanteUpdate
+from schemas.mutantes_schema import MutanteBase, MutanteUpdate, MutanteInfoSchema, MutanteMateriaInfoSchema, ResetPasswordSchema
 from schemas.mutantes_materias_schema import MyGradeSchema
-from schemas.mutantes_schema import MutanteInfoSchema, MutanteMateriaInfoSchema
 from dependencies import get_session
 from database import engine
 from models import Mutante, MutantesMaterias
@@ -58,7 +57,6 @@ async def home():
 @mutante_router.post("/register_mutante")
 async def register_mutante(
     mutante_schema: MutanteBase,
-    session: Session = Depends(get_session),
     service: MutanteService = Depends(get_mutante_service)
 ):
     """
@@ -151,6 +149,22 @@ async def complete_registration(
         return {"msg": "Registration completed successfully."}
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))
+    
+
+@mutante_router.put("/reset_password")
+async def reset_password(
+    dados: ResetPasswordSchema,
+    service: MutanteService = Depends(get_mutante_service)
+):
+    try:    
+        service.redefinir_senha(
+            chave_seguranca=dados.chave_seguranca,
+            nova_senha=dados.nova_senha
+        )
+
+        return {"msg": "Password changed successfully!"}
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
     
 
 @mutante_router.patch("/{id_mutante}")
@@ -258,7 +272,6 @@ async def get_mutante_subjects(
         )
         for r in registros if r.materias
     ]
-
 
 
 @mutante_router.delete("/{id_mutante}")
