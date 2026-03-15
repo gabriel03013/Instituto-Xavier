@@ -11,8 +11,8 @@
   --vermelho: #dd0127;
   --azul: #5c80be;
   --azul-escuro: #052542;
-  --roxo:#BB89FD;
-  --roxo-escuro: #9768D3; 
+  --roxo: #bb89fd;
+  --roxo-escuro: #9768d3;
   font-family: IBS;
 }
 body {
@@ -48,11 +48,13 @@ header {
   background-color: var(--amarelo);
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  box-sizing: border-box;
 
   div {
     display: flex;
-    /* background-color: red; */
-    width: 50%;
+    align-items: center;
 
     img {
       width: 6.5rem;
@@ -75,4 +77,33 @@ header {
       }
     }
   }
+}
+
+.btn-sair {
+  background: var(--vermelho);
+  color: #fff;
+  border: 2px solid var(--preto);
+  border-radius: 0.5rem;
+  padding: 0.6rem 1.6rem;
+  font-size: 1.4rem;
+  font-family: IBS;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 3px 3px 0 0 var(--preto);
+  transition: all 0.15s ease;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.btn-sair:hover {
+  background: #b80020;
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0 0 var(--preto);
+}
+
+.btn-sair:active {
+  transform: translate(3px, 3px);
+  box-shadow: 0px 0px 0 0 var(--preto);
 }

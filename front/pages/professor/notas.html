@@ -6,7 +6,11 @@
     <title>Notas - Professor</title>
     <link rel="stylesheet" href="../../assets/css/globals.css" />
     <link rel="stylesheet" href="../../assets/css/profNotas.css" />
-    <link rel="icon" href="../../assets/images/Group 14.svg" type="image/x-icon">
+    <link
+      rel="icon"
+      href="../../assets/images/Group 14.svg"
+      type="image/x-icon"
+    />
   </head>
 
   <body>
@@ -23,6 +27,9 @@
           </li>
         </ul>
       </div>
+      <a href="../../index.html" class="btn-sair" id="btn-sair" onclick="localStorage.clear()">
+        <i class="fa-solid fa-right-from-bracket"></i> Sair
+      </a>
     </header>
 
     <main class="turma-container">
@@ -92,7 +99,7 @@
               max="10"
               id="media2"
             />
-          </label>  
+          </label>
           <div id="editar-notas-modal-botoes">
             <button type="submit" id="salvar-alteracoes">Salvar</button>
             <button id="cancelar-alteracoes">Cancelar</button>

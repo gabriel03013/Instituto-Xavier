@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tarefas - Aluno</title>
+    <link rel="stylesheet" href="../../assets/css/globals.css" />
+    <link rel="stylesheet" href="../../assets/css/alunoTarefas.css" />
+    <link
+      rel="icon"
+      href="../../assets/images/Group 14.svg"
+      type="image/x-icon"
+    />
+  </head>
+
+  <body>
+    <header style="background-color: var(--azul)">
+      <div>
+        <img src="../../assets/images/Group 14.svg" alt="" />
+        <ul>
+          <li><a href="../disciplinas.html">Disciplinas</a></li>
+          <li id="obs"><a href="index.html">Observações</a></li>
+          <li id="notas"><a href="notasLancadas.html">Notas lançadas</a></li>
+          <li class="aba-aluno-ativa"><a href="tarefas.html">Tarefas</a></li>
+        </ul>
+      </div>
+      <a
+        href="../../index.html"
+        class="btn-sair"
+        id="btn-sair"
+        onclick="localStorage.clear()"
+      >
+        <i class="fa-solid fa-right-from-bracket"></i> Sair
+      </a>
+    </header>
+
+    <main class="aluno-container">
+      <!-- Stats resumo -->
+      <div class="tarefas-stats">
+        <div class="stat-card">
+          <div class="stat-icon pendente">
+            <i class="fa-solid fa-clock"></i>
+          </div>
+          <div class="stat-info">
+            <h4>Pendentes</h4>
+            <p id="stat-pendentes">0</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon andamento">
+            <i class="fa-solid fa-spinner"></i>
+          </div>
+          <div class="stat-info">
+            <h4>Em Andamento</h4>
+            <p id="stat-andamento">0</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon concluida">
+            <i class="fa-solid fa-check"></i>
+          </div>
+          <div class="stat-info">
+            <h4>Concluídas</h4>
+            <p id="stat-concluidas">0</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon total">
+            <i class="fa-solid fa-list-check"></i>
+          </div>
+          <div class="stat-info">
+            <h4>Total</h4>
+            <p id="stat-total">0</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Header com título, busca e botão -->
+      <div class="aluno-header">
+        <h1 class="aluno-titulo">Minhas Tarefas</h1>
+        <div class="tarefas-header-actions">
+          <div class="aluno-search">
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            <input type="search" placeholder="Pesquise por título ou matéria" />
+          </div>
+          <button class="btn-adicionar-tarefa" id="btn-adicionar-tarefa">
+            <i class="fa-solid fa-plus"></i>
+            Nova Tarefa
+          </button>
+        </div>
+      </div>
+
+      <!-- Filtros -->
+      <div class="tarefas-filtros">
+        <button class="filtro-btn ativo" data-filtro="todas">
+          Todas <span class="filtro-contador">0</span>
+        </button>
+        <button class="filtro-btn" data-filtro="pendente">
+          Pendentes <span class="filtro-contador">0</span>
+        </button>
+        <button class="filtro-btn" data-filtro="em-andamento">
+          Em Andamento <span class="filtro-contador">0</span>
+        </button>
+        <button class="filtro-btn" data-filtro="concluida">
+          Concluídas <span class="filtro-contador">0</span>
+        </button>
+      </div>
+
+      <!-- Grid de tarefas -->
+      <div class="tarefas-grid" id="tarefas-grid"></div>
+
+      <!-- Mensagem vazia -->
+      <div class="tarefas-vazio" id="tarefas-vazio" style="display: none">
+        <i class="fa-solid fa-clipboard-list"></i>
+        <p>Nenhuma tarefa encontrada</p>
+        <span
+          >Clique em "Nova Tarefa" para começar a organizar seus estudos!</span
+        >
+      </div>
+    </main>
+
+    <!-- Modal Criar/Editar Tarefa -->
+    <div class="tarefa-modal" id="modal-tarefa">
+      <div>
+        <div class="tarefa-modal-header">
+          <h3 id="modal-titulo">Nova Tarefa</h3>
+          <button class="fechar-modal">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <form class="tarefa-modal-content" id="form-tarefa">
+          <label for="tarefa-titulo">
+            Título
+            <input
+              type="text"
+              id="tarefa-titulo"
+              placeholder="Ex: Trabalho de Matemática"
+              required
+            />
+          </label>
+
+          <label for="tarefa-materia">
+            Matéria
+            <input
+              type="text"
+              id="tarefa-materia"
+              placeholder="Ex: Matemática"
+              required
+            />
+          </label>
+
+          <label for="tarefa-descricao">
+            Descrição
+            <textarea
+              id="tarefa-descricao"
+              rows="4"
+              placeholder="Descreva os detalhes da tarefa..."
+            ></textarea>
+          </label>
+
+          <div class="tarefa-modal-row">
+            <label for="tarefa-data">
+              Data de Entrega
+              <input type="date" id="tarefa-data" />
+            </label>
+
+            <label for="tarefa-prioridade">
+              Prioridade
+              <select id="tarefa-prioridade">
+                <option value="baixa">Baixa</option>
+                <option value="media" selected>Média</option>
+                <option value="alta">Alta</option>
+              </select>
+            </label>
+          </div>
+
+          <label for="tarefa-status">
+            Status
+            <select id="tarefa-status">
+              <option value="pendente">Pendente</option>
+              <option value="em-andamento">Em Andamento</option>
+              <option value="concluida">Concluída</option>
+            </select>
+          </label>
+
+          <div class="tarefa-modal-botoes">
+            <button type="submit" class="btn-salvar">Salvar</button>
+            <button type="button" class="btn-cancelar" id="btn-cancelar-tarefa">
+              Cancelar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal Excluir Tarefa -->
+    <div class="tarefa-modal" id="modal-excluir-tarefa">
+      <div>
+        <div class="tarefa-modal-header">
+          <h3>Excluir Tarefa</h3>
+          <button class="fechar-modal">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <div class="tarefa-modal-content modal-excluir-content">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          <p>Deseja excluir a tarefa?</p>
+          <span id="excluir-tarefa-nome"></span>
+
+          <div class="tarefa-modal-botoes">
+            <button
+              type="button"
+              class="btn-excluir-confirm"
+              id="btn-confirmar-excluir"
+            >
+              Excluir
+            </button>
+            <button
+              type="button"
+              class="btn-cancelar"
+              id="btn-cancelar-excluir"
+            >
+              Cancelar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://kit.fontawesome.com/02db64e304.js"
+      crossorigin="anonymous"
+    ></script>
+    <script type="module" src="../../assets/js/alunoTarefas.js"></script>
+  </body>
+</html>
