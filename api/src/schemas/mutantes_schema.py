@@ -79,5 +79,5 @@ class MutanteSchema(BaseModel):
 
 
 class ResetPasswordSchema(BaseModel):
-    chave_seguranca: str
+    matricula: str
     nova_senha: str

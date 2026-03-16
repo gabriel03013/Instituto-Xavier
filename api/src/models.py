@@ -8,7 +8,7 @@ __author__ = ["Davi Franco", "Erik Santos", "Gabriel Mendes"]
 from sqlalchemy import Column, Integer, String, ForeignKey, Date, Text, SmallInteger, Boolean, DateTime, Enum
 from sqlalchemy.orm import relationship
 from datetime import datetime, date
-from src.database import Base
+from database import Base
 
 
 class Mutante(Base):
@@ -19,7 +19,6 @@ class Mutante(Base):
     matricula = Column(String(50), nullable=False, unique=True)
     email = Column(String(100), unique=True)
     senha = Column(String(100))
-    chave_seguranca = Column(String(30), nullable=True)
     esta_ativo = Column(Boolean, nullable=False, default=False)
 
     turma_id = Column(Integer, ForeignKey("turmas.id", ondelete="CASCADE"))

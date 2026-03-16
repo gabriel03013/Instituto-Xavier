@@ -34,6 +34,7 @@ app.add_middleware(
         "http://127.0.0.1:5500",
         "http://localhost:5500",
         "http://127.0.0.1:5501",
+        "http://localhost:5501",
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -82,10 +83,10 @@ async def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], sess
             headers={"WWW-Authenticate": "Bearer"},
         )
     
-    if verificar_usuario(form_data.username):
-        tipo = "MUTANTE"
-    elif verificar_adm(form_data.username):
+    if verificar_adm(form_data.username):
         tipo = "ADMIN"
+    elif verificar_usuario(form_data.username):
+        tipo = "MUTANTE"
     else:
         tipo = "PROFESSOR"
     

@@ -158,7 +158,7 @@ async def reset_password(
 ):
     try:    
         service.redefinir_senha(
-            chave_seguranca=dados.chave_seguranca,
+            matricula=dados.matricula,
             nova_senha=dados.nova_senha
         )
 
