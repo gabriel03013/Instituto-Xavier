@@ -41,6 +41,7 @@ class MutanteBase(BaseModel):
     matricula: str
     email: str
     senha: str
+    esta_ativo: bool
     turma_id: Optional[int] = None
 
 
@@ -54,7 +55,7 @@ class MutanteUpdate(BaseModel):
     matricula: str
     email: Optional[EmailStr] = None
     senha: Optional[str] = None
-    esta_ativo: Optional[bool] = False
+    esta_ativo: Optional[bool]
     turma_id: Optional[int] = None
 
 
@@ -71,6 +72,7 @@ class MutanteSchema(BaseModel):
     matricula: str
     email: str
     senha: str
+    esta_ativo: bool
     turma_id: Optional[int] = None
 
 

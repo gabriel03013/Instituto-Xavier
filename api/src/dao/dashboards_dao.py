@@ -134,18 +134,17 @@ class DashboardsDAO():
         return result
     
 
-    def obter_grafico_admin(self):
+    def obter_graficos_admin(self):
         """ 
         Retorna média de notas agrupada por turma e matéria para o gráfico de barras.
-            
-        Args:
-            id_professor (int): ID do professor para filtrar os dados
+        E quantidade de cada situação dos mutantes para gráfico de pizza.
             
         Returns:
-            list: Lista de dicionários contendo a turma, matéria e média de notas
+            list: Lista de dicionários contendo a turma, matéria e média de notas, e
+              quantidade de aprovações, recuperações e reprovações.
         """
             
-        stmt = text("""
+        stmtBarras = text("""
             SELECT
                 CONCAT(t.serie, 'º Ano ', t.turma) AS turma,
                 mt.nome                             AS materia,
@@ -158,5 +157,27 @@ class DashboardsDAO():
             ORDER BY t.serie, t.turma, mt.nome
         """)
 
-        result = self.session.execute(stmt).mappings().all()
-        return result
+        stmtPizza = text("""
+            SELECT 
+                CASE
+                    WHEN media >= 7 THEN 'Aprovado'
+                    WHEN media >= 5 AND media < 7 THEN 'Recuperação'
+                    ELSE 'Reprovado'
+                END AS situacao,
+                COUNT(*) AS quantidade
+            FROM (
+                SELECT
+                    m.id AS mutante_id,
+                    COALESCE(AVG((mm.nota1 + mm.nota2) / 2.0), 0) AS media
+                FROM mutantes m
+                LEFT JOIN mutantesmaterias mm ON mm.mutante_id = m.id
+                WHERE m.esta_ativo = true
+                GROUP BY m.id
+            ) AS medias_por_aluno
+            GROUP BY situacao
+        """)
+
+        barras = self.session.execute(stmtBarras).mappings().all()
+        pizza = self.session.execute(stmtPizza).mappings().all()
+
+        return {"dashboards": {"barras": barras, "pizza": pizza}}

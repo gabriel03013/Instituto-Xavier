@@ -114,8 +114,8 @@ async def get_statistics(
     session: Session = Depends(get_session)
 ):
     """
-    Retorna a média de notas agrupada por turma e matéria para visualização
-    em gráficos administrativos.
+    Retorna a média de notas agrupada por turma, matéria e situação dos mutantes
+    para visualização em gráficos administrativos.
     Os dados são utilizados para compor gráficos (ex: barras) que mostram
     o desempenho médio das turmas em cada matéria.
 
@@ -130,9 +130,6 @@ async def get_statistics(
     """
     dashboards_dao = DashboardsDAO(session=session)
 
-    nota_turma_materia = dashboards_dao.obter_grafico_admin()
+    dashboards = dashboards_dao.obter_graficos_admin()
 
-    return [
-        {"turma": result["turma"], "materia": result["materia"], "media": float(result["media"])}
-        for result in nota_turma_materia
-    ]
+    return dashboards
