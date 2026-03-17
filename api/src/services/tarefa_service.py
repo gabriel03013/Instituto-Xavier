@@ -52,13 +52,13 @@ class TarefaService:
         Returns:
             List[TarefaSchema]
         """
-        tarefas = self.tarefa_dao.listar_todas()
+        tarefas = self.tarefa_dao.listar_todos()
         return [TarefaSchema.model_validate(t) for t in tarefas]
 
-    
+
     def listar_tarefas_por_mutante(self, mutante_id: int) -> List[TarefaSchema]:
         """
-        Lista todas as tarefas de um mutante específico.
+        Lista tarefas de um mutante específico.
 
         Args:
             mutante_id (int): ID do mutante.
@@ -67,6 +67,22 @@ class TarefaService:
             List[TarefaSchema]: Lista de tarefas do mutante.
         """
         tarefas = self.tarefa_dao.listar_por_mutante(mutante_id)
+
+        return [TarefaSchema.model_validate(t) for t in tarefas]
+
+    
+    def listar_tarefas_por_status(self, status: str) -> List[TarefaSchema]:
+        """
+        Lista tarefas filtradas pelo status.
+
+        Args:
+            status (str): Status da tarefa.
+
+        Returns:
+            List[TarefaSchema]: Lista de tarefas filtradas.
+        """
+        tarefas = self.tarefa_dao.listar_por_status(status)
+
         return [TarefaSchema.model_validate(t) for t in tarefas]
 
 

@@ -74,6 +74,13 @@ class TarefaDAO:
         Lista todas as tarefas de um mutante.
         """
         return self.session.query(Tarefa).filter(Tarefa.mutante_id == mutante_id).all()
+    
+
+    def listar_por_status(self, status: str) -> List[Tarefa]:
+        """
+        Lista tarefas filtradas por status.
+        """
+        return self.session.query(Tarefa).filter(Tarefa.status==status).all()
 
 
     def atualizar(self, tarefa_id: int, **kwargs) -> Optional[Tarefa]:
