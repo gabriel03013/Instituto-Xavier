@@ -1,0 +1,288 @@
+[
+  {
+    "id": 1,
+    "titulo": "Controle de Poderes - Nível Básico",
+    "materia_id": 1,
+    "status": "pendente",
+    "nota": null,
+    "perguntas": [
+      {
+        "numero": 1,
+        "enunciado": "Qual mutante é conhecido por perder o controle de seus poderes frequentemente?",
+        "alternativas": ["Jean Grey", "Ciclope", "Tempestade", "Fera"],
+        "correta": 0
+      },
+      {
+        "numero": 2,
+        "enunciado": "Qual habilidade exige maior controle emocional?",
+        "alternativas": [
+          "Super força",
+          "Telepatia",
+          "Regeneração",
+          "Velocidade"
+        ],
+        "correta": 1
+      },
+      {
+        "numero": 3,
+        "enunciado": "O que pode causar perda de controle dos poderes?",
+        "alternativas": ["Fome", "Emoções intensas", "Sono", "Clima"],
+        "correta": 1
+      },
+      {
+        "numero": 4,
+        "enunciado": "Quem usa um visor para controlar seu poder?",
+        "alternativas": ["Logan", "Ciclope", "Noturno", "Colossus"],
+        "correta": 1
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "titulo": "Análise de Cataclisma",
+    "materia_id": 2,
+    "status": "pendente",
+    "nota": null,
+    "perguntas": [
+      {
+        "numero": 1,
+        "enunciado": "Qual mutante poderia causar um desastre natural em grande escala?",
+        "alternativas": ["Tempestade", "Gambit", "Fera", "Kitty Pryde"],
+        "correta": 0
+      },
+      {
+        "numero": 2,
+        "enunciado": "O que caracteriza um cataclisma mutante?",
+        "alternativas": [
+          "Uso controlado de poder",
+          "Pequenos danos",
+          "Destruição em massa",
+          "Treinamento leve"
+        ],
+        "correta": 2
+      },
+      {
+        "numero": 3,
+        "enunciado": "Qual fator é essencial para evitar catástrofes?",
+        "alternativas": [
+          "Treinamento",
+          "Descanso",
+          "Alimentação",
+          "Equipamentos"
+        ],
+        "correta": 0
+      },
+      {
+        "numero": 4,
+        "enunciado": "Jean Grey em nível Fênix representa:",
+        "alternativas": [
+          "Controle total",
+          "Um risco extremo",
+          "Um poder fraco",
+          "Nenhum perigo"
+        ],
+        "correta": 1
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "titulo": "Teletransporte Cósmico",
+    "materia_id": 3,
+    "status": "pendente",
+    "nota": null,
+    "perguntas": [
+      {
+        "numero": 1,
+        "enunciado": "Qual mutante é famoso por teletransporte?",
+        "alternativas": ["Noturno", "Ciclope", "Fera", "Tempestade"],
+        "correta": 0
+      },
+      {
+        "numero": 2,
+        "enunciado": "O teletransporte envolve:",
+        "alternativas": [
+          "Voar",
+          "Mover-se instantaneamente",
+          "Super força",
+          "Invisibilidade"
+        ],
+        "correta": 1
+      },
+      {
+        "numero": 3,
+        "enunciado": "Qual risco do teletransporte?",
+        "alternativas": [
+          "Perder energia",
+          "Erro de localização",
+          "Cansaço leve",
+          "Fome"
+        ],
+        "correta": 1
+      },
+      {
+        "numero": 4,
+        "enunciado": "O teletransporte do Noturno gera qual efeito?",
+        "alternativas": ["Luz azul", "Explosão", "Fumaça roxa", "Som alto"],
+        "correta": 2
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "titulo": "Informática Mutante",
+    "materia_id": 4,
+    "status": "pendente",
+    "nota": null,
+    "perguntas": [
+      {
+        "numero": 1,
+        "enunciado": "Qual tecnologia é usada para detectar mutantes?",
+        "alternativas": ["Cérebro", "Wi-Fi", "Bluetooth", "Radar comum"],
+        "correta": 0
+      },
+      {
+        "numero": 2,
+        "enunciado": "O Cérebro foi criado por:",
+        "alternativas": ["Magneto", "Professor X", "Logan", "Deadpool"],
+        "correta": 1
+      },
+      {
+        "numero": 3,
+        "enunciado": "Qual área da informática analisa dados mutantes?",
+        "alternativas": ["Banco de dados", "Redes sociais", "Jogos", "Design"],
+        "correta": 0
+      },
+      {
+        "numero": 4,
+        "enunciado": "Hackear sistemas pode ajudar em:",
+        "alternativas": [
+          "Jogos",
+          "Missões secretas",
+          "Estudos básicos",
+          "Descanso"
+        ],
+        "correta": 1
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "titulo": "Ciências Mutantes",
+    "materia_id": 5,
+    "status": "pendente",
+    "nota": null,
+    "perguntas": [
+      {
+        "numero": 1,
+        "enunciado": "O gene responsável pelos poderes mutantes é:",
+        "alternativas": ["Gene Z", "Gene X", "Gene Y", "Gene M"],
+        "correta": 1
+      },
+      {
+        "numero": 2,
+        "enunciado": "Mutação é:",
+        "alternativas": [
+          "Algo comum",
+          "Alteração genética",
+          "Doença",
+          "Fraqueza"
+        ],
+        "correta": 1
+      },
+      {
+        "numero": 3,
+        "enunciado": "Quem é conhecido por ser cientista?",
+        "alternativas": ["Fera", "Logan", "Tempestade", "Noturno"],
+        "correta": 0
+      },
+      {
+        "numero": 4,
+        "enunciado": "Poderes mutantes vêm de:",
+        "alternativas": ["Treino", "Equipamentos", "Genética", "Magia"],
+        "correta": 2
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "titulo": "Matemática Aplicada",
+    "materia_id": 6,
+    "status": "pendente",
+    "nota": null,
+    "perguntas": [
+      {
+        "numero": 1,
+        "enunciado": "Se um mutante dobra sua força (10 → 20), isso é:",
+        "alternativas": ["Soma", "Multiplicação", "Subtração", "Divisão"],
+        "correta": 1
+      },
+      {
+        "numero": 2,
+        "enunciado": "Velocidade envolve:",
+        "alternativas": ["Tempo e espaço", "Força", "Energia", "Magia"],
+        "correta": 0
+      },
+      {
+        "numero": 3,
+        "enunciado": "Se um teletransporte leva 2 segundos por salto, 5 saltos levam:",
+        "alternativas": ["5s", "10s", "2s", "7s"],
+        "correta": 1
+      },
+      {
+        "numero": 4,
+        "enunciado": "Coordenadas são usadas para:",
+        "alternativas": ["Lutar", "Localização", "Treinar", "Comer"],
+        "correta": 1
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "titulo": "Telecinese Aplicada",
+    "materia_id": 7,
+    "status": "pendente",
+    "nota": null,
+    "perguntas": [
+      {
+        "numero": 1,
+        "enunciado": "Telecinese é:",
+        "alternativas": [
+          "Ler mentes",
+          "Mover objetos com a mente",
+          "Voar",
+          "Explodir coisas"
+        ],
+        "correta": 1
+      },
+      {
+        "numero": 2,
+        "enunciado": "Quem possui telecinese?",
+        "alternativas": ["Jean Grey", "Ciclope", "Logan", "Colossus"],
+        "correta": 0
+      },
+      {
+        "numero": 3,
+        "enunciado": "Telecinese depende de:",
+        "alternativas": [
+          "Força física",
+          "Concentração mental",
+          "Velocidade",
+          "Equipamento"
+        ],
+        "correta": 1
+      },
+      {
+        "numero": 4,
+        "enunciado": "Uso avançado de telecinese permite:",
+        "alternativas": [
+          "Criar escudos",
+          "Voar",
+          "Controlar objetos",
+          "Todas as opções"
+        ],
+        "correta": 3
+      }
+    ]
+  }
+]

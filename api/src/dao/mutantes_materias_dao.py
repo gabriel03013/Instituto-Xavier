@@ -13,7 +13,8 @@ class MutantesMateriasDAO:
         self.session = session
 
     def criar(self, mutante_id: int, materia_id: int, 
-              nota1: Optional[int] = None, nota2: Optional[int] = None) -> MutantesMaterias:
+              nota1: Optional[int] = None, nota2: Optional[int] = None, 
+              quiz: Optional[str] = '[]') -> MutantesMaterias:
         """
         Cria um registro mutante-matéria.
         
@@ -31,7 +32,8 @@ class MutantesMateriasDAO:
             mutante_id=mutante_id,
             materia_id=materia_id,
             nota1=nota1,
-            nota2=nota2
+            nota2=nota2,
+            quiz=quiz
         )
         self.session.add(novo_registro)
         self.session.commit()
@@ -118,14 +120,15 @@ class MutantesMateriasDAO:
         return self.session.query(MutantesMaterias).all()
 
     def atualizar_notas(self, registro_id: int, nota1: Optional[int] = None, 
-                        nota2: Optional[int] = None) -> Optional[MutantesMaterias]:
+                        nota2: Optional[int] = None, quiz: Optional[any] = None) -> Optional[MutantesMaterias]:
         """
-        Atualiza as notas de um registro.
+        Atualiza as notas e quiz de um registro.
         
         Args:
             registro_id (int): ID do registro a ser atualizado.
             nota1 (Optional[int]): Nova nota1 do registro.
             nota2 (Optional[int]): Nova nota2 do registro.
+            quiz (Optional[any]): Novos dados do quiz.
             
         Returns:
             Optional[MutantesMaterias]: Registro atualizado ou None se não encontrado.
@@ -137,6 +140,8 @@ class MutantesMateriasDAO:
                 registro.nota1 = nota1
             if nota2 is not None:
                 registro.nota2 = nota2
+            if quiz is not None:
+                registro.quiz = quiz
             self.session.commit()
             self.session.refresh(registro)
         return registro
@@ -158,3 +163,8 @@ class MutantesMateriasDAO:
             self.session.commit()
             return True
         return False
+    def lancar_quiz(self, materia_id: int, quiz_json: str):
+        registros = self.session.query(MutantesMaterias).filter(MutantesMaterias.materia_id == materia_id).all()
+        for r in registros:
+            r.quiz = quiz_json
+        self.session.commit()

@@ -119,21 +119,7 @@ class MutantesMateriasService:
             Lança ou atualiza as notas de um mutante em uma matéria. Verifica se as notas estão dentro do intervalo permitido (0 a 10),
             e se o mutante está matriculado na matéria. Se alguma dessas condições não for atendida, lança um ValueError. 
             Caso contrário, utiliza o DAO para atualizar as notas do registro mutante-matéria e retorna o registro atualizado
-
-        Args:
-            mutante_id (int): ID do mutante que está sendo matriculado.
-            materia_id (int): ID da matéria em que o mutante está matriculado.
-            dados (MutantesMateriasUpdate): Dados com as notas a serem lançadas.
-
-        Raises:
-            ValueError: caso as notas estejam fora do intervalo permitido (0 a 10).
-            ValueError: caso o mutante não esteja matriculado na matéria.
-            ValueError: caso as notas estejam fora do intervalo permitido (0 a 10).
-
-        Returns:
-            MutantesMateriasSchema: Registro atualizado de mutante-matéria.
         """
-        
         
         if dados.nota1 is not None and not (0 <= dados.nota1 <= 10):
             raise ValueError("Nota 1 deve estar entre 0 e 10")
@@ -145,10 +131,19 @@ class MutantesMateriasService:
         if not registro:
             raise ValueError(f"Mutante {mutante_id} não está matriculado na matéria {materia_id}")
 
+        quiz_data = dados.quiz
+        if isinstance(quiz_data, str):
+            import json
+            try:
+                quiz_data = json.loads(quiz_data)
+            except:
+                pass
+
         registro_atualizado = self.mutantes_materias_dao.atualizar_notas(
             registro.id,
             nota1=dados.nota1,
-            nota2=dados.nota2
+            nota2=dados.nota2,
+            quiz=quiz_data
         )
 
         return MutantesMateriasSchema.model_validate(registro_atualizado)
@@ -225,8 +220,33 @@ class MutantesMateriasService:
                 matricula=r.mutante.matricula,
                 nota1=n1,
                 nota2=n2,
-                media=media
+                media=media,
+                quiz=r.quiz
             )
             grades.append(grade)
             
         return grades
+    def lancar_quiz(self, materia_id: int, quiz_id: int):
+        from models import MutantesMaterias
+        
+        quiz_item = {
+            "id": quiz_id,
+            "status": "pendente",
+            "nota": None
+        }
+        
+        registros = self.mutantes_materias_dao.listar_por_materia(materia_id)
+        for r in registros:
+            atualmente = r.quiz or []
+            # Se for string (caso o banco retorne string), a gente converte, mas com JSON column deveria ser list
+            if isinstance(atualmente, str):
+                import json
+                atualmente = json.loads(atualmente)
+            
+            if not any(q.get('id') == quiz_id for q in atualmente):
+                atualmente.append(quiz_item)
+                self.mutantes_materias_dao.session.query(MutantesMaterias).filter(MutantesMaterias.id == r.id).update(
+                    {"quiz": atualmente}
+                )
+        self.mutantes_materias_dao.session.commit()
+        return {"status": "Quizzes lançados com sucesso"}

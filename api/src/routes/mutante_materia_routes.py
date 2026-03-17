@@ -157,3 +157,10 @@ async def listar_notas_por_turma(turma_id: int, materia_id: int, service: Mutant
         List[MutanteGradeSchema]: Lista de mutantes com suas notas na matéria.
     """
     return service.listar_grades_por_turma(turma_id, materia_id)
+
+@mutante_materia_router.post("/materia/{materia_id}/lancar_quiz/{quiz_id}")
+async def lancar_quiz(materia_id: int, quiz_id: int, service: MutantesMateriasService = Depends(get_mutantes_materias_service)):
+    try:
+        return service.lancar_quiz(materia_id, quiz_id)
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))

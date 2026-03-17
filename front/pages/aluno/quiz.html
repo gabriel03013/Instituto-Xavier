@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz - Aluno</title>
+    <link rel="stylesheet" href="../../assets/css/globals.css" />
+    <link rel="stylesheet" href="../../assets/css/alunoQuiz.css" />
+    <link
+      rel="icon"
+      href="../../assets/images/Group 14.svg"
+      type="image/x-icon"
+    />
+  </head>
+
+  <body>
+    <header style="background-color: var(--azul)">
+      <div>
+        <img src="../../assets/images/Group 14.svg" alt="" />
+        <ul>
+          <li><a href="../disciplinas.html">Disciplinas</a></li>
+          <li><a href="index.html">Observações</a></li>
+          <li><a href="notasLancadas.html">Notas lançadas</a></li>
+          <li><a href="tarefas.html">Tarefas</a></li>
+          <li class="aba-aluno-ativa"><a href="">Avaliações</a></li>
+        </ul>
+      </div>
+      <a
+        href="../../index.html"
+        class="btn-sair"
+        id="btn-sair"
+        onclick="localStorage.clear()"
+      >
+        <i class="fa-solid fa-right-from-bracket"></i> Sair
+      </a>
+    </header>
+
+    <main class="aluno-container">
+      <div class="quiz-runner" id="quiz-runner">
+        <div class="quiz-runner-header">
+          <div class="quiz-runner-info">
+            <button class="btn-voltar" id="btn-voltar">
+              <i class="fa-solid fa-arrow-left"></i> Voltar
+            </button>
+            <div>
+              <h1 id="quiz-runner-titulo">Carregando...</h1>
+              <span id="quiz-runner-materia"></span>
+            </div>
+          </div>
+          <div class="quiz-progress-info">
+            <span id="quiz-progresso-texto">Questão 1 de —</span>
+            <div class="quiz-progress-bar">
+              <div class="quiz-progress-fill" id="quiz-progress-fill"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="quiz-body" id="quiz-body">
+          <div class="quiz-questao-numero" id="quiz-questao-numero">
+            Questão 1
+          </div>
+          <p class="quiz-enunciado" id="quiz-enunciado"></p>
+          <div class="quiz-alternativas" id="quiz-alternativas"></div>
+        </div>
+
+        <div class="quiz-nav">
+          <button class="btn-quiz-nav" id="btn-anterior" disabled>
+            <i class="fa-solid fa-chevron-left"></i> Anterior
+          </button>
+          <div class="quiz-dots" id="quiz-dots"></div>
+          <button class="btn-quiz-nav btn-quiz-proximo" id="btn-proximo">
+            Próxima <i class="fa-solid fa-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="quiz-resultado" id="quiz-resultado" style="display: none">
+        <div class="resultado-icone" id="resultado-icone">
+          <i class="fa-solid fa-trophy"></i>
+        </div>
+        <h2 id="resultado-titulo">Avaliação Concluída!</h2>
+        <p id="resultado-subtitulo">Veja seu desempenho abaixo</p>
+
+        <div class="resultado-pontuacao">
+          <div class="resultado-circulo">
+            <span id="resultado-porcentagem">0%</span>
+            <small>de acerto</small>
+          </div>
+          <div class="resultado-detalhes">
+            <div class="resultado-item acertos">
+              <i class="fa-solid fa-check"></i>
+              <div>
+                <strong id="resultado-acertos">0</strong>
+                <span>Acertos</span>
+              </div>
+            </div>
+            <div class="resultado-item erros">
+              <i class="fa-solid fa-xmark"></i>
+              <div>
+                <strong id="resultado-erros">0</strong>
+                <span>Erros</span>
+              </div>
+            </div>
+            <div class="resultado-item total">
+              <i class="fa-solid fa-list"></i>
+              <div>
+                <strong id="resultado-total">0</strong>
+                <span>Total</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="resultado-nota-box">
+          <span>Nota Final</span>
+          <strong id="resultado-nota">0.0</strong>
+        </div>
+
+        <div class="resultado-acoes">
+          <button class="btn-resultado-voltar" id="btn-resultado-voltar">
+            <i class="fa-solid fa-arrow-left"></i> Voltar às Avaliações
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <script
+      src="https://kit.fontawesome.com/02db64e304.js"
+      crossorigin="anonymous"
+    ></script>
+    <script type="module" src="../../assets/js/alunoQuiz.js"></script>
+  </body>
+</html>

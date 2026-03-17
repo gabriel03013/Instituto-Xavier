@@ -44,6 +44,7 @@ class TarefaResponse(TarefaBase):
 class TarefaSchema(BaseModel):
     id: int
     titulo: str
+    descricao: Optional[str] = None
     status: str
     prioridade: Optional[str] = None
     data_limite: Optional[datetime] = None
