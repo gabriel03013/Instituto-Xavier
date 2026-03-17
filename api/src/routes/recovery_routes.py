@@ -14,9 +14,10 @@ from sqlalchemy.orm import Session
 from dependencies import get_session
 from auth_utils import listar_mutantes, listar_professores, verificar_usuario, verificar_adm
 from services.recovery_service import RecoveryService
-from schemas.recovery_schemas import RecoveryRequest, ResetPasswordRequest
+from schemas.recovery_schema import RecoveryRequest, ResetPasswordRequest
 from dao.mutante_dao import MutanteDAO
 from dao.professor_dao import ProfessorDAO
+from db.helpers.security import hash_password
 
 recovery_router = APIRouter(prefix="/auth", tags=["recovery"])
 recovery_service = RecoveryService()
@@ -119,10 +120,11 @@ async def redefinir_senha(
         tipo = payload["tipo"]
         
         # Atualiza senha no banco
+        hashed_password = hash_password(request.nova_senha)
         if tipo == "mutante":
-            MutanteDAO(session=session).atualizar(usuario_id, senha=request.nova_senha)
+            MutanteDAO(session=session).atualizar(usuario_id, senha=hashed_password)
         else:
-            ProfessorDAO(session=session).atualizar(usuario_id, senha=request.nova_senha)
+            ProfessorDAO(session=session).atualizar(usuario_id, senha=hashed_password)
         
         return {"msg": "Senha redefinida com sucesso."}
     

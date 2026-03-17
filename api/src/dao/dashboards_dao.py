@@ -64,7 +64,7 @@ class DashboardsDAO():
         
         stmt = text("""
             SELECT
-                CONCAT(t.serie, 'º Ano ', t.turma) AS turma,
+                t.serie || 'º Ano ' || t.turma AS turma,
                 mt.nome                             AS materia,
                 AVG((mm.nota1 + mm.nota2) / 2.0)   AS media
             FROM mutantesmaterias mm
@@ -146,7 +146,7 @@ class DashboardsDAO():
             
         stmtBarras = text("""
             SELECT
-                CONCAT(t.serie, 'º Ano ', t.turma) AS turma,
+                t.serie || 'º Ano ' || t.turma AS turma,
                 mt.nome                             AS materia,
                 AVG((mm.nota1 + mm.nota2) / 2.0)   AS media
             FROM mutantesmaterias mm
@@ -160,6 +160,7 @@ class DashboardsDAO():
         stmtPizza = text("""
             SELECT 
                 CASE
+                    WHEN media IS NULL THEN 'Sem Notas'
                     WHEN media >= 7 THEN 'Aprovado'
                     WHEN media >= 5 AND media < 7 THEN 'Recuperação'
                     ELSE 'Reprovado'
@@ -168,7 +169,7 @@ class DashboardsDAO():
             FROM (
                 SELECT
                     m.id AS mutante_id,
-                    COALESCE(AVG((mm.nota1 + mm.nota2) / 2.0), 0) AS media
+                    AVG((mm.nota1 + mm.nota2) / 2.0) AS media
                 FROM mutantes m
                 LEFT JOIN mutantesmaterias mm ON mm.mutante_id = m.id
                 WHERE m.esta_ativo = true

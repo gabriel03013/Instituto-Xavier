@@ -227,7 +227,7 @@ class MutantesMateriasService:
             
         return grades
     def lancar_quiz(self, materia_id: int, quiz_id: int):
-        from models import MutantesMaterias
+        from sqlalchemy.orm.attributes import flag_modified
         
         quiz_item = {
             "id": quiz_id,
@@ -238,15 +238,14 @@ class MutantesMateriasService:
         registros = self.mutantes_materias_dao.listar_por_materia(materia_id)
         for r in registros:
             atualmente = r.quiz or []
-            # Se for string (caso o banco retorne string), a gente converte, mas com JSON column deveria ser list
             if isinstance(atualmente, str):
                 import json
                 atualmente = json.loads(atualmente)
             
             if not any(q.get('id') == quiz_id for q in atualmente):
                 atualmente.append(quiz_item)
-                self.mutantes_materias_dao.session.query(MutantesMaterias).filter(MutantesMaterias.id == r.id).update(
-                    {"quiz": atualmente}
-                )
+                r.quiz = atualmente
+                flag_modified(r, "quiz")
+        
         self.mutantes_materias_dao.session.commit()
         return {"status": "Quizzes lançados com sucesso"}

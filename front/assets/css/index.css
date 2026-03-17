@@ -16,7 +16,7 @@ main {
   background-color: var(--branco);
 }
 
-#login-form {
+#formulario-login {
   height: 100%;
   width: 72.5rem;
   border-radius: 0 2rem 2rem 0;
@@ -129,7 +129,7 @@ main {
   z-index: 2;
 }
 
-#efeito-direita-bottom {
+#efeito-direita-inferior {
   position: absolute;
   bottom: 0;
   right: 0;
@@ -140,9 +140,9 @@ main {
   display: none;
   align-items: center;
   gap: 2rem;
-  padding: .5rem 0;
+  padding: 0.5rem 0;
   background-color: #dd012740;
-  border: .25rem solid var(--vermelho);
+  border: 0.25rem solid var(--vermelho);
   width: 100%;
   border-radius: 1.5rem;
   margin-bottom: -3rem;
@@ -151,20 +151,141 @@ main {
     font-size: 3rem;
     margin-left: 2rem;
   }
-  
+
   p {
     font-size: 1.6rem;
   }
-  
 }
 
-#esqueceu-senha {
+#abrir-modal-recuperacao {
   color: var(--azul);
-  font-size: 1.6rem;
-  margin-top: .5rem;
+  font-size: 1.4rem;
+  font-weight: bold;
   cursor: pointer;
+  transition: opacity 0.2s;
 
   &:hover {
+    opacity: 0.8;
     text-decoration: underline;
   }
+}
+
+/* Modal Styles */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.conteudo-modal {
+  background: var(--branco);
+  width: 90%;
+  max-width: 50rem;
+  padding: 3rem;
+  border: 4px solid var(--preto);
+  border-radius: 1rem;
+  box-shadow: 10px 10px 0px var(--preto);
+}
+
+.cabecalho-modal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  border-bottom: 3px solid var(--preto);
+  padding-bottom: 1rem;
+
+  h2 {
+    font-size: 3rem;
+    margin: 0;
+  }
+
+  button {
+    background: none;
+    border: none;
+    font-size: 4rem;
+    cursor: pointer;
+    line-height: 1;
+  }
+}
+
+.conteudo-modal p {
+  font-size: 1.6rem;
+  margin-bottom: 2rem;
+  color: #333;
+}
+
+.grupo-entrada {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-bottom: 2rem;
+
+  label {
+    font-size: 1.8rem;
+    font-weight: bold;
+  }
+
+  input {
+    border: 3px solid var(--preto);
+    border-radius: 0.8rem;
+    padding: 1.2rem;
+    font-size: 1.6rem;
+    font-family: inherit;
+    background: #fff;
+    box-shadow: 4px 4px 0px var(--preto);
+  }
+}
+
+.btn-primario {
+  width: 100%;
+  padding: 1.5rem;
+  font-size: 1.8rem;
+  font-weight: bold;
+  font-family: inherit;
+  color: var(--preto);
+  background: var(--amarelo);
+  border: 4px solid var(--preto);
+  border-radius: 0.8rem;
+  box-shadow: 4px 4px 0px var(--preto);
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 1rem;
+
+  &:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px var(--preto);
+  }
+
+  &:active {
+    transform: translate(2px, 2px);
+    box-shadow: 0px 0px 0px var(--preto);
+  }
+
+  &:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: 2px 2px 0px var(--preto);
+  }
+}
+
+#mensagem-recuperacao.error {
+  background: #fecaca;
+  border: 2px solid #ef4444;
+  color: #b91c1c;
+}
+
+#mensagem-recuperacao.success {
+  background: #d1fae5;
+  border: 2px solid #10b981;
+  color: #047857;
 }

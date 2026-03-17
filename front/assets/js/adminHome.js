@@ -42,10 +42,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   const layoutBarras = {
     title: "Média da turma em cada matéria",
     barmode: "group",
-    // yaxis: {
-    //   dtick: 2,    // intervalo de 2 em 2
-    //   range: [0, 10] // de 0 a 10 já que são notas
-    // }
+    yaxis: {
+      dtick: 2,
+      range: [0, 10] 
+    }
   };
 
   Plotly.newPlot("grafico-barras", tracesBarras, layoutBarras);
@@ -57,7 +57,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   const coresPorSituacao = {
     "Aprovado": "#4CAF50",
     "Recuperação": "#FFC107",
-    "Reprovado": "#F44336"
+    "Reprovado": "#F44336",
+    "Sem Notas": "#9E9E9E"
   }
 
   const tracesPizza = [{

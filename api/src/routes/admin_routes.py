@@ -18,6 +18,13 @@ from models import Mutante
 from db.helpers.security import hash_password 
 from dao.mutante_dao import MutanteDAO 
 from dao.dashboards_dao import DashboardsDAO
+from pydantic import BaseModel
+
+class CreateRegistrationRequest(BaseModel):
+    matricula: str
+    turma_id: int = None
+    nome: str = ""
+    email: str = ""
 
 
 admin_router = APIRouter(prefix="/admin", tags=["admin"])
@@ -47,8 +54,7 @@ async def health_db(session: Session = Depends(get_session)):
 
 @admin_router.post("/create_registration")
 async def create_registration(
-    matricula: str,
-    turma_id: int = None,
+    req: CreateRegistrationRequest,
     session: Session = Depends(get_session)
 ):
     """
@@ -58,8 +64,7 @@ async def create_registration(
     pelo próprio usuário durante o cadastro.
     
     Args:
-        matricula (str): Matrícula do aluno a ser criada.
-        turma_id (int, optional): ID da turma a ser associada ao aluno.
+        req (CreateRegistrationRequest): Dados com a matrícula e turma.
         session (Session): Database session dependency.
         
     Returns:
@@ -67,17 +72,17 @@ async def create_registration(
     """
     mutante_dao = MutanteDAO(session=session)
 
-    if mutante_dao.obter_por_matricula(matricula):
+    if mutante_dao.obter_por_matricula(req.matricula):
         raise HTTPException(status_code=400, detail="Matrícula já existe ou pertence a alguém.")
     
     mutante_matricula = Mutante()
     mutante_matricula.nome = ""
-    mutante_matricula.email = f"pending_{matricula}@placeholder"
+    mutante_matricula.email = f"pending_{req.matricula}@placeholder"
     mutante_matricula.senha = ""
     mutante_matricula.esta_ativo = False
-    mutante_matricula.matricula = matricula
-    if turma_id:
-        mutante_matricula.turma_id = turma_id
+    mutante_matricula.matricula = req.matricula
+    if req.turma_id:
+        mutante_matricula.turma_id = req.turma_id
 
     session.add(mutante_matricula)
     session.commit()

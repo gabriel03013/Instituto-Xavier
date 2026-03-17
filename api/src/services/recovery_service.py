@@ -85,54 +85,44 @@ class RecoveryService:
     
     def enviar_email(self, destinatario: str, nome: str, token: str, tipo: str) -> None:
         """
-        Envia email de recuperação de senha.
+        Simula envio de email de recuperação de senha registrando o link no console.
         
         Args:
             destinatario (str): Email do destinatário.
             nome (str): Nome do mutante ou professor.
-            token (str): Token JWT para inclusão no link.
-            tipo (str): Tipo de usuário ("mutante" ou "professor").
-            
-        Returns:
-            None
-            
-        Raises:
-            Exception: Se houver erro ao enviar email.
+            token (str): Token JWT para redefinição.
+            tipo (str): Tipo de usuário.
         """
         try:
             link = f"{self.FRONTEND_URL}/pages/admin/recuperacao.html?token={token}"
             
-            msg = EmailMessage()
-            msg['Subject'] = "Instituto Xavier - Recuperar Senha"
-            msg['From'] = self.SENDER_EMAIL
-            msg['To'] = destinatario
+            # Simulação para desenvolvimento
+            print("\n" + "!"*60)
+            print("SIMULAÇÃO DE ENVIO DE EMAIL - INSTITUTO XAVIER")
+            print(f"Para: {destinatario} ({nome})")
+            print(f"Assunto: Instituto Xavier - Recuperar Senha")
+            print("-" * 60)
+            print("USE O CÓDIGO ABAIXO NO MODAL DE RECUPERAÇÃO:")
+            print(f"CÓDIGO: {token}")
+            print("-" * 60)
+            print(f"Link (opcional): {link}")
+            print("!"*60 + "\n")
             
-            corpo = f"""
-            <html>
-                <body style="font-family: Arial; background-color: #f4f4f4; padding: 20px;">
-                    <div style="max-width: 600px; margin: 0 auto; background-color: white; padding: 30px; border-radius: 8px;">
-                        <h2>Olá, {nome}!</h2>
-                        <p>Recebemos uma solicitação para redefinir sua senha no Instituto Xavier.</p>
-                        <div style="text-align: center; margin: 30px 0;">
-                            <a href="{link}" style="background-color: #667eea; color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px; display: inline-block; font-weight: bold;">
-                                Redefinir Senha
-                            </a>
-                        </div>
-                        <p style="color: #999; font-size: 12px; margin-top: 30px; border-top: 1px solid #eee; padding-top: 20px;">
-                            Este link expira em 60 minutos.
-                        </p>
-                    </div>
-                </body>
-            </html>
-            """
-            
-            msg.set_content("Clique no link do email para recuperar sua senha.")
-            msg.add_alternative(corpo, subtype='html')
-            
-            with smtplib.SMTP(self.SMTP_SERVER, self.SMTP_PORT) as server:
-                server.starttls()
-                server.login(self.SENDER_EMAIL, self.SENDER_PASSWORD)
-                server.send_message(msg)
-        
+            # Tentar enviar email real se houver configuração
+            if self.SENDER_EMAIL and self.SENDER_PASSWORD:
+                msg = EmailMessage()
+                msg['Subject'] = "Instituto Xavier - Recuperar Senha"
+                msg['From'] = self.SENDER_EMAIL
+                msg['To'] = destinatario
+                
+                corpo = f"Olá, {nome}! Clique no link para redefinir sua senha: {link}"
+                msg.set_content(corpo)
+                
+                with smtplib.SMTP(self.SMTP_SERVER, self.SMTP_PORT) as server:
+                    server.starttls()
+                    server.login(self.SENDER_EMAIL, self.SENDER_PASSWORD)
+                    server.send_message(msg)
         except Exception as e:
-            raise Exception(f"Erro ao enviar email: {str(e)}")
+            # Não lançamos exceção se o email real falhar, pois avisamos que emails são fictícios
+            print(f"Aviso: Falha ao enviar email real: {str(e)}")
+            pass

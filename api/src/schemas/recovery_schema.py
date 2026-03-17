@@ -4,11 +4,11 @@ Schemas para recuperação de senha de mutantes e professores.
 __author__ = "Davi Franco"
 """
 
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel
 
 
 class RecoveryRequest(BaseModel):
-    email: EmailStr
+    email: str
 
 
 class ResetPasswordRequest(BaseModel):

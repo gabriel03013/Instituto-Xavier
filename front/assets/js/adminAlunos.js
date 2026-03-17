@@ -59,7 +59,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (defaultTurmaId && t.id == defaultTurmaId) {
         option.selected = true;
       } else if (!defaultTurmaId && t.id == turmaId) {
-        // Default for add modal
         option.selected = true;
       }
       select.appendChild(option);
@@ -163,9 +162,9 @@ function renderizarTabela(lista) {
     tr.innerHTML = `
       <td>${nomeDisplay}</td>
       <td>${aluno.matricula}</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
+      <td>${aluno.media1 !== null ? aluno.media1.toFixed(1) : "-"}</td>
+      <td>${aluno.media2 !== null ? aluno.media2.toFixed(1) : "-"}</td>
+      <td style="font-weight: bold; color: ${aluno.media_final !== null ? (aluno.media_final < 6 ? "var(--vermelho)" : "var(--preto)") : "var(--preto)"}">${aluno.media_final !== null ? aluno.media_final.toFixed(1) : "-"}</td>
       <td class="td-action">
         <button class="btn-edit" title="Editar">
           <i class="fa-solid fa-pen"></i>
@@ -196,12 +195,7 @@ function carregarDados() {
           linha.dataset.matricula;
 
         const selectTurmaEdit = document.getElementById("editar-aluno-turma");
-        // Re-populando para garantir que o default role do 'turmaId' global não interfira
-        // Ou apenas setando o value se já populado.
         if (selectTurmaEdit) {
-          // Chamamos a função global popularSelect definida no DOMContentLoaded?
-          // Ops, ela não é global. Vou mover ela ou apenas setar o value.
-          // Vou assumir que popularSelect(selectTurmaEdit) foi chamado uma vez.
           selectTurmaEdit.value = linha.dataset.turmaId;
         }
 

@@ -25,8 +25,27 @@ class Mutante(Base):
     turma = relationship("Turmas", back_populates="mutantes")
 
     mutantesmaterias = relationship("MutantesMaterias", back_populates="mutante", cascade="all, delete-orphan")
-
     tarefas = relationship("Tarefa", back_populates="mutante")
+
+    @property
+    def media1(self):
+        if not self.mutantesmaterias:
+            return None
+        notas = [mm.nota1 for mm in self.mutantesmaterias if mm.nota1 is not None]
+        return sum(notas) / len(notas) if notas else None
+
+    @property
+    def media2(self):
+        if not self.mutantesmaterias:
+            return None
+        notas = [mm.nota2 for mm in self.mutantesmaterias if mm.nota2 is not None]
+        return sum(notas) / len(notas) if notas else None
+
+    @property
+    def media_final(self):
+        if self.media1 is None or self.media2 is None:
+            return None
+        return (self.media1 + self.media2) / 2
 
 
 class Professor(Base):

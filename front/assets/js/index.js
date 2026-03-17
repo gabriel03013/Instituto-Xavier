@@ -4,7 +4,13 @@ const form = document.querySelector("form");
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const [user, senha] = form.querySelectorAll("input");
+  const user = document.getElementById("user");
+  const senha = document.getElementById("senha");
+
+  if (!user || !senha) {
+    console.error("Input de usuário ou senha não encontrado.");
+    return;
+  }
 
   try {
     const res = await api("login", "POST", {

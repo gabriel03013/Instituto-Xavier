@@ -5,7 +5,7 @@ Classe DAO para a entidade Turmas, responsável por realizar as operações de C
 __author__ = "Davi Franco"
 
 from sqlalchemy.orm import Session
-from models import Turmas
+from models import Turmas, Mutante
 from typing import List, Optional
 
 class TurmasDAO:
@@ -32,7 +32,7 @@ class TurmasDAO:
 
     def obter_por_id(self, turma_id: int) -> Optional[Turmas]:
         """
-        Obtém uma turma pelo ID.
+        Obtém uma turma pelo ID com carregamento otimizado de alunos e suas notas.
         
         Args:
             turma_id (int): ID da turma a ser obtida.
@@ -40,8 +40,10 @@ class TurmasDAO:
         Returns:
             Optional[Turmas]: Turma encontrada ou None se não encontrada.
         """
-
-        return self.session.query(Turmas).filter(Turmas.id == turma_id).first()
+        from sqlalchemy.orm import joinedload
+        return self.session.query(Turmas)\
+            .options(joinedload(Turmas.mutantes).joinedload(Mutante.mutantesmaterias))\
+            .filter(Turmas.id == turma_id).first()
 
     def obter_por_serie_e_turma(self, serie: int, turma: str) -> Optional[Turmas]:
         """
@@ -67,7 +69,10 @@ class TurmasDAO:
             List[Turmas]: Lista de todas as turmas cadastradas no sistema.            
         """
 
-        return self.session.query(Turmas).all()
+        from sqlalchemy.orm import joinedload
+        return self.session.query(Turmas)\
+            .options(joinedload(Turmas.mutantes).joinedload(Mutante.mutantesmaterias))\
+            .all()
 
     def listar_por_serie(self, serie: int) -> List[Turmas]:
         """
@@ -80,7 +85,11 @@ class TurmasDAO:
             List[Turmas]: Lista de turmas da série especificada.
         """
 
-        return self.session.query(Turmas).filter(Turmas.serie == serie).all()
+        from sqlalchemy.orm import joinedload
+        return self.session.query(Turmas)\
+            .options(joinedload(Turmas.mutantes).joinedload(Mutante.mutantesmaterias))\
+            .filter(Turmas.serie == serie)\
+            .all()
 
     def atualizar(self, turma_id: int, serie: Optional[int] = None, 
                   turma: Optional[str] = None) -> Optional[Turmas]:

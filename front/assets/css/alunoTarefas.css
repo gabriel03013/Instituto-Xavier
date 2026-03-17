@@ -331,16 +331,6 @@
   justify-content: center;
   align-items: center;
   z-index: 100;
-  animation: fadeIn 0.2s ease;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
 }
 
 .tarefa-modal > div {
@@ -472,7 +462,12 @@
 /* ── Modal Excluir ── */
 .modal-excluir-content {
   text-align: center;
-  padding: 3rem 2rem !important;
+  padding: 1.5rem 2rem !important;
+}
+
+#modal-excluir-tarefa > div {
+  width: 40rem;
+  height: auto;
 }
 
 .modal-excluir-content i {

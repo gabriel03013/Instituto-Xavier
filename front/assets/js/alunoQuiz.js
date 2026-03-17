@@ -145,7 +145,6 @@ async function mostrarResultado() {
   document.getElementById("resultado-nota").textContent =
     notaCalculada.toFixed(1);
 
-  // Salvar resultado no backend
   try {
     const registros = await api(`mutante_materia/mutante/${userId}`, "GET");
     const registro = registros.find((r) => r.materia_id === materiaId);
@@ -167,8 +166,6 @@ async function mostrarResultado() {
       if (index !== -1) {
         quizzes[index].status = "concluida";
         quizzes[index].nota = notaCalculada;
-
-        // Como o backend agora trata a coluna como JSON, enviamos o objeto direto
         await api(`mutante_materia/${userId}/${materiaId}`, "PATCH", {
           quiz: quizzes,
         });

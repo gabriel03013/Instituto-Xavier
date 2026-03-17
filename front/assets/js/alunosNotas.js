@@ -5,7 +5,16 @@ let todasAsNotas = [];
 
 document.addEventListener("DOMContentLoaded", async () => {
   const userId = localStorage.getItem("userId");
-  await carregarNotas(userId);
+  if (!userId) {
+    console.error("Usuário não logado.");
+    return;
+  }
+
+  try {
+    await carregarNotas(userId);
+  } catch (error) {
+    console.error("Erro ao carregar dados iniciais:", error);
+  }
 
   const searchInput = document.querySelector(".aluno-search input");
   if (searchInput) {
@@ -24,23 +33,28 @@ document.addEventListener("DOMContentLoaded", async () => {
   document
     .getElementById("baixar-boletim")
     .addEventListener("click", async () => {
-      const alunoRes = await api(`mutant/info?id_mutante=${userId}`);
-      const aluno = {
-        nome: alunoRes.nome,
-        turma: alunoRes.turma,
-      };
+      try {
+        console.log("Iniciando geração de PDF...");
+        const alunoRes = await api(`mutant/info?id_mutante=${userId}`);
+        const aluno = {
+          nome: alunoRes.nome,
+          turma: alunoRes.turma,
+        };
 
-      const materias = todasAsNotas.map((item) => ({
-        nome: item.materia,
-        professor: item.professor,
-        nota1: item.nota1,
-        nota2: item.nota2,
-        media_final: item.media_final,
-        status: item.status,
-      }));
+        const materias = todasAsNotas.map((item) => ({
+          nome: item.materia,
+          professor: item.professor,
+          nota1: item.nota1,
+          nota2: item.nota2,
+          media_final: item.media_final,
+          status: item.status,
+        }));
 
-      const pdf = gerarBoletimPDF(aluno, materias);
-      pdf.save(`Boletim_${alunoRes.nome}.pdf`);
+        const pdf = await gerarBoletimPDF(aluno, materias);
+        pdf.save(`Boletim_${alunoRes.nome}.pdf`);
+      } catch (error) {
+        console.error("erro ao gerar pdf", error);
+      }
     });
 });
 
