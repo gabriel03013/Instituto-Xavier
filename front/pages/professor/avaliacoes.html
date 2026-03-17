@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Avaliações - Professor</title>
+    <link rel="stylesheet" href="../../assets/css/globals.css" />
+    <link rel="stylesheet" href="../../assets/css/profAvaliacoes.css" />
+    <link
+      rel="icon"
+      href="../../assets/images/Group 14.svg"
+      type="image/x-icon"
+    />
+  </head>
+  <body>
+    <header>
+      <div>
+        <img src="../../assets/images/Group 14.svg" alt="" />
+        <ul>
+          <li><a href="index.html">Minha disciplina</a></li>
+          <li><a href="selecionarTurma.html?tipo=obs">Observações</a></li>
+          <li><a href="selecionarTurma.html?tipo=notas">Notas lançadas</a></li>
+          <li class="aba-professor-ativa">
+            <a href="avaliacoes.html">Avaliações</a>
+          </li>
+        </ul>
+      </div>
+      <a
+        href="../../index.html"
+        class="btn-sair"
+        id="btn-sair"
+        onclick="localStorage.clear()"
+      >
+        <i class="fa-solid fa-right-from-bracket"></i> Sair
+      </a>
+    </header>
+
+    <main class="quiz-container">
+      <div class="quiz-header">
+        <h1 class="quiz-titulo">Lançar Quizzes</h1>
+        <div class="quiz-search">
+          <i class="fa-solid fa-magnifying-glass search-icon"></i>
+          <input
+            type="search"
+            id="search-quiz"
+            placeholder="Pesquise por título do quiz"
+          />
+        </div>
+      </div>
+
+      <div class="quiz-table-wrapper">
+        <table class="quiz-table">
+          <thead>
+            <tr>
+              <th>Título do Quiz</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="quiz-list">
+          </tbody>
+        </table>
+      </div>
+    </main>
+
+    <script
+      src="https://kit.fontawesome.com/02db64e304.js"
+      crossorigin="anonymous"
+    ></script>
+    <script type="module" src="../../assets/js/profAvaliacoes.js"></script>
+  </body>
+</html>

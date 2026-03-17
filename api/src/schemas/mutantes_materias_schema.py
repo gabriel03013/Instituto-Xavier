@@ -4,7 +4,7 @@ Schemas Pydantic para a entidade Materias, definindo as estruturas de dados para
 
 __author__ = ["Gustavo Manganelli", "Erik Santos"]
 
-from typing import Optional
+from typing import Optional, Any
 from pydantic import BaseModel
 
 
@@ -13,6 +13,7 @@ class MutantesMateriasBase(BaseModel):
     nota2: float = 0
     mutante_id: int
     materia_id: int
+    quiz: Optional[Any] = '[]'
 
 
 class MutantesMateriasCreate(MutantesMateriasBase):
@@ -24,6 +25,7 @@ class MutantesMateriasUpdate(BaseModel):
     nota2: Optional[float] = None
     mutante_id: Optional[int] = None
     materia_id: Optional[int] = None
+    quiz: Optional[Any] = None
 
 
 class MutantesMateriasResponse(MutantesMateriasBase):
@@ -36,6 +38,7 @@ class MutantesMateriasSchema(BaseModel):
     nota2: float
     mutante_id: int
     materia_id: int
+    quiz: Optional[Any] = '[]'
 
     class Config:
         from_attributes = True
@@ -49,6 +52,7 @@ class MutanteGradeSchema(BaseModel):
     nota1: float
     nota2: float
     media: float
+    quiz: Optional[Any] = '[]'
 
     class Config:
         from_attributes = True

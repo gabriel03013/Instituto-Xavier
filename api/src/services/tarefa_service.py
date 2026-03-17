@@ -37,7 +37,6 @@ class TarefaService:
             descricao=dados.descricao,
             status="Pendente",
             prioridade=dados.prioridade,
-            data_criacao=datetime.utcnow(),
             data_limite=dados.data_limite,
             mutante_id=dados.mutante_id
         )

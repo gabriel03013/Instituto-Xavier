@@ -25,6 +25,7 @@ from fastapi.middleware.cors import CORSMiddleware
 load_dotenv()
 
 from routes.admin_routes import admin_router
+from routes.tarefa_routes import tarefa_router
 
 app = FastAPI()
 
@@ -49,6 +50,7 @@ app.include_router(observacao_router)
 app.include_router(turma_router)
 app.include_router(mutante_materia_router)
 app.include_router(materia_router)
+app.include_router(tarefa_router)
 
 
 @app.post("/login")

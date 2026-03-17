@@ -1,32 +1,72 @@
-const STORAGE_KEY = "tarefas_aluno";
+import { api } from "./utils.js";
 
-const TarefaService = {
+const idUsuario = localStorage.getItem("userId");
+
+const mapeamentoStatus = {
+  pendente: "Pendente",
+  "em-andamento": "Em andamento",
+  concluida: "Concluída",
+};
+
+const mapeamentoStatusReverso = {
+  Pendente: "pendente",
+  "Em andamento": "em-andamento",
+  Concluída: "concluida",
+  Cancelada: "pendente",
+};
+
+const mapeamentoPrioridade = {
+  baixa: "Baixa",
+  media: "Média",
+  alta: "Alta",
+};
+
+const mapeamentoPrioridadeReverso = {
+  Baixa: "baixa",
+  Média: "media",
+  Alta: "alta",
+};
+
+const ServicoTarefa = {
   async listar() {
-    const data = localStorage.getItem(STORAGE_KEY);
-    return data ? JSON.parse(data) : [];
-  }, 
+    return await api(`tarefa/mutante/${idUsuario}`, "GET");
+  },
 
   async criar(tarefa) {
-    const tarefas = await this.listar();
-    tarefa.id = Date.now();
-    tarefa.criadoEm = new Date().toISOString();
-    tarefas.push(tarefa);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(tarefas));
-    return tarefa;
+    const dados = {
+      titulo: tarefa.titulo,
+      descricao: tarefa.descricao,
+      status: mapeamentoStatus[tarefa.status] || "Pendente",
+      prioridade: mapeamentoPrioridade[tarefa.prioridade] || "Média",
+      data_limite: tarefa.dataEntrega
+        ? new Date(tarefa.dataEntrega).toISOString()
+        : null,
+      mutante_id: parseInt(idUsuario),
+    };
+    return await api("tarefa/create", "POST", dados);
   },
 
-  async atualizar(id, dadosAtualizados) {
-    const tarefas = await this.listar();
-    const index = tarefas.findIndex((t) => t.id === id);
-    if (index === -1) throw new Error("Tarefa não encontrada");
-    tarefas[index] = { ...tarefas[index], ...dadosAtualizados };
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(tarefas));
-    return tarefas[index];
+  async atualizar(id, novosDados) {
+    const dados = {};
+    if (novosDados.titulo) dados.titulo = novosDados.titulo;
+    if (novosDados.descricao !== undefined)
+      dados.descricao = novosDados.descricao;
+    if (novosDados.status)
+      dados.status = mapeamentoStatus[novosDados.status] || "Pendente";
+    if (novosDados.prioridade)
+      dados.prioridade = mapeamentoPrioridade[novosDados.prioridade] || "Média";
+    if (novosDados.dataEntrega)
+      dados.data_limite = new Date(novosDados.dataEntrega).toISOString();
+
+    return await api(`tarefa/${id}`, "PATCH", dados);
   },
+
   async excluir(id) {
-    let tarefas = await this.listar();
-    tarefas = tarefas.filter((t) => t.id !== id);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(tarefas));
+    return await api(`tarefa/${id}`, "DELETE");
+  },
+
+  async concluir(id) {
+    return await api(`tarefa/${id}/concluir`, "PATCH");
   },
 };
 
@@ -41,50 +81,62 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 async function carregarTarefas() {
-  todasAsTarefas = await TarefaService.listar();
-  atualizarStats();
-  atualizarContadoresFiltros();
-  renderizarTarefas();
+  try {
+    const tarefasApi = await ServicoTarefa.listar();
+    todasAsTarefas = tarefasApi.map((t) => ({
+      id: t.id,
+      titulo: t.titulo,
+      descricao: t.descricao,
+      status: mapeamentoStatusReverso[t.status] || "pendente",
+      prioridade: mapeamentoPrioridadeReverso[t.prioridade] || "media",
+      dataEntrega: t.data_limite ? t.data_limite.split("T")[0] : null,
+    }));
+
+    atualizarEstatisticas();
+    atualizarContadoresFiltros();
+    renderizarTarefas();
+  } catch (erro) {
+    console.error("Erro ao carregar tarefas:", erro);
+    todasAsTarefas = [];
+    atualizarEstatisticas();
+    atualizarContadoresFiltros();
+    renderizarTarefas();
+  }
 }
 
 function configurarEventos() {
-  
   document
     .getElementById("btn-adicionar-tarefa")
     .addEventListener("click", () => abrirModal());
 
-  
-  document.querySelectorAll(".filtro-btn").forEach((btn) => {
-    btn.addEventListener("click", () => {
+  document.querySelectorAll(".filtro-btn").forEach((botao) => {
+    botao.addEventListener("click", () => {
       document
         .querySelectorAll(".filtro-btn")
         .forEach((b) => b.classList.remove("ativo"));
-      btn.classList.add("ativo");
-      filtroAtual = btn.dataset.filtro;
+      botao.classList.add("ativo");
+      filtroAtual = botao.dataset.filtro;
       renderizarTarefas();
     });
   });
 
-  
-  const searchInput = document.querySelector(".aluno-search input");
-  if (searchInput) {
-    searchInput.addEventListener("input", () => renderizarTarefas());
+  const campoBusca = document.querySelector(".aluno-search input");
+  if (campoBusca) {
+    campoBusca.addEventListener("input", () => renderizarTarefas());
   }
 
-  
-  const modalForm = document.getElementById("modal-tarefa");
+  const modalFormulario = document.getElementById("modal-tarefa");
   document
     .getElementById("form-tarefa")
-    .addEventListener("submit", handleSubmit);
+    .addEventListener("submit", processarSubmissao);
 
   document.querySelectorAll("#modal-tarefa .fechar-modal").forEach((btn) => {
-    btn.addEventListener("click", () => fecharModal(modalForm));
+    btn.addEventListener("click", () => fecharModal(modalFormulario));
   });
   document
     .getElementById("btn-cancelar-tarefa")
-    .addEventListener("click", () => fecharModal(modalForm));
+    .addEventListener("click", () => fecharModal(modalFormulario));
 
-  
   const modalExcluir = document.getElementById("modal-excluir-tarefa");
   document
     .querySelectorAll("#modal-excluir-tarefa .fechar-modal")
@@ -96,63 +148,59 @@ function configurarEventos() {
     .addEventListener("click", () => fecharModal(modalExcluir));
   document
     .getElementById("btn-confirmar-excluir")
-    .addEventListener("click", handleExcluir);
+    .addEventListener("click", processarExclusao);
 
-  
-  [modalForm, modalExcluir].forEach((modal) => {
+  [modalFormulario, modalExcluir].forEach((modal) => {
     modal.addEventListener("click", (e) => {
       if (e.target === modal) fecharModal(modal);
     });
   });
 }
 
-function getTarefasFiltradas() {
-  const searchInput = document.querySelector(".aluno-search input");
-  const termo = searchInput ? searchInput.value.toLowerCase() : "";
+function obterTarefasFiltradas() {
+  const campoBusca = document.querySelector(".aluno-search input");
+  const termo = campoBusca ? campoBusca.value.toLowerCase() : "";
 
   return todasAsTarefas.filter((tarefa) => {
-    
     if (filtroAtual !== "todas" && tarefa.status !== filtroAtual) return false;
-
-    
     if (termo) {
       return (
         tarefa.titulo.toLowerCase().includes(termo) ||
-        tarefa.materia.toLowerCase().includes(termo) ||
-        tarefa.descricao.toLowerCase().includes(termo)
+        (tarefa.descricao && tarefa.descricao.toLowerCase().includes(termo))
       );
     }
-
     return true;
   });
 }
 
 function renderizarTarefas() {
-  const grid = document.getElementById("tarefas-grid");
+  const grade = document.getElementById("tarefas-grid");
   const vazio = document.getElementById("tarefas-vazio");
-  const tarefasFiltradas = getTarefasFiltradas();
+  const tarefasFiltradas = obterTarefasFiltradas();
 
   if (tarefasFiltradas.length === 0) {
-    grid.style.display = "none";
+    grade.style.display = "none";
     vazio.style.display = "flex";
     return;
   }
 
   vazio.style.display = "none";
-  grid.style.display = "grid";
-  grid.innerHTML = "";
-  
+  grade.style.display = "grid";
+  grade.innerHTML = "";
+
   const ordenadas = [...tarefasFiltradas].sort((a, b) => {
     const ordemStatus = { pendente: 0, "em-andamento": 1, concluida: 2 };
-    const statusDiff = ordemStatus[a.status] - ordemStatus[b.status];
-    if (statusDiff !== 0) return statusDiff;
+    const diferencaStatus = ordemStatus[a.status] - ordemStatus[b.status];
+    if (diferencaStatus !== 0) return diferencaStatus;
+    if (!a.dataEntrega) return 1;
+    if (!b.dataEntrega) return -1;
     return new Date(a.dataEntrega) - new Date(b.dataEntrega);
   });
 
-  ordenadas.forEach((tarefa, index) => {
+  ordenadas.forEach((tarefa, indice) => {
     const card = criarCardTarefa(tarefa);
-    card.style.animationDelay = `${index * 0.05}s`;
-    grid.appendChild(card);
+    card.style.animationDelay = `${indice * 0.05}s`;
+    grade.appendChild(card);
   });
 }
 
@@ -160,21 +208,21 @@ function criarCardTarefa(tarefa) {
   const card = document.createElement("div");
   card.className = `tarefa-card${tarefa.status === "concluida" ? " concluida-card" : ""}`;
 
-  const statusClass =
+  const classeStatus =
     tarefa.status === "pendente"
       ? "status-pendente"
       : tarefa.status === "em-andamento"
         ? "status-em-andamento"
         : "status-concluida";
 
-  const prioridadeClass =
+  const classePrioridade =
     tarefa.prioridade === "alta"
       ? "prioridade-alta"
       : tarefa.prioridade === "media"
         ? "prioridade-media"
         : "prioridade-baixa";
 
-  const prioridadeLabel =
+  const rotuloPrioridade =
     tarefa.prioridade === "alta"
       ? "Alta"
       : tarefa.prioridade === "media"
@@ -185,14 +233,13 @@ function criarCardTarefa(tarefa) {
   const atrasada = estaAtrasada(tarefa);
 
   card.innerHTML = `
-    <div class="tarefa-status-bar ${statusClass}"></div>
+    <div class="tarefa-status-bar ${classeStatus}"></div>
     <div class="tarefa-check">
       <div class="tarefa-checkbox ${tarefa.status === "concluida" ? "checked" : ""}" 
            data-id="${tarefa.id}" title="Marcar como concluída"></div>
       <div style="flex: 1;">
         <div class="tarefa-card-header">
           <h3>${tarefa.titulo}</h3>
-          <span class="tarefa-card-materia">${tarefa.materia}</span>
         </div>
         <p class="tarefa-card-descricao">${tarefa.descricao || "Sem descrição"}</p>
       </div>
@@ -204,7 +251,7 @@ function criarCardTarefa(tarefa) {
         ${atrasada ? '<i class="fa-solid fa-triangle-exclamation"></i>' : ""}
       </div>
       <div style="display: flex; align-items: center; gap: 1rem;">
-        <span class="prioridade-badge ${prioridadeClass}">${prioridadeLabel}</span>
+        <span class="prioridade-badge ${classePrioridade}">${rotuloPrioridade}</span>
         <div class="tarefa-card-acoes">
           <button class="btn-editar-tarefa" data-id="${tarefa.id}" title="Editar">
             <i class="fa-solid fa-pen"></i>
@@ -217,24 +264,27 @@ function criarCardTarefa(tarefa) {
     </div>
   `;
 
-  
   card
     .querySelector(".tarefa-checkbox")
     .addEventListener("click", async (e) => {
       e.stopPropagation();
-      const novoStatus =
-        tarefa.status === "concluida" ? "pendente" : "concluida";
-      await TarefaService.atualizar(tarefa.id, { status: novoStatus });
-      await carregarTarefas();
+      try {
+        if (tarefa.status !== "concluida") {
+          await ServicoTarefa.concluir(tarefa.id);
+        } else {
+          await ServicoTarefa.atualizar(tarefa.id, { status: "pendente" });
+        }
+        await carregarTarefas();
+      } catch (erro) {
+        console.error(erro);
+      }
     });
 
-  
   card.querySelector(".btn-editar-tarefa").addEventListener("click", (e) => {
     e.stopPropagation();
     abrirModal(tarefa);
   });
 
-  
   card.querySelector(".btn-excluir-tarefa").addEventListener("click", (e) => {
     e.stopPropagation();
     abrirModalExcluir(tarefa);
@@ -243,7 +293,7 @@ function criarCardTarefa(tarefa) {
   return card;
 }
 
-function atualizarStats() {
+function atualizarEstatisticas() {
   const pendentes = todasAsTarefas.filter(
     (t) => t.status === "pendente",
   ).length;
@@ -254,10 +304,15 @@ function atualizarStats() {
     (t) => t.status === "concluida",
   ).length;
 
-  document.getElementById("stat-pendentes").textContent = pendentes;
-  document.getElementById("stat-andamento").textContent = andamento;
-  document.getElementById("stat-concluidas").textContent = concluidas;
-  document.getElementById("stat-total").textContent = todasAsTarefas.length;
+  const sp = document.getElementById("stat-pendentes");
+  const sa = document.getElementById("stat-andamento");
+  const sc = document.getElementById("stat-concluidas");
+  const st = document.getElementById("stat-total");
+
+  if (sp) sp.textContent = pendentes;
+  if (sa) sa.textContent = andamento;
+  if (sc) sc.textContent = concluidas;
+  if (st) st.textContent = todasAsTarefas.length;
 }
 
 function atualizarContadoresFiltros() {
@@ -269,9 +324,9 @@ function atualizarContadoresFiltros() {
     concluida: todasAsTarefas.filter((t) => t.status === "concluida").length,
   };
 
-  document.querySelectorAll(".filtro-btn").forEach((btn) => {
-    const filtro = btn.dataset.filtro;
-    const contador = btn.querySelector(".filtro-contador");
+  document.querySelectorAll(".filtro-btn").forEach((botao) => {
+    const filtro = botao.dataset.filtro;
+    const contador = botao.querySelector(".filtro-contador");
     if (contador) {
       contador.textContent = contadores[filtro] || 0;
     }
@@ -281,21 +336,20 @@ function atualizarContadoresFiltros() {
 function abrirModal(tarefa = null) {
   const modal = document.getElementById("modal-tarefa");
   const titulo = document.getElementById("modal-titulo");
-  const form = document.getElementById("form-tarefa");
+  const formulario = document.getElementById("form-tarefa");
 
   tarefaEditando = tarefa;
 
   if (tarefa) {
     titulo.textContent = "Editar Tarefa";
     document.getElementById("tarefa-titulo").value = tarefa.titulo;
-    document.getElementById("tarefa-materia").value = tarefa.materia;
     document.getElementById("tarefa-descricao").value = tarefa.descricao || "";
     document.getElementById("tarefa-data").value = tarefa.dataEntrega || "";
     document.getElementById("tarefa-prioridade").value = tarefa.prioridade;
     document.getElementById("tarefa-status").value = tarefa.status;
   } else {
     titulo.textContent = "Nova Tarefa";
-    form.reset();
+    formulario.reset();
     document.getElementById("tarefa-status").value = "pendente";
     document.getElementById("tarefa-prioridade").value = "media";
   }
@@ -309,28 +363,31 @@ function fecharModal(modal) {
   tarefaExcluindo = null;
 }
 
-async function handleSubmit(e) {
+async function processarSubmissao(e) {
   e.preventDefault();
 
-  const dados = {
+  const dadosEntrada = {
     titulo: document.getElementById("tarefa-titulo").value.trim(),
-    materia: document.getElementById("tarefa-materia").value.trim(),
     descricao: document.getElementById("tarefa-descricao").value.trim(),
     dataEntrega: document.getElementById("tarefa-data").value,
     prioridade: document.getElementById("tarefa-prioridade").value,
     status: document.getElementById("tarefa-status").value,
   };
 
-  if (!dados.titulo || !dados.materia) return;
+  if (!dadosEntrada.titulo) return;
 
-  if (tarefaEditando) {
-    await TarefaService.atualizar(tarefaEditando.id, dados);
-  } else {
-    await TarefaService.criar(dados);
+  try {
+    if (tarefaEditando) {
+      await ServicoTarefa.atualizar(tarefaEditando.id, dadosEntrada);
+    } else {
+      await ServicoTarefa.criar(dadosEntrada);
+    }
+
+    fecharModal(document.getElementById("modal-tarefa"));
+    await carregarTarefas();
+  } catch (erro) {
+    console.error("Erro ao salvar tarefa:", erro);
   }
-
-  fecharModal(document.getElementById("modal-tarefa"));
-  await carregarTarefas();
 }
 
 function abrirModalExcluir(tarefa) {
@@ -340,11 +397,15 @@ function abrirModalExcluir(tarefa) {
   modal.style.display = "flex";
 }
 
-async function handleExcluir() {
+async function processarExclusao() {
   if (!tarefaExcluindo) return;
-  await TarefaService.excluir(tarefaExcluindo.id);
-  fecharModal(document.getElementById("modal-excluir-tarefa"));
-  await carregarTarefas();
+  try {
+    await ServicoTarefa.excluir(tarefaExcluindo.id);
+    fecharModal(document.getElementById("modal-excluir-tarefa"));
+    await carregarTarefas();
+  } catch (erro) {
+    console.error("Erro ao excluir tarefa:", erro);
+  }
 }
 
 function formatarData(dataStr) {

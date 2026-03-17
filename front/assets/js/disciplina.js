@@ -38,6 +38,7 @@ function renderizarCards(lista) {
   lista.forEach((materia, index) => {
     const card = document.createElement("div");
     card.classList.add("card");
+    card.style.cursor = "pointer";
     const accentClass = index % 2 === 0 ? "dark" : "light";
     card.innerHTML = `
       <div class="card-accent ${accentClass}"></div>
@@ -47,6 +48,13 @@ function renderizarCards(lista) {
           <span>${materia.professor}</span>
       </div>
     `;
+    card.addEventListener("click", () => {
+      const url = new URLSearchParams({
+        materia_id: materia.materia_id,
+        materia: materia.materia,
+      });
+      window.location.href = `aluno/avaliacoes.html?${url.toString()}`;
+    });
     container.appendChild(card);
   });
 }

@@ -5,7 +5,7 @@ Utilizado para a validação dos dados no dataload.
 
 __author__ = ["Davi Franco", "Erik Santos", "Gabriel Mendes"]
 
-from sqlalchemy import Column, Integer, String, ForeignKey, Date, Text, SmallInteger, Boolean, DateTime, Enum
+from sqlalchemy import Column, Integer, String, ForeignKey, Date, Text, SmallInteger, Boolean, DateTime, Enum, JSON
 from sqlalchemy.orm import relationship
 from datetime import datetime, date
 from database import Base
@@ -64,6 +64,8 @@ class MutantesMaterias(Base):
     
     materia_id = Column(Integer, ForeignKey("materias.id", ondelete="CASCADE"))
     materias = relationship("Materias", back_populates="mutantesmaterias")
+
+    quiz = Column(JSON, default=[])
 
     observacoes = relationship("Observacoes", back_populates="mutantesmaterias", cascade="all, delete-orphan")
 

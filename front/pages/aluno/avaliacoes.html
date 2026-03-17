@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Avaliações - Aluno</title>
+    <link rel="stylesheet" href="../../assets/css/globals.css" />
+    <link rel="stylesheet" href="../../assets/css/alunoQuiz.css" />
+    <link
+      rel="icon"
+      href="../../assets/images/Group 14.svg"
+      type="image/x-icon"
+    />
+  </head>
+
+  <body>
+    <header style="background-color: var(--azul)">
+      <div>
+        <img src="../../assets/images/Group 14.svg" alt="" />
+        <ul>
+          <li><a href="../disciplinas.html">Disciplinas</a></li>
+          <li><a href="index.html">Observações</a></li>
+          <li><a href="notasLancadas.html">Notas lançadas</a></li>
+          <li><a href="tarefas.html">Tarefas</a></li>
+          <li class="aba-aluno-ativa"><a href="">Avaliações</a></li>
+        </ul>
+      </div>
+      <a
+        href="../../index.html"
+        class="btn-sair"
+        id="btn-sair"
+        onclick="localStorage.clear()"
+      >
+        <i class="fa-solid fa-right-from-bracket"></i> Sair
+      </a>
+    </header>
+
+    <main class="aluno-container">
+      <div class="quiz-page-header">
+        <div class="quiz-breadcrumb" id="quiz-breadcrumb">
+          <a href="../disciplinas.html"
+            ><i class="fa-solid fa-arrow-left"></i> Disciplinas</a
+          >
+          <span>/</span>
+          <span id="breadcrumb-materia">Carregando...</span>
+        </div>
+        <h1 class="aluno-titulo" id="titulo-materia">Avaliações</h1>
+      </div>
+
+      <div class="quiz-stats">
+        <div class="stat-card">
+          <div class="stat-icon pendente">
+            <i class="fa-solid fa-clock"></i>
+          </div>
+          <div class="stat-info">
+            <h4>Pendentes</h4>
+            <p id="stat-pendentes">0</p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon concluida">
+            <i class="fa-solid fa-check-circle"></i>
+          </div>
+          <div class="stat-info">
+            <h4>Concluídas</h4>
+            <p id="stat-concluidas">0</p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon media"><i class="fa-solid fa-star"></i></div>
+          <div class="stat-info">
+            <h4>Média</h4>
+            <p id="stat-media">—</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="quiz-filtros">
+        <button class="filtro-btn ativo" data-filtro="todos">
+          Todos <span class="filtro-contador">0</span>
+        </button>
+        <button class="filtro-btn" data-filtro="pendente">
+          Pendentes <span class="filtro-contador">0</span>
+        </button>
+        <button class="filtro-btn" data-filtro="concluido">
+          Concluídos <span class="filtro-contador">0</span>
+        </button>
+      </div>
+
+      <div class="quiz-grid" id="quiz-grid"></div>
+
+      <div class="quiz-vazio" id="quiz-vazio" style="display: none">
+        <i class="fa-solid fa-file-circle-question"></i>
+        <p>Nenhuma avaliação encontrada</p>
+        <span>Nenhum quiz disponível para esta disciplina no momento.</span>
+      </div>
+    </main>
+
+    <script
+      src="https://kit.fontawesome.com/02db64e304.js"
+      crossorigin="anonymous"
+    ></script>
+    <script type="module" src="../../assets/js/alunoAvaliacoes.js"></script>
+  </body>
+</html>
