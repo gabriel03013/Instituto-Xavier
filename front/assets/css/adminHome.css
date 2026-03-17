@@ -36,3 +36,16 @@ header {
     }
   }
 }
+
+#graficos {
+  display: flex;
+
+  #grafico-barras{
+    height: 450px;
+    width: 850px;
+  }
+  
+  #grafico-pizza{
+    width: 600px;
+  }
+}

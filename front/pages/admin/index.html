@@ -1,9 +1,10 @@
 <!doctype html>
-<html lang="en">
+<html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home - Admin</title>
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
     <link rel="stylesheet" href="../../assets/css/globals.css" />
     <link rel="stylesheet" href="../../assets/css/adminHome.css" />
     <link
@@ -37,24 +38,30 @@
           <div id="total-alunos" class="dashboard-card">
             <div>
               <h2>Total de Alunos</h2>
-              <p>120</p>
+              <p></p>
             </div>
           </div>
 
           <div id="total-professores" class="dashboard-card">
             <div>
               <h2>Total de Professores</h2>
-              <p>15</p>
+              <p></p>
             </div>
           </div>
 
           <div id="total-turmas" class="dashboard-card">
             <div>
               <h2>Total de Turmas</h2>
-              <p>10</p>
+              <p></p>
             </div>
           </div>
         </div>
+
+        <div id="graficos">
+          <div id="grafico-barras"></div>
+          <div id="grafico-pizza"></div>
+        </div>
+        
       </section>
     </main>
 
