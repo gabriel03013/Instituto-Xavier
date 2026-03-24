@@ -71,17 +71,17 @@ document.addEventListener("DOMContentLoaded", async () => {
   modalAdicionar.querySelector("form").addEventListener("submit", async (e) => {
     e.preventDefault();
     const matricula = document.getElementById(
-      "adicionar-aluno-matricula",
+      "adicionar-aluno-matricula"
     ).value;
     const targetTurmaId = document.getElementById(
-      "adicionar-aluno-turma",
+      "adicionar-aluno-turma"
     ).value;
 
     try {
-      await api(
-        `admin/create_registration?matricula=${encodeURIComponent(matricula)}&turma_id=${encodeURIComponent(targetTurmaId)}`,
-        "POST",
-      );
+      await api(`admin/create_registration`, "POST", {
+        matricula: matricula,
+        turma_id: Number(targetTurmaId),
+      });
 
       fecharModal(modalAdicionar);
       e.target.reset();
@@ -136,8 +136,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 async function carregarAlunos(turmaId) {
   const turmaInfos = await api(`turma/${turmaId}`, "GET");
-  document.querySelector(".turma-titulo").textContent =
-    `${turmaInfos.serie}º ANO ${turmaInfos.turma}`;
+  document.querySelector(
+    ".turma-titulo"
+  ).textContent = `${turmaInfos.serie}º ANO ${turmaInfos.turma}`;
   todosOsAlunos = turmaInfos.alunos;
   renderizarTabela(todosOsAlunos);
 }
@@ -164,7 +165,13 @@ function renderizarTabela(lista) {
       <td>${aluno.matricula}</td>
       <td>${aluno.media1 !== null ? aluno.media1.toFixed(1) : "-"}</td>
       <td>${aluno.media2 !== null ? aluno.media2.toFixed(1) : "-"}</td>
-      <td style="font-weight: bold; color: ${aluno.media_final !== null ? (aluno.media_final < 6 ? "var(--vermelho)" : "var(--preto)") : "var(--preto)"}">${aluno.media_final !== null ? aluno.media_final.toFixed(1) : "-"}</td>
+      <td style="font-weight: bold; color: ${
+        aluno.media_final !== null
+          ? aluno.media_final < 6
+            ? "var(--vermelho)"
+            : "var(--preto)"
+          : "var(--preto)"
+      }">${aluno.media_final !== null ? aluno.media_final.toFixed(1) : "-"}</td>
       <td class="td-action">
         <button class="btn-edit" title="Editar">
           <i class="fa-solid fa-pen"></i>

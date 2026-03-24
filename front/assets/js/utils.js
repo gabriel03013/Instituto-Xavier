@@ -35,3 +35,4 @@ export const getIdTurma = () => {
   const urlParams = new URLSearchParams(window.location.search);
   return urlParams.get("turma");
 };
+  

@@ -39,7 +39,7 @@ function renderizarQuizzes(quizzes) {
       <td>${quiz.titulo}</td>
       <td class="td-action">
         <button class="btn-lancar" data-id="${quiz.id}">
-          <i class="fa-solid fa-paper-plane"></i> Lançar para todos os alunos
+          <i class="fa-solid fa-paper-plane"></i>   Lançar
         </button>
       </td>
     `;
